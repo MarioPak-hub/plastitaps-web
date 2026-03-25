@@ -1,6 +1,6 @@
 import React, { useRef, useMemo, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
+import { OrbitControls, useTexture, Decal } from '@react-three/drei';
 import * as THREE from 'three';
 import Canvas3DErrorBoundary from './Canvas3DErrorBoundary';
 
@@ -23,16 +23,60 @@ export const TEMPLATES = [
   { id: 'corporate', label: '🏢 Corporativo',    color: '#1e3a8a' },
 ];
 
+// Componente para cargar y proyectar dinámicamente el logo en el vaso
+function LogoDecal({ url }) {
+  const [texture, setTexture] = useState(null);
+
+  React.useEffect(() => {
+    let isMounted = true;
+    const loader = new THREE.TextureLoader();
+    
+    loader.load(url, (loadedTex) => {
+      if (!isMounted) return;
+      loadedTex.anisotropy = 16;
+      loadedTex.colorSpace = THREE.SRGBColorSpace;
+      // Clave para SVG/PNG y persistencia sin distorsiones
+      loadedTex.generateMipmaps = true;
+      setTexture(loadedTex);
+    }, undefined, (err) => {
+      console.warn("Fallo al leer la textura (SVG/PNG): ", err);
+    });
+
+    return () => {
+      isMounted = false;
+      // Prevenir el .dispose() destructivo de la caché interna que causa el parpadeo blanco
+    };
+  }, [url]);
+
+  if (!texture) return null; // Fallback: no pinta el Decal hasta que la textura está 100% en GPU
+
+  return (
+    <Decal 
+      position={[0, 0, 0.67]} // Frente del cilindro
+      rotation={[0, 0, 0]} 
+      scale={[1.4, 1.4, 1.4]} // Escala para cubrir bien el frente
+    >
+      <meshStandardMaterial 
+        map={texture}
+        transparent={true}      // Crucial para respetar fondos invisibles de PNG/SVG
+        depthTest={true}
+        depthWrite={false}      // Evita errores de oclusión con transparencia
+        polygonOffset={true}
+        polygonOffsetFactor={-1} // Asegura que el logo flote sobre el vaso (evita Z-fighting)
+        roughness={0.4}         // Para que coincida orgánicamente con el plástico
+      />
+    </Decal>
+  );
+}
+
 // ── The 3D cup (pure geometry + manual lights, no external loaders) ─────────
-function RotatingCup({ color }) {
+function RotatingCup({ color, logo }) {
   const bodyRef = useRef();
-  const rimRef  = useRef();
   const lidRef  = useRef();
 
   useFrame((_, delta) => {
     const d = delta * 0.45;
     if (bodyRef.current) bodyRef.current.rotation.y += d;
-    if (rimRef.current)  rimRef.current.rotation.y  += d;
     if (lidRef.current)  lidRef.current.rotation.y  += d;
   });
 
@@ -42,14 +86,14 @@ function RotatingCup({ color }) {
 
   return (
     <group>
+      {/* Cuerpo cilíndrico del vaso */}
       <mesh ref={bodyRef} castShadow>
         <cylinderGeometry args={[0.76, 0.56, 2.45, 64]} />
         <meshStandardMaterial color={c} roughness={0.2} metalness={0.05} />
+        {logo && <LogoDecal url={logo} />}
       </mesh>
-      <mesh ref={rimRef} rotation={[Math.PI / 2, 0, 0]} position={[0, 1.24, 0]}>
-        <torusGeometry args={[0.78, 0.036, 12, 64]} />
-        <meshStandardMaterial color={c} roughness={0.1} metalness={0.22} />
-      </mesh>
+      
+      {/* Tapa lisa superior (aro eliminado por diseño limpio) */}
       <mesh ref={lidRef} position={[0, 1.35, 0]}>
         <cylinderGeometry args={[0.79, 0.79, 0.09, 64]} />
         <meshStandardMaterial color={c} roughness={0.12} metalness={0.15} />
@@ -59,7 +103,7 @@ function RotatingCup({ color }) {
 }
 
 // ── Canvas wrapped by ErrorBoundary (handles ALL WebGL / R3F failures) ──────
-export default function VasoViewer3D({ color = '#aee0f5' }) {
+export default function VasoViewer3D({ color = '#aee0f5', logo }) {
   return (
     // Outer div MUST have an explicit pixel height — Canvas inherits it
     <div style={{ width: '100%', height: '420px' }}>
@@ -76,7 +120,7 @@ export default function VasoViewer3D({ color = '#aee0f5' }) {
           <pointLight       position={[0, -3, 2]}  intensity={1.2} color="#bfdbfe" />
           <pointLight       position={[0,  5, 0]}  intensity={0.8} color="#ffffff" />
 
-          <RotatingCup color={color} />
+          <RotatingCup color={color} logo={logo} />
 
           <OrbitControls
             enablePan={false}

@@ -24,8 +24,11 @@ export default function Catalog() {
     { id: 'Tapas Diámetro Pequeño',  label: 'Diámetro Pequeño',    type: 'child'  },
     { id: 'Tapas Diámetro Medio',    label: 'Diámetro Medio',      type: 'child'  },
     { id: 'Tapas Diámetro Grande',   label: 'Diámetro Grande',     type: 'child'  },
-    { id: 'Accesorios',              label: 'Accesorios',           type: 'root'   },
-    { id: 'Vasos',                   label: 'Vasos',                type: 'root'   },
+    { id: 'Tapas Especializadas',    label: 'Especializadas',      type: 'child'  },
+    { id: 'Tarros y Envases',        label: 'Tarros y Envases',    type: 'root'   },
+    { id: 'Botellas',                label: 'Botellas',            type: 'root'   },
+    { id: 'Accesorios',              label: 'Accesorios',          type: 'root'   },
+    { id: 'Vasos',                   label: 'Vasos',               type: 'root'   },
   ];
 
   // Al seleccionar Tapas padre → abre/cierra acordeón pero TAMBIÉN selecciona "Todas las Tapas" por defecto
@@ -44,7 +47,8 @@ export default function Catalog() {
     cat === '__tapas__all' ||
     cat === 'Tapas Diámetro Pequeño' ||
     cat === 'Tapas Diámetro Medio'   ||
-    cat === 'Tapas Diámetro Grande';
+    cat === 'Tapas Diámetro Grande'  ||
+    cat === 'Tapas Especializadas';
 
   // Filtra con soporte de '__tapas__' (todas las tapas de cualquier diámetro)
   const filteredProducts = useMemo(() => {
@@ -56,7 +60,7 @@ export default function Catalog() {
         activeCategory === 'All'
           ? true
           : isTapaActive(activeCategory)
-            ? p.category.startsWith('Tapas Diámetro')
+            ? p.category.startsWith('Tapas')
               ? (activeCategory === '__tapas__' || activeCategory === '__tapas__all' || p.category === activeCategory)
               : false
             : p.category === activeCategory;
@@ -68,7 +72,7 @@ export default function Catalog() {
   // Contadores por categoría (totales estáticos del dataset descontando agotados si se configuraran)
   const catCounts = useMemo(() => {
     const counts = { All: productsData.length };
-    const tapasTotal = productsData.filter(p => p.category.startsWith('Tapas Diámetro')).length;
+    const tapasTotal = productsData.filter(p => p.category.startsWith('Tapas')).length;
     counts['__tapas__'] = tapasTotal;
     counts['__tapas__all'] = tapasTotal; // Mismo número exacto
     productsData.forEach(p => {
@@ -82,7 +86,7 @@ export default function Catalog() {
     const subset = productsData.filter(p => {
       if (activeCategory === 'All') return true;
       if (isTapaActive(activeCategory))
-        return p.category.startsWith('Tapas Diámetro') &&
+        return p.category.startsWith('Tapas') &&
           (activeCategory === '__tapas__' || activeCategory === '__tapas__all' || p.category === activeCategory);
       return p.category === activeCategory;
     });

@@ -168,7 +168,7 @@ function Studio3D() {
                   <p className="text-slate-400 text-xs font-bold">Cargando Three.js...</p>
                 </div>
               }>
-                <VasoViewer3D color={cupColor} />
+                <VasoViewer3D color={cupColor} logo={logo} />
               </Suspense>
 
               <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-black/60 border border-white/10 px-4 py-2 rounded-full text-xs text-indigo-300 font-bold z-20 whitespace-nowrap">
