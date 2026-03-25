@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiFilter, FiPlusCircle, FiAlertTriangle, FiInfo, FiCheckCircle } from 'react-icons/fi';
+import { FiFilter, FiPlusCircle, FiAlertTriangle, FiInfo, FiCheckCircle, FiX } from 'react-icons/fi';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import productsData from '../data/products.json';
@@ -14,6 +14,11 @@ export default function Catalog() {
   const [activeTag, setActiveTag] = useState('All');
   const [quantities, setQuantities] = useState({});
   const [tapasOpen, setTapasOpen] = useState(false);
+  
+  // Estados para el Modal de Producto
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [modalQty, setModalQty] = useState(0);
+
   const { addToCart, moqError } = useCart();
 
   // Estructura jerárquica fija del menú lateral
@@ -95,15 +100,26 @@ export default function Catalog() {
     return counts;
   }, [activeCategory]);
 
+  // Manejo de Estado de Cantidad por Tarjeta
   const getQty = (product) => quantities[product.id] ?? product.moq;
 
   const handleQtyChange = (product, val) => {
-    const parsed = parseInt(val.replace(/\D/g, ''), 10);
-    setQuantities(prev => ({ ...prev, [product.id]: isNaN(parsed) ? product.moq : parsed }));
+    const numericVal = parseInt(val.toString().replace(/\D/g, ''), 10);
+    setQuantities(prev => ({ ...prev, [product.id]: isNaN(numericVal) ? product.moq : numericVal }));
   };
 
-  const handleAdd = (product) => {
-    addToCart(product, getQty(product));
+  const handleQtyBlur = (product) => {
+    setQuantities(prev => {
+      const current = prev[product.id] ?? product.moq;
+      // Restricción inferior: Evita que el usuario cotice por debajo del MOQ
+      return { ...prev, [product.id]: current < product.moq ? product.moq : current };
+    });
+  };
+
+  const handleAdd = (product, e) => {
+    e.stopPropagation(); // Evita abrir el modal al añadir desde la tarjeta
+    const qty = Math.max(getQty(product), product.moq);
+    addToCart(product, qty);
   };
 
   return (
@@ -225,7 +241,8 @@ export default function Catalog() {
                 {filteredProducts.map(product => (
                   <motion.div key={product.id} layout
                     initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}
-                    className="bg-[#fcfdfd] rounded-3xl border border-slate-200 hover:border-cyan-500 hover:shadow-xl transition-all flex flex-col overflow-hidden group">
+                    onClick={() => { setSelectedProduct(product); setModalQty(Math.max(getQty(product), product.moq)); }}
+                    className="bg-[#fcfdfd] cursor-pointer rounded-3xl border border-slate-200 hover:border-cyan-500 hover:shadow-xl transition-all flex flex-col overflow-hidden group">
 
                     {/* Image */}
                     <div className="relative bg-white p-6 flex items-center justify-center border-b border-slate-100">
@@ -242,7 +259,7 @@ export default function Catalog() {
                       <p className="text-slate-500 text-xs mb-4 line-clamp-2">{product.description}</p>
 
                       {/* Pricing */}
-                      <div className="bg-white rounded-xl p-3 mb-4 border border-slate-200 shadow-sm">
+                      <div className="bg-white rounded-xl p-3 mb-2 border border-slate-200 shadow-sm">
                         <div className="flex justify-between items-center mb-2">
                           <span className="text-xs text-slate-500 font-bold uppercase tracking-wider">Precio</span>
                           <span className="text-[#eba014] font-black font-outfit text-lg">${fmt(product.price)} x{product.unit}</span>
@@ -253,17 +270,20 @@ export default function Catalog() {
                         </div>
                         <div className="flex justify-between items-center mt-2 pt-2 border-t border-slate-100">
                           <span className="text-[10px] text-slate-400 font-bold">Total estimado aprox.</span>
-                          <span className="text-slate-700 font-bold text-sm">${(product.price * product.moq).toLocaleString('es-MX', { minimumFractionDigits: 2 })}</span>
+                          <span className="text-slate-700 font-bold text-sm">
+                            ${(product.price * getQty(product)).toLocaleString('es-MX', { minimumFractionDigits: 2 })}
+                          </span>
                         </div>
                       </div>
 
                       {/* Qty input + CTA */}
-                      <div className="flex gap-2 mt-auto">
-                        <input type="number" min={product.moq} step={product.moq}
+                      <div className="flex gap-2 mt-auto" onClick={(e) => e.stopPropagation()}>
+                        <input type="number" min={product.moq} step={product.moq >= 1000 ? 100 : 10}
                           value={getQty(product)}
                           onChange={e => handleQtyChange(product, e.target.value)}
+                          onBlur={() => handleQtyBlur(product)}
                           className="w-24 bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm font-bold text-slate-700 focus:outline-none focus:border-cyan-500" />
-                        <button onClick={() => handleAdd(product)}
+                        <button onClick={(e) => handleAdd(product, e)}
                           className="flex-1 py-2.5 bg-[#0a192f] hover:bg-black text-white rounded-xl font-bold flex items-center justify-center gap-2 text-sm transition-all shadow-md">
                           <FiPlusCircle /> Cotizar
                         </button>
@@ -291,6 +311,113 @@ export default function Catalog() {
           </ul>
         </div>
       </div>
+
+      {/* ── Modal de Producto (Quick View) ── */}
+      <AnimatePresence>
+        {selectedProduct && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto"
+            onClick={() => setSelectedProduct(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.95, y: 20 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white rounded-[2rem] shadow-2xl w-full max-w-4xl relative overflow-hidden flex flex-col md:flex-row max-h-[90vh]"
+            >
+              {/* Botón de Cierre */}
+              <button
+                onClick={() => setSelectedProduct(null)}
+                className="absolute top-4 right-4 z-10 w-10 h-10 bg-slate-100 hover:bg-slate-200 text-slate-500 rounded-full flex items-center justify-center transition-colors"
+                aria-label="Cerrar modal"
+              >
+                <FiX className="text-xl" />
+              </button>
+
+              {/* Lado Izquierdo: Imagen Responsiva */}
+              <div className="w-full md:w-1/2 bg-[#f8fafc] p-10 flex items-center justify-center border-b md:border-b-0 md:border-r border-slate-200">
+                <img
+                  src={selectedProduct.image}
+                  alt={selectedProduct.name}
+                  className="w-full max-w-xs object-contain mix-blend-multiply drop-shadow-xl"
+                />
+              </div>
+
+              {/* Lado Derecho: Datos y Botón Carrito */}
+              <div className="w-full md:w-1/2 p-8 md:p-10 flex flex-col overflow-y-auto">
+                {/* Encabezado */}
+                <span className="text-xs font-bold uppercase tracking-widest text-cyan-600 mb-2">
+                  {selectedProduct.category}
+                </span>
+                <h2 className="text-3xl font-black font-outfit text-[#0a192f] leading-tight mb-4">
+                  {selectedProduct.name}
+                </h2>
+                
+                {/* Descripción Placeholder */}
+                <p className="text-slate-500 text-sm mb-6 leading-relaxed">
+                  Fabricado con resinas de grado industrial y diseñado para una alta compatibilidad con el mercado. Proporciona un sello seguro y cuenta con aplicaciones múltiples que cumplen los estándares de fabricación.
+                </p>
+
+                {/* Datos de Venta */}
+                <div className="mb-8 space-y-3">
+                  <div className="flex justify-between items-center bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                    <span className="text-xs text-slate-500 font-bold uppercase tracking-wider">Precio Unitario</span>
+                    <span className="text-[#0a192f] font-black text-xl">
+                      ${fmt(selectedProduct.price)} <span className="text-xs font-normal text-slate-500">MXN xpz + IVA</span>
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center bg-amber-50 p-4 rounded-2xl border border-amber-100/50">
+                    <span className="text-xs text-amber-700 font-bold uppercase tracking-wider flex items-center gap-1">
+                      <FiInfo className="text-sm"/> Min. Venta
+                    </span>
+                    <span className="text-amber-600 font-black">{fmtMOQ(selectedProduct.moq)} PZ</span>
+                  </div>
+                </div>
+
+                {/* Controles de Cantidad y Carrito en vivo */}
+                <div className="mt-auto">
+                  <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">
+                    Cantidad Deseada
+                  </label>
+                  <div className="flex flex-col sm:flex-row gap-4 mb-6">
+                    <input
+                      type="number"
+                      min={selectedProduct.moq}
+                      step={100}
+                      value={modalQty}
+                      onChange={(e) => setModalQty(parseInt(e.target.value) || 0)}
+                      onBlur={() => setModalQty(q => q < selectedProduct.moq ? selectedProduct.moq : q)}
+                      className="w-full sm:w-1/3 bg-white border-2 border-slate-200 rounded-xl px-4 py-3 text-lg font-bold text-[#0a192f] text-center focus:outline-none focus:border-cyan-500 transition-colors"
+                    />
+                    <div className="w-full sm:w-2/3 flex flex-col justify-center px-5 py-2 bg-slate-50 rounded-xl border-2 border-slate-100">
+                      <span className="text-[10px] uppercase tracking-wider font-bold text-slate-400">Total Estimado</span>
+                      <span className="text-2xl font-black font-outfit text-slate-800">
+                        ${(selectedProduct.price * Math.max(modalQty, selectedProduct.moq)).toLocaleString('es-MX', { minimumFractionDigits: 2 })} <span className="text-xs font-normal text-slate-500">+ IVA</span>
+                      </span>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => {
+                      addToCart(selectedProduct, Math.max(modalQty, selectedProduct.moq));
+                      setSelectedProduct(null);
+                    }}
+                    className="w-full py-4 bg-[#0a192f] hover:bg-black text-white rounded-xl font-bold text-lg flex items-center justify-center gap-3 transition-all shadow-xl hover:-translate-y-0.5"
+                  >
+                    <FiPlusCircle className="text-xl opacity-80" /> Agregar al carrito
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <Footer />
     </div>
   );
