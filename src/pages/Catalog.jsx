@@ -104,22 +104,30 @@ export default function Catalog() {
   const getQty = (product) => quantities[product.id] ?? product.moq;
 
   const handleQtyChange = (product, val) => {
-    const numericVal = parseInt(val.toString().replace(/\D/g, ''), 10);
-    setQuantities(prev => ({ ...prev, [product.id]: isNaN(numericVal) ? product.moq : numericVal }));
+    // Permite cualquier texto mientras se escribe pero extrae dígitos
+    const numericStr = val.toString().replace(/\D/g, '');
+    setQuantities(prev => ({ ...prev, [product.id]: numericStr }));
   };
 
   const handleQtyBlur = (product) => {
     setQuantities(prev => {
-      const current = prev[product.id] ?? product.moq;
-      // Restricción inferior: Evita que el usuario cotice por debajo del MOQ
-      return { ...prev, [product.id]: current < product.moq ? product.moq : current };
+      const current = prev[product.id];
+      const numericVal = parseInt(current, 10);
+      // Restricción inferior estricta solo en onBlur
+      if (isNaN(numericVal) || numericVal < product.moq) {
+        return { ...prev, [product.id]: product.moq };
+      }
+      return { ...prev, [product.id]: numericVal };
     });
   };
 
   const handleAdd = (product, e) => {
     e.stopPropagation(); // Evita abrir el modal al añadir desde la tarjeta
-    const qty = Math.max(getQty(product), product.moq);
-    addToCart(product, qty);
+    const qtyStr = getQty(product);
+    const numericVal = parseInt(qtyStr, 10);
+    if (!isNaN(numericVal) && numericVal >= product.moq) {
+      addToCart(product, numericVal);
+    }
   };
 
   return (
@@ -271,24 +279,34 @@ export default function Catalog() {
                         <div className="flex justify-between items-center mt-2 pt-2 border-t border-slate-100">
                           <span className="text-[10px] text-slate-400 font-bold">Total estimado aprox.</span>
                           <span className="text-slate-700 font-bold text-sm">
-                            ${(product.price * getQty(product)).toLocaleString('es-MX', { minimumFractionDigits: 2 })}
+                            {parseInt(getQty(product), 10) >= product.moq 
+                              ? `$${(product.price * parseInt(getQty(product), 10)).toLocaleString('es-MX', { minimumFractionDigits: 2 })}`
+                              : '---'}
                           </span>
                         </div>
                       </div>
 
                       {/* Qty input + CTA */}
-                      <div className="flex gap-2 mt-auto" onClick={(e) => e.stopPropagation()}>
-                        <input type="number" min={product.moq} step={product.moq >= 1000 ? 100 : 10}
-                          value={getQty(product)}
-                          onChange={e => handleQtyChange(product, e.target.value)}
-                          onBlur={() => handleQtyBlur(product)}
-                          className="w-24 bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm font-bold text-slate-700 focus:outline-none focus:border-cyan-500" />
-                        <button onClick={(e) => handleAdd(product, e)}
-                          className="flex-1 py-2.5 bg-[#0a192f] hover:bg-black text-white rounded-xl font-bold flex items-center justify-center gap-2 text-sm transition-all shadow-md">
-                          <FiPlusCircle /> Cotizar
-                        </button>
+                      <div className="flex flex-col mt-auto" onClick={(e) => e.stopPropagation()}>
+                        <div className="flex gap-2">
+                          <input type="text" inputMode="numeric"
+                            value={getQty(product)}
+                            onChange={e => handleQtyChange(product, e.target.value)}
+                            onBlur={() => handleQtyBlur(product)}
+                            className={`w-24 bg-white border rounded-xl px-3 py-2 text-sm font-bold text-center focus:outline-none transition-colors ${parseInt(getQty(product), 10) < product.moq || getQty(product) === '' ? 'border-red-500 text-red-600 focus:border-red-600' : 'border-slate-200 text-slate-700 focus:border-cyan-500'}`} />
+                          <button onClick={(e) => handleAdd(product, e)}
+                            disabled={parseInt(getQty(product), 10) < product.moq || getQty(product) === ''}
+                            className={`flex-1 py-2.5 text-white rounded-xl font-bold flex items-center justify-center gap-2 text-sm transition-all shadow-md ${parseInt(getQty(product), 10) < product.moq || getQty(product) === '' ? 'bg-slate-400 cursor-not-allowed' : 'bg-[#0a192f] hover:bg-black'}`}>
+                            <FiPlusCircle /> Cotizar
+                          </button>
+                        </div>
+                        {(parseInt(getQty(product), 10) < product.moq || getQty(product) === '') && (
+                          <p className="text-red-500 text-[10px] font-bold mt-2 text-center leading-tight">
+                            La cantidad debe ser igual o superior al mínimo de {fmtMOQ(product.moq)} PZ
+                          </p>
+                        )}
+                        <p className="text-[10px] text-slate-400 mt-2 text-center font-semibold uppercase tracking-wider">+ IVA</p>
                       </div>
-                      <p className="text-[10px] text-slate-400 mt-2 text-center font-semibold uppercase tracking-wider">+ IVA</p>
                     </div>
                   </motion.div>
                 ))}
@@ -384,30 +402,47 @@ export default function Catalog() {
                   <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">
                     Cantidad Deseada
                   </label>
-                  <div className="flex flex-col sm:flex-row gap-4 mb-6">
+                  <div className="flex flex-col sm:flex-row gap-4 mb-2">
                     <input
-                      type="number"
-                      min={selectedProduct.moq}
-                      step={100}
+                      type="text"
+                      inputMode="numeric"
                       value={modalQty}
-                      onChange={(e) => setModalQty(parseInt(e.target.value) || 0)}
-                      onBlur={() => setModalQty(q => q < selectedProduct.moq ? selectedProduct.moq : q)}
-                      className="w-full sm:w-1/3 bg-white border-2 border-slate-200 rounded-xl px-4 py-3 text-lg font-bold text-[#0a192f] text-center focus:outline-none focus:border-cyan-500 transition-colors"
+                      onChange={(e) => setModalQty(e.target.value.replace(/\D/g, ''))}
+                      onBlur={() => {
+                        const numericVal = parseInt(modalQty, 10);
+                        if (isNaN(numericVal) || numericVal < selectedProduct.moq) {
+                          setModalQty(selectedProduct.moq);
+                        }
+                      }}
+                      className={`w-full sm:w-1/3 bg-white border-2 rounded-xl px-4 py-3 text-lg font-bold text-center focus:outline-none transition-colors ${(parseInt(modalQty, 10) < selectedProduct.moq || modalQty === '') ? 'border-red-500 text-red-600 focus:border-red-600' : 'border-slate-200 text-[#0a192f] focus:border-cyan-500'}`}
                     />
                     <div className="w-full sm:w-2/3 flex flex-col justify-center px-5 py-2 bg-slate-50 rounded-xl border-2 border-slate-100">
                       <span className="text-[10px] uppercase tracking-wider font-bold text-slate-400">Total Estimado</span>
                       <span className="text-2xl font-black font-outfit text-slate-800">
-                        ${(selectedProduct.price * Math.max(modalQty, selectedProduct.moq)).toLocaleString('es-MX', { minimumFractionDigits: 2 })} <span className="text-xs font-normal text-slate-500">+ IVA</span>
+                        {(parseInt(modalQty, 10) >= selectedProduct.moq) 
+                          ? `$${(selectedProduct.price * parseInt(modalQty, 10)).toLocaleString('es-MX', { minimumFractionDigits: 2 })}` 
+                          : '---'} 
+                        <span className="text-xs font-normal text-slate-500 ml-1">+ IVA</span>
                       </span>
                     </div>
                   </div>
 
+                  {/* Feedback Visual de Error */}
+                  <div className="h-4 w-full mb-4">
+                    {(parseInt(modalQty, 10) < selectedProduct.moq || modalQty === '') && (
+                      <p className="text-red-500 text-xs font-bold text-center w-full">
+                        La cantidad debe ser igual o superior al mínimo de {fmtMOQ(selectedProduct.moq)} PZ
+                      </p>
+                    )}
+                  </div>
+
                   <button
+                    disabled={(parseInt(modalQty, 10) < selectedProduct.moq || modalQty === '')}
                     onClick={() => {
-                      addToCart(selectedProduct, Math.max(modalQty, selectedProduct.moq));
+                      addToCart(selectedProduct, parseInt(modalQty, 10));
                       setSelectedProduct(null);
                     }}
-                    className="w-full py-4 bg-[#0a192f] hover:bg-black text-white rounded-xl font-bold text-lg flex items-center justify-center gap-3 transition-all shadow-xl hover:-translate-y-0.5"
+                    className={`w-full py-4 text-white rounded-xl font-bold text-lg flex items-center justify-center gap-3 transition-all shadow-xl ${(parseInt(modalQty, 10) < selectedProduct.moq || modalQty === '') ? 'bg-slate-400 cursor-not-allowed' : 'bg-[#0a192f] hover:bg-black hover:-translate-y-0.5'}`}
                   >
                     <FiPlusCircle className="text-xl opacity-80" /> Agregar al carrito
                   </button>

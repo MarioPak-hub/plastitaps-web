@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   FiX, FiTrash2, FiFileText, FiAlertTriangle,
@@ -48,10 +48,12 @@ export default function Cart() {
   const {
     cart, promoItems, industrialItems, cartType,
     isCartOpen, setIsCartOpen,
-    removeFromCart, updateQuantity,
+    removeFromCart, updateQuantity, clearCart,
     totalItems, promoTotal, industrialTotal,
     moqError,
   } = useCart();
+
+  const [showConfirmClear, setShowConfirmClear] = useState(false);
 
   return (
     <>
@@ -171,8 +173,48 @@ export default function Cart() {
                       </Link>
                     </div>
                   )}
+
+                  {/* Botón de Vaciar Carrito */}
+                  <div className="pt-2">
+                    <button 
+                      onClick={() => setShowConfirmClear(true)}
+                      className="w-full py-3 bg-white border-2 border-slate-200 text-slate-500 hover:border-red-500 hover:text-red-600 hover:bg-red-50 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-sm"
+                    >
+                      <FiTrash2 className="text-lg" /> Vaciar Carrito
+                    </button>
+                  </div>
                 </div>
               )}
+
+              {/* Confirmación para Vaciar Carrito */}
+              <AnimatePresence>
+                {showConfirmClear && (
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                    className="absolute inset-0 z-[60] bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-6">
+                    <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }}
+                      className="bg-white rounded-3xl p-6 shadow-2xl w-full max-w-sm text-center border border-slate-100"
+                    >
+                      <div className="w-14 h-14 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <FiTrash2 className="text-2xl" />
+                      </div>
+                      <h3 className="text-xl font-black text-slate-900 mb-2 font-outfit">Vaciar Carrito</h3>
+                      <p className="text-sm text-slate-500 mb-6 leading-relaxed">
+                        ¿Estás seguro de que deseas eliminar todos los artículos del carrito? Esta acción no se puede deshacer.
+                      </p>
+                      <div className="flex gap-3">
+                        <button onClick={() => setShowConfirmClear(false)}
+                          className="flex-1 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition-colors">
+                          Cancelar
+                        </button>
+                        <button onClick={() => { clearCart(); setShowConfirmClear(false); }}
+                          className="flex-1 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition-colors shadow-lg shadow-red-500/30">
+                          Sí, Vaciar
+                        </button>
+                      </div>
+                    </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           </>
         )}
