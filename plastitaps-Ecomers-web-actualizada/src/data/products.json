@@ -1,0 +1,1087 @@
+[
+  {
+    "id": 1,
+    "name": "18 Capto Cap",
+    "category": "Tapas Diámetro Pequeño",
+    "tags": [
+      "Especialidades"
+    ],
+    "price": 0.2046,
+    "moq": 60000,
+    "unit": "pz",
+    "description": "Tapa 18 Capto Cap. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "18-capto-cap"
+  },
+  {
+    "id": 2,
+    "name": "26 Flip Top (Presión)",
+    "category": "Tapas Diámetro Pequeño",
+    "tags": [
+      "Presión",
+      "Flip Top"
+    ],
+    "price": 0.4192,
+    "moq": 91000,
+    "unit": "pz",
+    "description": "Tapa 26 Flip Top (Presión). Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "26-flip-top-presion"
+  },
+  {
+    "id": 3,
+    "name": "28 Flip Top (Presión)",
+    "category": "Tapas Diámetro Pequeño",
+    "tags": [
+      "Presión",
+      "Flip Top"
+    ],
+    "price": 0.4533,
+    "moq": 91000,
+    "unit": "pz",
+    "description": "Tapa 28 Flip Top (Presión). Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "28-flip-top-presion"
+  },
+  {
+    "id": 4,
+    "name": "28 Tapa Rosca Dosificadora (Aceite)",
+    "category": "Tapas Diámetro Pequeño",
+    "tags": [
+      "Dosificadora",
+      "Aceite"
+    ],
+    "price": 0.647,
+    "moq": 105000,
+    "unit": "pz",
+    "description": "Tapa 28 Rosca Dosificadora (Aceite). Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "28-tapa-rosca-dosificadora-aceite"
+  },
+  {
+    "id": 5,
+    "name": "28 Tapa Rosca Deportiva (Chupón)",
+    "category": "Tapas Diámetro Pequeño",
+    "tags": [
+      "Deportiva",
+      "Chupón"
+    ],
+    "price": 0.8349,
+    "moq": 105000,
+    "unit": "pz",
+    "description": "Tapa 28 Rosca Deportiva (Chupón). Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "28-tapa-rosca-deportiva-chupon"
+  },
+  {
+    "id": 6,
+    "name": "28 Tapa Rosca (Aletas)",
+    "category": "Tapas Diámetro Pequeño",
+    "tags": [
+      "Aletas",
+      "Rosca"
+    ],
+    "price": 0.36987,
+    "moq": 72000,
+    "unit": "pz",
+    "description": "Tapa 28 Rosca con Aletas. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "28-tapa-rosca-aletas"
+  },
+  {
+    "id": 7,
+    "name": "28/410 Flip Top",
+    "category": "Tapas Diámetro Pequeño",
+    "tags": [
+      "Flip Top"
+    ],
+    "price": 0.6261,
+    "moq": 50000,
+    "unit": "pz",
+    "description": "Tapa 28/410 Flip Top. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "28-410-flip-top"
+  },
+  {
+    "id": 8,
+    "name": "28 Flip Top Ancha Alta",
+    "category": "Tapas Diámetro Pequeño",
+    "tags": [
+      "Flip Top",
+      "Ancha"
+    ],
+    "price": 1.6606,
+    "moq": 19200,
+    "unit": "pz",
+    "description": "Tapa 28 Flip Top Ancha Alta. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "28-flip-top-ancha-alta"
+  },
+  {
+    "id": 9,
+    "name": "28 Flip Top Ancha Corta",
+    "category": "Tapas Diámetro Pequeño",
+    "tags": [
+      "Flip Top",
+      "Ancha"
+    ],
+    "price": 1.48768,
+    "moq": 19000,
+    "unit": "pz",
+    "description": "Tapa 28 Flip Top Ancha Corta. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "28-flip-top-ancha-corta"
+  },
+  {
+    "id": 10,
+    "name": "28 Flip Top Chica Alta",
+    "category": "Tapas Diámetro Pequeño",
+    "tags": [
+      "Flip Top",
+      "Chica"
+    ],
+    "price": 1.3427,
+    "moq": 20000,
+    "unit": "pz",
+    "description": "Tapa 28 Flip Top Chica Alta. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "28-flip-top-chica-alta"
+  },
+  {
+    "id": 11,
+    "name": "Tapa Sport R-28",
+    "category": "Tapas Diámetro Pequeño",
+    "tags": [
+      "Sport"
+    ],
+    "price": 1.1741,
+    "moq": 43472,
+    "unit": "pz",
+    "description": "Tapa Sport R-28. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "tapa-sport-r-28"
+  },
+  {
+    "id": 12,
+    "name": "33 Flip Top (Sin liner)",
+    "category": "Tapas Diámetro Medio",
+    "tags": [
+      "Flip Top",
+      "Sin Liner"
+    ],
+    "price": 0.6019,
+    "moq": 30000,
+    "unit": "pz",
+    "description": "Tapa 33 Flip Top (Sin liner). Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "33-flip-top-sin-liner"
+  },
+  {
+    "id": 13,
+    "name": "33 Flip Top (C/ Sensitivo)",
+    "category": "Tapas Diámetro Medio",
+    "tags": [
+      "Flip Top",
+      "Sensitivo"
+    ],
+    "price": 0.8309,
+    "moq": 30000,
+    "unit": "pz",
+    "description": "Tapa 33 Flip Top (C/ Sensitivo). Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "33-flip-top-sensitivo"
+  },
+  {
+    "id": 14,
+    "name": "33 Flip Top (C/ Alupeel Univ.)",
+    "category": "Tapas Diámetro Medio",
+    "tags": [
+      "Flip Top",
+      "Alupeel"
+    ],
+    "price": 0.8285,
+    "moq": 30000,
+    "unit": "pz",
+    "description": "Tapa 33 Flip Top (C/ Alupeel Univ.). Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "33-flip-top-alupeel"
+  },
+  {
+    "id": 15,
+    "name": "38 Flip Top Lisa (Sin liner)",
+    "category": "Tapas Diámetro Medio",
+    "tags": [
+      "Flip Top",
+      "Sin Liner"
+    ],
+    "price": 0.8181,
+    "moq": 30000,
+    "unit": "pz",
+    "description": "Tapa 38 Flip Top Lisa (Sin liner). Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "38-flip-top-lisa-sin-liner"
+  },
+  {
+    "id": 16,
+    "name": "38 Flip Top Lisa (C/ Sensitivo)",
+    "category": "Tapas Diámetro Medio",
+    "tags": [
+      "Flip Top",
+      "Sensitivo"
+    ],
+    "price": 1.0868,
+    "moq": 30000,
+    "unit": "pz",
+    "description": "Tapa 38 Flip Top Lisa (C/ Sensitivo). Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "38-flip-top-lisa-sensitivo"
+  },
+  {
+    "id": 17,
+    "name": "38 Flip Top Lisa (C/ Alupeel Univ.)",
+    "category": "Tapas Diámetro Medio",
+    "tags": [
+      "Flip Top",
+      "Alupeel"
+    ],
+    "price": 1.0808,
+    "moq": 30000,
+    "unit": "pz",
+    "description": "Tapa 38 Flip Top Lisa (C/ Alupeel Univ.). Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "38-flip-top-lisa-alupeel"
+  },
+  {
+    "id": 18,
+    "name": "38 Tapa Rosca 2 Entradas",
+    "category": "Tapas Diámetro Medio",
+    "tags": [
+      "Rosca"
+    ],
+    "price": 0.5217,
+    "moq": 30000,
+    "unit": "pz",
+    "description": "38 Tapa Rosca 2 Entradas. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "38-tapa-rosca-2-entradas"
+  },
+  {
+    "id": 19,
+    "name": "38 Tapa Rosca Inv. (Sin Liner)",
+    "category": "Tapas Diámetro Medio",
+    "tags": [
+      "Rosca",
+      "Inviolable",
+      "Sin Liner"
+    ],
+    "price": 0.48096,
+    "moq": 45000,
+    "unit": "pz",
+    "description": "38 Tapa Rosca Inv. (Sin Liner). Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "38-tapa-rosca-inv-sin-liner"
+  },
+  {
+    "id": 20,
+    "name": "38 Tapa Rosca Inv. (Con Liner)",
+    "category": "Tapas Diámetro Medio",
+    "tags": [
+      "Rosca",
+      "Inviolable",
+      "Con Liner"
+    ],
+    "price": 0.4684,
+    "moq": 45000,
+    "unit": "pz",
+    "description": "38 Tapa Rosca Inv. (Con Liner). Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "38-tapa-rosca-inv-con-liner"
+  },
+  {
+    "id": 21,
+    "name": "38 Flip Top Ancha (Aderezos)",
+    "category": "Tapas Diámetro Medio",
+    "tags": [
+      "Flip Top",
+      "Aderezos"
+    ],
+    "price": 1.4231,
+    "moq": 43200,
+    "unit": "pz",
+    "description": "38 Flip Top Ancha (Aderezos). Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "38-flip-top-ancha-aderezos"
+  },
+  {
+    "id": 22,
+    "name": "Tapa Especiero R-40",
+    "category": "Tapas Diámetro Medio",
+    "tags": [
+      "Especiero"
+    ],
+    "price": 0.5113,
+    "moq": 55000,
+    "unit": "pz",
+    "description": "Tapa Especiero R-40. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "tapa-especiero-r-40"
+  },
+  {
+    "id": 23,
+    "name": "45 Tapa Rosca",
+    "category": "Tapas Diámetro Medio",
+    "tags": [
+      "Rosca"
+    ],
+    "price": 0.3906,
+    "moq": 64750,
+    "unit": "pz",
+    "description": "45 Tapa Rosca. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "45-tapa-rosca"
+  },
+  {
+    "id": 24,
+    "name": "63 Tapa Rosca Lisa",
+    "category": "Tapas Diámetro Medio",
+    "tags": [
+      "Rosca",
+      "Lisa"
+    ],
+    "price": 0.68,
+    "moq": 51400,
+    "unit": "pz",
+    "description": "63 Tapa Rosca Lisa. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "63-tapa-rosca-lisa"
+  },
+  {
+    "id": 25,
+    "name": "89 Tapa Rosca Lisa",
+    "category": "Tapas Diámetro Grande",
+    "tags": [
+      "Rosca",
+      "Lisa"
+    ],
+    "price": 1.3892,
+    "moq": 23100,
+    "unit": "pz",
+    "description": "89 Tapa Rosca Lisa. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "89-tapa-rosca-lisa"
+  },
+  {
+    "id": 26,
+    "name": "96 Tapa Rosca",
+    "category": "Tapas Diámetro Grande",
+    "tags": [
+      "Rosca"
+    ],
+    "price": 1.5856,
+    "moq": 23000,
+    "unit": "pz",
+    "description": "96 Tapa Rosca. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "96-tapa-rosca"
+  },
+  {
+    "id": 27,
+    "name": "100 Tapa Rosca Lisa",
+    "category": "Tapas Diámetro Grande",
+    "tags": [
+      "Rosca",
+      "Lisa"
+    ],
+    "price": 1.6465,
+    "moq": 23000,
+    "unit": "pz",
+    "description": "100 Tapa Rosca Lisa. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "100-tapa-rosca-lisa"
+  },
+  {
+    "id": 28,
+    "name": "110 Tapa Rosca Lisa",
+    "category": "Tapas Diámetro Grande",
+    "tags": [
+      "Rosca",
+      "Lisa"
+    ],
+    "price": 1.8649,
+    "moq": 23000,
+    "unit": "pz",
+    "description": "110 Tapa Rosca Lisa. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "110-tapa-rosca-lisa"
+  },
+  {
+    "id": 29,
+    "name": "Asa Six",
+    "category": "Accesorios",
+    "tags": [
+      "Asa"
+    ],
+    "price": 1.0996,
+    "moq": 39900,
+    "unit": "pz",
+    "description": "Asa Six. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "asa-six"
+  },
+  {
+    "id": 30,
+    "name": "Asa 1 Lt 1 oreja R-28 (Corazón)",
+    "category": "Accesorios",
+    "tags": [
+      "Asa"
+    ],
+    "price": 0.1962,
+    "moq": 108000,
+    "unit": "pz",
+    "description": "Asa 1 Lt 1 oreja R-28 (Corazón). Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "asa-1-lt-1-oreja-r-28-corazon"
+  },
+  {
+    "id": 31,
+    "name": "Asa 1 Lt 2 orejas R-28",
+    "category": "Accesorios",
+    "tags": [
+      "Asa"
+    ],
+    "price": 0.2358,
+    "moq": 108000,
+    "unit": "pz",
+    "description": "Asa 1 Lt 2 orejas R-28. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "asa-1-lt-2-orejas-r-28"
+  },
+  {
+    "id": 32,
+    "name": "Asa 1 Lt R-38",
+    "category": "Accesorios",
+    "tags": [
+      "Asa"
+    ],
+    "price": 0.6055,
+    "moq": 108000,
+    "unit": "pz",
+    "description": "Asa 1 Lt R-38. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "asa-1-lt-r-38"
+  },
+  {
+    "id": 33,
+    "name": "Vaso 9 oz Policarbonato",
+    "category": "Vasos",
+    "tags": [
+      "Vaso",
+      "Policarbonato"
+    ],
+    "price": 10.3062,
+    "moq": 8400,
+    "unit": "pz",
+    "description": "Vaso 9 oz Policarbonato. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "vaso-9-oz-policarbonato"
+  },
+  {
+    "id": 34,
+    "name": "Vaso 12 oz Policarbonato",
+    "category": "Vasos",
+    "tags": [
+      "Vaso",
+      "Policarbonato"
+    ],
+    "price": 11.829,
+    "moq": 8160,
+    "unit": "pz",
+    "description": "Vaso 12 oz Policarbonato. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "vaso-12-oz-policarbonato"
+  },
+  {
+    "id": 35,
+    "name": "Vaso 16 oz para Café y Tapa liso",
+    "category": "Vasos",
+    "tags": [
+      "Vaso",
+      "Café"
+    ],
+    "price": 6.2623,
+    "moq": 10000,
+    "unit": "jgos",
+    "description": "Vaso 16 oz para Café y Tapa liso. Escala: $5.7404 > 21k jgos | $5.2186 > 25k jgos. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "vaso-16-oz-para-cafe-y-tapa-liso"
+  },
+  {
+    "id": 36,
+    "name": "Bote 1 Lt c/tapa cintillo (Pintura)",
+    "category": "Vasos",
+    "tags": [
+      "Bote"
+    ],
+    "price": 5.4389,
+    "moq": 7980,
+    "unit": "jgos",
+    "description": "Bote 1 Lt c/tapa cintillo (Pintura). Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "bote-1-lt-c-tapa-cintillo-pintura"
+  },
+  {
+    "id": 37,
+    "name": "VASO PASTILLERO O 26X65",
+    "category": "Vasos",
+    "tags": [
+      "Farmacéutico"
+    ],
+    "price": 34.4886,
+    "moq": 50,
+    "unit": "pz",
+    "description": "VASO PASTILLERO O 26X65. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "vaso-pastillero-o-26x65",
+    "stock": 1000
+  },
+  {
+    "id": 38,
+    "name": "VASO TEMPORADA NAVIDAD 16OZ",
+    "category": "Vasos",
+    "tags": [
+      "Alimenticio"
+    ],
+    "price": 8.9475,
+    "moq": 20,
+    "unit": "pz",
+    "description": "VASO TEMPORADA NAVIDAD 16OZ. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "vaso-temporada-navidad-16oz",
+    "stock": 1000
+  },
+  {
+    "id": 39,
+    "name": "VASOS PARA BEBIDAS COLORES 16 OZ CON TAPA",
+    "category": "Vasos",
+    "tags": [
+      "Alimenticio"
+    ],
+    "price": 14.8627,
+    "moq": 20,
+    "unit": "pz",
+    "description": "VASOS PARA BEBIDAS COLORES 16 OZ CON TAPA. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "vasos-para-bebidas-colores-16-oz-con-tapa",
+    "stock": 1000
+  },
+  {
+    "id": 40,
+    "name": "VASO PASTILLERO O 35X52",
+    "category": "Vasos",
+    "tags": [
+      "Farmacéutico"
+    ],
+    "price": 22.2721,
+    "moq": 40,
+    "unit": "pz",
+    "description": "VASO PASTILLERO O 35X52. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "vaso-pastillero-o-35x52",
+    "stock": 1000
+  },
+  {
+    "id": 41,
+    "name": "VASO PASTILLERO O 26X51",
+    "category": "Vasos",
+    "tags": [
+      "Farmacéutico"
+    ],
+    "price": 30.3067,
+    "moq": 30,
+    "unit": "pz",
+    "description": "VASO PASTILLERO O 26X51. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "vaso-pastillero-o-26x51",
+    "stock": 1000
+  },
+  {
+    "id": 42,
+    "name": "VASO PASTILLERO O 26X41",
+    "category": "Vasos",
+    "tags": [
+      "Farmacéutico"
+    ],
+    "price": 10.3266,
+    "moq": 50,
+    "unit": "pz",
+    "description": "VASO PASTILLERO O 26X41. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "vaso-pastillero-o-26x41",
+    "stock": 1000
+  },
+  {
+    "id": 43,
+    "name": "VASOS PARA CAFÉ 16 OZ CON TAPA",
+    "category": "Vasos",
+    "tags": [
+      "Alimenticio"
+    ],
+    "price": 21.5076,
+    "moq": 10,
+    "unit": "pz",
+    "description": "VASOS PARA CAFÉ 16 OZ CON TAPA. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "vasos-para-caf-16-oz-con-tapa",
+    "stock": 1000
+  },
+  {
+    "id": 44,
+    "name": "VASO COPRO 100ML",
+    "category": "Vasos",
+    "tags": [
+      "Farmacéutico"
+    ],
+    "price": 21.994,
+    "moq": 20,
+    "unit": "pz",
+    "description": "VASO COPRO 100ML. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "vaso-copro-100ml",
+    "stock": 1000
+  },
+  {
+    "id": 45,
+    "name": "VASO 12OZ POLICARBONATO",
+    "category": "Vasos",
+    "tags": [
+      "Alimenticio"
+    ],
+    "price": 25.9196,
+    "moq": 50,
+    "unit": "pz",
+    "description": "VASO 12OZ POLICARBONATO. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "vaso-12oz-policarbonato",
+    "stock": 1000
+  },
+  {
+    "id": 46,
+    "name": "VASO 02 POLICARBONATO",
+    "category": "Vasos",
+    "tags": [
+      "Alimenticio"
+    ],
+    "price": 14.014,
+    "moq": 40,
+    "unit": "pz",
+    "description": "VASO 02 POLICARBONATO. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "vaso-02-policarbonato",
+    "stock": 1000
+  },
+  {
+    "id": 47,
+    "name": "TAPA ROSCA 63MM LISA",
+    "category": "Tapas Especializadas",
+    "tags": [
+      "General"
+    ],
+    "price": 2.6024,
+    "moq": 400,
+    "unit": "pz",
+    "description": "TAPA ROSCA 63MM LISA. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "tapa-rosca-63mm-lisa",
+    "stock": 1000
+  },
+  {
+    "id": 48,
+    "name": "TAPA ROSCA 38MM INVIOLABLE",
+    "category": "Tapas Especializadas",
+    "tags": [
+      "Con y Sin Liner"
+    ],
+    "price": 1.2876,
+    "moq": 300,
+    "unit": "pz",
+    "description": "TAPA ROSCA 38MM INVIOLABLE. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "tapa-rosca-38mm-inviolable",
+    "stock": 1000
+  },
+  {
+    "id": 49,
+    "name": "TAPA ROSCA 28MM INVIOLABLE CON ALETAS",
+    "category": "Tapas Especializadas",
+    "tags": [
+      "General"
+    ],
+    "price": 3.439,
+    "moq": 400,
+    "unit": "pz",
+    "description": "TAPA ROSCA 28MM INVIOLABLE CON ALETAS. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "tapa-rosca-28mm-inviolable-con-aletas",
+    "stock": 1000
+  },
+  {
+    "id": 50,
+    "name": "TAPA PARA BOTE 1L CON CINTILLO",
+    "category": "Tapas Especializadas",
+    "tags": [
+      "General"
+    ],
+    "price": 3.4116,
+    "moq": 500,
+    "unit": "pz",
+    "description": "TAPA PARA BOTE 1L CON CINTILLO. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "tapa-para-bote-1l-con-cintillo",
+    "stock": 1000
+  },
+  {
+    "id": 51,
+    "name": "TAPA INVIOLABLE ROSCA 33MM",
+    "category": "Tapas Especializadas",
+    "tags": [
+      "General"
+    ],
+    "price": 3.0348,
+    "moq": 400,
+    "unit": "pz",
+    "description": "TAPA INVIOLABLE ROSCA 33MM. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "tapa-inviolable-rosca-33mm",
+    "stock": 1000
+  },
+  {
+    "id": 52,
+    "name": "TAPA FLIP TOP SPORT ROSCA 38MM ANCHA LISA",
+    "category": "Tapas Especializadas",
+    "tags": [
+      "General"
+    ],
+    "price": 1.2594,
+    "moq": 500,
+    "unit": "pz",
+    "description": "TAPA FLIP TOP SPORT ROSCA 38MM ANCHA LISA. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "tapa-flip-top-sport-rosca-38mm-ancha-lisa",
+    "stock": 1000
+  },
+  {
+    "id": 53,
+    "name": "TAPA FLIP TOP ROSCA 33MM",
+    "category": "Tapas Especializadas",
+    "tags": [
+      "Orificios 0.125, 0.25, 0.50"
+    ],
+    "price": 3.2509,
+    "moq": 400,
+    "unit": "pz",
+    "description": "TAPA FLIP TOP ROSCA 33MM. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "tapa-flip-top-rosca-33mm",
+    "stock": 1000
+  },
+  {
+    "id": 54,
+    "name": "TAPA FLIP TOP ROSCA 28MM",
+    "category": "Tapas Especializadas",
+    "tags": [
+      "Presión, Chica Alta, Ancha Lisa"
+    ],
+    "price": 2.8112,
+    "moq": 100,
+    "unit": "pz",
+    "description": "TAPA FLIP TOP ROSCA 28MM. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "tapa-flip-top-rosca-28mm",
+    "stock": 1000
+  },
+  {
+    "id": 55,
+    "name": "TAPA FLIP TOP ROSCA 26MM PRESION",
+    "category": "Tapas Especializadas",
+    "tags": [
+      "General"
+    ],
+    "price": 3.5635,
+    "moq": 300,
+    "unit": "pz",
+    "description": "TAPA FLIP TOP ROSCA 26MM PRESION. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "tapa-flip-top-rosca-26mm-presion",
+    "stock": 1000
+  },
+  {
+    "id": 56,
+    "name": "TAPA DOSIFICADORA BOCCA",
+    "category": "Tapas Especializadas",
+    "tags": [
+      "General"
+    ],
+    "price": 3.5251,
+    "moq": 400,
+    "unit": "pz",
+    "description": "TAPA DOSIFICADORA BOCCA. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "tapa-dosificadora-bocca",
+    "stock": 1000
+  },
+  {
+    "id": 57,
+    "name": "TAPA DEPORTIVA ROSCA 28MM CHUPON",
+    "category": "Tapas Especializadas",
+    "tags": [
+      "General"
+    ],
+    "price": 2.2425,
+    "moq": 300,
+    "unit": "pz",
+    "description": "TAPA DEPORTIVA ROSCA 28MM CHUPON. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "tapa-deportiva-rosca-28mm-chupon",
+    "stock": 1000
+  },
+  {
+    "id": 58,
+    "name": "FRASCO PARA CAPSULAS",
+    "category": "Tarros y Envases",
+    "tags": [
+      "45ML, 20ML"
+    ],
+    "price": 11.8247,
+    "moq": 10,
+    "unit": "pz",
+    "description": "FRASCO PARA CAPSULAS. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "frasco-para-capsulas",
+    "stock": 1000
+  },
+  {
+    "id": 59,
+    "name": "BOTE 1L LISO ASA 1 OREJA 150X150 1 LITRO",
+    "category": "Tarros y Envases",
+    "tags": [
+      "General"
+    ],
+    "price": 18.0332,
+    "moq": 10,
+    "unit": "pz",
+    "description": "BOTE 1L LISO ASA 1 OREJA 150X150 1 LITRO. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "bote-1l-liso-asa-1-oreja-150x150-1-litro",
+    "stock": 1000
+  },
+  {
+    "id": 60,
+    "name": "ESPECIERO R38",
+    "category": "Tarros y Envases",
+    "tags": [
+      "General"
+    ],
+    "price": 33.0789,
+    "moq": 10,
+    "unit": "pz",
+    "description": "ESPECIERO R38. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "especiero-r38",
+    "stock": 1000
+  },
+  {
+    "id": 61,
+    "name": "TARRO CILÍNDRICO R110",
+    "category": "Tarros y Envases",
+    "tags": [
+      "3750ML, 1750ML, 1KG TCM"
+    ],
+    "price": 21.0286,
+    "moq": 10,
+    "unit": "pz",
+    "description": "TARRO CILÍNDRICO R110. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "tarro-cil-ndrico-r110",
+    "stock": 1000
+  },
+  {
+    "id": 62,
+    "name": "TARRO CILÍNDRICO R63",
+    "category": "Tarros y Envases",
+    "tags": [
+      "1000ML, 750ML, 500GR, 400ML, 250ML"
+    ],
+    "price": 22.4966,
+    "moq": 50,
+    "unit": "pz",
+    "description": "TARRO CILÍNDRICO R63. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "tarro-cil-ndrico-r63",
+    "stock": 1000
+  },
+  {
+    "id": 63,
+    "name": "TARRO R89",
+    "category": "Tarros y Envases",
+    "tags": [
+      "700ML, 500ML"
+    ],
+    "price": 13.1808,
+    "moq": 50,
+    "unit": "pz",
+    "description": "TARRO R89. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "tarro-r89",
+    "stock": 1000
+  },
+  {
+    "id": 64,
+    "name": "ESPECIERO 120ML R38",
+    "category": "Tarros y Envases",
+    "tags": [
+      "Cristal y Blanco"
+    ],
+    "price": 23.0685,
+    "moq": 10,
+    "unit": "pz",
+    "description": "ESPECIERO 120ML R38. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "especiero-120ml-r38",
+    "stock": 1000
+  },
+  {
+    "id": 65,
+    "name": "ESPECIERO 110ML R38",
+    "category": "Tarros y Envases",
+    "tags": [
+      "General"
+    ],
+    "price": 31.7442,
+    "moq": 50,
+    "unit": "pz",
+    "description": "ESPECIERO 110ML R38. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "especiero-110ml-r38",
+    "stock": 1000
+  },
+  {
+    "id": 66,
+    "name": "BOTELLA SHAMPOO",
+    "category": "Botellas",
+    "tags": [
+      "1500ML, 900ML, 480ML"
+    ],
+    "price": 15.4019,
+    "moq": 30,
+    "unit": "pz",
+    "description": "BOTELLA SHAMPOO. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "botella-shampoo",
+    "stock": 1000
+  },
+  {
+    "id": 67,
+    "name": "BOTELLA SALSERA",
+    "category": "Botellas",
+    "tags": [
+      "1500ML, 1000ML, 500ML, 200ML"
+    ],
+    "price": 25.6741,
+    "moq": 40,
+    "unit": "pz",
+    "description": "BOTELLA SALSERA. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "botella-salsera",
+    "stock": 1000
+  },
+  {
+    "id": 68,
+    "name": "BOTELLA BOSTON",
+    "category": "Botellas",
+    "tags": [
+      "750ML, 500ML, 250ML, 220ML"
+    ],
+    "price": 31.6594,
+    "moq": 10,
+    "unit": "pz",
+    "description": "BOTELLA BOSTON. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "botella-boston",
+    "stock": 1000
+  },
+  {
+    "id": 69,
+    "name": "BOTELLA SQ R33",
+    "category": "Botellas",
+    "tags": [
+      "900ML, 500ML, 250ML, 170ML"
+    ],
+    "price": 14.8298,
+    "moq": 20,
+    "unit": "pz",
+    "description": "BOTELLA SQ R33. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "botella-sq-r33",
+    "stock": 1000
+  },
+  {
+    "id": 70,
+    "name": "BOTELLA RP R28",
+    "category": "Botellas",
+    "tags": [
+      "1500ML, 1000ML, 600ML, 500ML"
+    ],
+    "price": 29.1688,
+    "moq": 20,
+    "unit": "pz",
+    "description": "BOTELLA RP R28. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "botella-rp-r28",
+    "stock": 1000
+  },
+  {
+    "id": 71,
+    "name": "BOTELLA GENÉRICA R24",
+    "category": "Botellas",
+    "tags": [
+      "240ML, 60ml"
+    ],
+    "price": 29.7374,
+    "moq": 10,
+    "unit": "pz",
+    "description": "BOTELLA GENÉRICA R24. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "botella-gen-rica-r24",
+    "stock": 1000
+  },
+  {
+    "id": 72,
+    "name": "BOTELLA OVAL R24",
+    "category": "Botellas",
+    "tags": [
+      "250ML, 125ML"
+    ],
+    "price": 14.9822,
+    "moq": 10,
+    "unit": "pz",
+    "description": "BOTELLA OVAL R24. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "botella-oval-r24",
+    "stock": 1000
+  },
+  {
+    "id": 73,
+    "name": "BOTELLA 50ML CUADRADA R18",
+    "category": "Botellas",
+    "tags": [
+      "General"
+    ],
+    "price": 28.7925,
+    "moq": 10,
+    "unit": "pz",
+    "description": "BOTELLA 50ML CUADRADA R18. Precios + IVA",
+    "image": "/caps_pet_1773858527690.png",
+    "slug": "botella-50ml-cuadrada-r18",
+    "stock": 1000
+  }
+]

@@ -1,0 +1,11 @@
+﻿[dotenv@17.3.1] injecting env (1) from .env -- tip: ­ƒöÉ prevent committing .env to code: https://dotenvx.com/precommit
+Iniciando prueba de conexi├│n con la API de OpenAI...
+
+================ RESULTADO ================
+
+'┬íConexi├│n exitosa!'
+
+Una API (Interface de Programaci├│n de Aplicaciones) es un conjunto de reglas y protocolos que permite a diferentes softwares comunicarse entre s├¡ y compartir datos o funcionalidades de manera segura y eficiente. Las API facilitan la
+
+===========================================
+
