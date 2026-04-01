@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   FiX, FiTrash2, FiFileText, FiAlertTriangle,
@@ -54,6 +54,24 @@ export default function Cart() {
   } = useCart();
 
   const [showConfirmClear, setShowConfirmClear] = useState(false);
+
+  // Prevent background scroll when cart is open
+  useEffect(() => {
+    if (isCartOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [isCartOpen]);
+
+  // Close cart on Escape key
+  useEffect(() => {
+    if (!isCartOpen) return;
+    const handleKey = (e) => { if (e.key === 'Escape') setIsCartOpen(false); };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [isCartOpen, setIsCartOpen]);
 
   return (
     <>

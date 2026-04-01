@@ -55,6 +55,7 @@ export default function Login() {
               size="large"
               text="continue_with"
               logo_alignment="left"
+              auto_select={false}
             />
           </div>
 

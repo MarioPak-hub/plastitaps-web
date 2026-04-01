@@ -87,7 +87,7 @@ export default function Navbar() {
             )}
           </div>
 
-          <button onClick={() => setIsCartOpen(true)} className="relative p-2 hover:bg-slate-100 rounded-full transition-colors group">
+          <button onClick={() => setIsCartOpen(prev => !prev)} className="relative p-2 hover:bg-slate-100 rounded-full transition-colors group">
             <ShoppingCart className="w-6 h-6 text-slate-600 group-hover:text-blue-600 transition-colors" />
             {cartCount > 0 && (
               <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold shadow-md">

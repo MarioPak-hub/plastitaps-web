@@ -1,10 +1,12 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiFilter, FiPlusCircle, FiAlertTriangle, FiInfo, FiCheckCircle, FiX } from 'react-icons/fi';
+import { FiFilter, FiPlusCircle, FiAlertTriangle, FiInfo, FiCheckCircle, FiX, FiBox } from 'react-icons/fi';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import productsData from '../data/products.json';
 import { useCart } from '../context/CartContext';
+
+const ProductModel3D = React.lazy(() => import('../components/ProductModel3D'));
 
 const fmt = (n) => n.toLocaleString('es-MX', { minimumFractionDigits: 4, maximumFractionDigits: 4 });
 const fmtMOQ = (n) => n.toLocaleString('es-MX');
@@ -14,26 +16,27 @@ export default function Catalog() {
   const [activeTag, setActiveTag] = useState('All');
   const [quantities, setQuantities] = useState({});
   const [tapasOpen, setTapasOpen] = useState(false);
-  
+
   // Estados para el Modal de Producto
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [modalQty, setModalQty] = useState(0);
+  const [modalColor, setModalColor] = useState(null);
 
   const { addToCart, moqError } = useCart();
 
   // Estructura jerárquica fija del menú lateral
   const MENU = [
-    { id: 'All',                      label: 'Todas las Categorías', type: 'root'   },
-    { id: '__tapas__',                label: 'Tapas',                type: 'parent' },
-    { id: '__tapas__all',             label: 'Todas las Tapas',     type: 'child'  },
-    { id: 'Tapas Diámetro Pequeño',  label: 'Diámetro Pequeño',    type: 'child'  },
-    { id: 'Tapas Diámetro Medio',    label: 'Diámetro Medio',      type: 'child'  },
-    { id: 'Tapas Diámetro Grande',   label: 'Diámetro Grande',     type: 'child'  },
-    { id: 'Tapas Especializadas',    label: 'Especializadas',      type: 'child'  },
-    { id: 'Tarros y Envases',        label: 'Tarros y Envases',    type: 'root'   },
-    { id: 'Botellas',                label: 'Botellas',            type: 'root'   },
-    { id: 'Accesorios',              label: 'Accesorios',          type: 'root'   },
-    { id: 'Vasos',                   label: 'Vasos',               type: 'root'   },
+    { id: 'All', label: 'Todas las Categorías', type: 'root' },
+    { id: '__tapas__', label: 'Tapas', type: 'parent' },
+    { id: '__tapas__all', label: 'Todas las Tapas', type: 'child' },
+    { id: 'Tapas Diámetro Pequeño', label: 'Diámetro Pequeño', type: 'child' },
+    { id: 'Tapas Diámetro Medio', label: 'Diámetro Medio', type: 'child' },
+    { id: 'Tapas Diámetro Grande', label: 'Diámetro Grande', type: 'child' },
+    { id: 'Tapas Especializadas', label: 'Especializadas', type: 'child' },
+    { id: 'Tarros y Envases', label: 'Tarros y Envases', type: 'root' },
+    { id: 'Botellas', label: 'Botellas', type: 'root' },
+    { id: 'Accesorios', label: 'Accesorios', type: 'root' },
+    { id: 'Vasos', label: 'Vasos', type: 'root' },
   ];
 
   // Al seleccionar Tapas padre → abre/cierra acordeón pero TAMBIÉN selecciona "Todas las Tapas" por defecto
@@ -51,8 +54,8 @@ export default function Catalog() {
     cat === '__tapas__' ||
     cat === '__tapas__all' ||
     cat === 'Tapas Diámetro Pequeño' ||
-    cat === 'Tapas Diámetro Medio'   ||
-    cat === 'Tapas Diámetro Grande'  ||
+    cat === 'Tapas Diámetro Medio' ||
+    cat === 'Tapas Diámetro Grande' ||
     cat === 'Tapas Especializadas';
 
   // Filtra con soporte de '__tapas__' (todas las tapas de cualquier diámetro)
@@ -60,7 +63,7 @@ export default function Catalog() {
     return productsData.filter(p => {
       // Si el producto está agotado (stock === 0), lo omitimos del frontend entero (lógica de negocio futura)
       // if (p.stock === 0) return false; 
-      
+
       const matchCat =
         activeCategory === 'All'
           ? true
@@ -69,7 +72,12 @@ export default function Catalog() {
               ? (activeCategory === '__tapas__' || activeCategory === '__tapas__all' || p.category === activeCategory)
               : false
             : p.category === activeCategory;
-      const matchTag = activeTag === 'All' || p.tags.includes(activeTag);
+      const matchTag =
+        activeTag === 'All'
+          ? true
+          : activeTag === '3D'
+            ? !!p.modelo3D
+            : p.tags.includes(activeTag);
       return matchCat && matchTag;
     });
   }, [activeCategory, activeTag]);
@@ -96,6 +104,9 @@ export default function Catalog() {
       return p.category === activeCategory;
     });
     const counts = { All: subset.length };
+    // Count products with 3D models
+    const model3DCount = subset.filter(p => !!p.modelo3D).length;
+    if (model3DCount > 0) counts['3D'] = model3DCount;
     subset.forEach(p => p.tags.forEach(t => { counts[t] = (counts[t] || 0) + 1; }));
     return counts;
   }, [activeCategory]);
@@ -162,81 +173,79 @@ export default function Catalog() {
           {/* Sidebar filter — sticky con scroll interno independiente */}
           <aside className="w-full md:w-64 flex-shrink-0">
             <div
-              className="bg-white rounded-3xl p-6 sticky top-32 border border-slate-200 shadow-sm overflow-y-auto overscroll-contain"
-              style={{
-                maxHeight: 'calc(100vh - 9rem)',
-                scrollbarWidth: 'thin',
-                scrollbarColor: '#cbd5e1 transparent',
-              }}
+              className="bg-white rounded-3xl sticky top-32 border border-slate-200 shadow-sm overflow-hidden"
+              style={{ maxHeight: 'calc(100vh - 9rem)' }}
             >
-              <div className="flex items-center gap-2 text-[#0a192f] font-bold text-xl mb-6 font-outfit">
-                <FiFilter className="text-cyan-600" /> Filtros
-              </div>
-              {/* ── Menú Tipo de Producto (Acordeón) ── */}
-              <div className="mb-8">
-                <h3 className="text-slate-500 uppercase tracking-widest text-xs font-bold mb-4">Tipo de Producto</h3>
-                <div className="flex flex-col gap-1.5">
-                  {MENU.map(item => {
-                    if (item.type === 'child' && !tapasOpen) return null;
+              <div
+                className="p-6 overflow-y-auto overscroll-contain filter-scroll"
+                style={{ maxHeight: 'calc(100vh - 9rem)' }}
+              >
+                <div className="flex items-center gap-2 text-[#0a192f] font-bold text-xl mb-6 font-outfit">
+                  <FiFilter className="text-cyan-600" /> Filtros
+                </div>
+                {/* ── Menú Tipo de Producto (Acordeón) ── */}
+                <div className="mb-8">
+                  <h3 className="text-slate-500 uppercase tracking-widest text-xs font-bold mb-4">Tipo de Producto</h3>
+                  <div className="flex flex-col gap-1.5">
+                    {MENU.map(item => {
+                      if (item.type === 'child' && !tapasOpen) return null;
 
-                    const isActive = activeCategory === item.id;
-                    const isChild  = item.type === 'child';
-                    const isParent = item.type === 'parent';
+                      const isActive = activeCategory === item.id;
+                      const isChild = item.type === 'child';
+                      const isParent = item.type === 'parent';
 
-                    return (
-                      <motion.button
-                        key={item.id}
-                        layout
-                        onClick={() => handleMenuClick(item)}
-                        className={`
+                      return (
+                        <motion.button
+                          key={item.id}
+                          layout
+                          onClick={() => handleMenuClick(item)}
+                          className={`
                           text-left rounded-xl transition-all font-bold text-sm flex items-center justify-between
                           ${isChild ? 'ml-4 pl-3 pr-3 py-2' : 'px-4 py-2.5'}
                           ${isActive
-                            ? 'bg-[#0a192f] text-white shadow-md'
-                            : isChild
-                              ? 'text-slate-500 hover:bg-slate-100 hover:text-[#0a192f]'
-                              : 'text-slate-600 hover:bg-slate-100 hover:text-[#0a192f] hover:shadow-sm'
-                          }
+                              ? 'bg-[#0a192f] text-white shadow-md'
+                              : isChild
+                                ? 'text-slate-500 hover:bg-slate-100 hover:text-[#0a192f]'
+                                : 'text-slate-600 hover:bg-slate-100 hover:text-[#0a192f] hover:shadow-sm'
+                            }
                         `}
-                      >
-                        <span className={isChild ? 'text-xs' : ''}>{item.label}</span>
-                        <span className={`ml-1.5 text-[10px] font-normal ${
-                          isActive ? 'text-white/70' : 'text-slate-400'
-                        }`}>
-                          ({catCounts[item.id] ?? 0})
-                        </span>
-                        {isParent && (
-                          <span className={`text-xs ml-auto transition-transform duration-200 ${tapasOpen ? 'rotate-90' : ''}`}>
-                            ›
+                        >
+                          <span className={isChild ? 'text-xs' : ''}>{item.label}</span>
+                          <span className={`ml-1.5 text-[10px] font-normal ${isActive ? 'text-white/70' : 'text-slate-400'
+                            }`}>
+                            ({catCounts[item.id] ?? 0})
                           </span>
-                        )}
-                      </motion.button>
-                    );
-                  })}
+                          {isParent && (
+                            <span className={`text-xs ml-auto transition-transform duration-200 ${tapasOpen ? 'rotate-90' : ''}`}>
+                              ›
+                            </span>
+                          )}
+                        </motion.button>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
 
-              {/* ── Filtros Adicionales (Tags) con contadores dinámicos ── */}
-              <div>
-                <h3 className="text-slate-500 uppercase tracking-widest text-xs font-bold mb-4">Filtros Adicionales</h3>
-                <div className="flex flex-wrap gap-2">
-                  {['All', ...new Set(productsData.flatMap(p => p.tags))].map(tag => {
-                    const count = tagCounts[tag] ?? 0;
-                    const isActive = activeTag === tag;
-                    return (
-                      <button key={tag} onClick={() => setActiveTag(tag)}
-                        className={`px-3 py-1.5 text-xs font-bold rounded-full border transition-all ${
-                          isActive
-                            ? 'border-cyan-600 bg-cyan-50 text-cyan-800'
+                {/* ── Filtros Adicionales (Tags) con contadores dinámicos ── */}
+                <div>
+                  <h3 className="text-slate-500 uppercase tracking-widest text-xs font-bold mb-4">Filtros Adicionales</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {['All', ...(tagCounts['3D'] ? ['3D'] : []), ...new Set(productsData.flatMap(p => p.tags))].map(tag => {
+                      const count = tagCounts[tag] ?? 0;
+                      const isActive = activeTag === tag;
+                      return (
+                        <button key={tag} onClick={() => setActiveTag(tag)}
+                          className={`px-3 py-1.5 text-xs font-bold rounded-full border transition-all ${isActive
+                            ? tag === '3D' ? 'border-indigo-600 bg-indigo-50 text-indigo-800' : 'border-cyan-600 bg-cyan-50 text-cyan-800'
                             : 'border-slate-300 text-slate-500 hover:border-slate-400 hover:text-slate-700'
-                        }`}>
-                        {tag === 'All' ? 'Todos' : tag}
-                        <span className={`ml-1 font-normal ${
-                          isActive ? 'text-cyan-600' : 'text-slate-400'
-                        }`}>({tag === 'All' ? tagCounts['All'] : count})</span>
-                      </button>
-                    );
-                  })}
+                            }`}>
+                          {tag === 'All' ? 'Todos' : tag === '3D' ? <><FiBox className="inline mr-1 text-[10px]" />3D</> : tag}
+                          <span className={`ml-1 font-normal ${isActive ? (tag === '3D' ? 'text-indigo-600' : 'text-cyan-600') : 'text-slate-400'
+                            }`}>({tag === 'All' ? tagCounts['All'] : count})</span>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             </div>
@@ -244,12 +253,15 @@ export default function Catalog() {
 
           {/* Product grid */}
           <div className="flex-1">
-            <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              <AnimatePresence>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <AnimatePresence mode="popLayout">
                 {filteredProducts.map(product => (
                   <motion.div key={product.id} layout
-                    initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}
-                    onClick={() => { setSelectedProduct(product); setModalQty(Math.max(getQty(product), product.moq)); }}
+                    initial={{ opacity: 0, scale: 0.97 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.97 }}
+                    transition={{ duration: 0.2, layout: { duration: 0.25, type: 'spring', stiffness: 300, damping: 30 } }}
+                    onClick={() => { setSelectedProduct(product); setModalQty(Math.max(getQty(product), product.moq)); setModalColor(product.colores?.[0] || null); }}
                     className="bg-[#fcfdfd] cursor-pointer rounded-3xl border border-slate-200 hover:border-cyan-500 hover:shadow-xl transition-all flex flex-col overflow-hidden group">
 
                     {/* Image */}
@@ -259,6 +271,11 @@ export default function Catalog() {
                       <span className="absolute top-3 right-3 px-2 py-0.5 text-[10px] font-bold uppercase rounded-full bg-slate-100 text-[#0a192f] border border-slate-200 shadow-sm">
                         {product.category}
                       </span>
+                      {product.modelo3D && (
+                        <span className="absolute top-3 left-3 px-2 py-0.5 text-[10px] font-bold uppercase rounded-full bg-indigo-100 text-indigo-700 border border-indigo-200 shadow-sm flex items-center gap-0.5">
+                          <FiBox className="text-[9px]" /> 3D
+                        </span>
+                      )}
                     </div>
 
                     {/* Body */}
@@ -273,13 +290,13 @@ export default function Catalog() {
                           <span className="text-[#eba014] font-black font-outfit text-lg">${fmt(product.price)} x{product.unit}</span>
                         </div>
                         <div className="flex justify-between items-center mb-1">
-                          <span className="text-xs text-slate-500 font-bold uppercase tracking-wider flex items-center gap-1"><FiInfo className="text-xs"/> Min. Venta</span>
+                          <span className="text-xs text-slate-500 font-bold uppercase tracking-wider flex items-center gap-1"><FiInfo className="text-xs" /> Min. Venta</span>
                           <span className="text-[#eba014] font-bold text-sm bg-[#eba014]/10 px-2 py-0.5 rounded-md">{fmtMOQ(product.moq)} {product.unit.toUpperCase()}</span>
                         </div>
                         <div className="flex justify-between items-center mt-2 pt-2 border-t border-slate-100">
                           <span className="text-[10px] text-slate-400 font-bold">Total estimado aprox.</span>
                           <span className="text-slate-700 font-bold text-sm">
-                            {parseInt(getQty(product), 10) >= product.moq 
+                            {parseInt(getQty(product), 10) >= product.moq
                               ? `$${(product.price * parseInt(getQty(product), 10)).toLocaleString('es-MX', { minimumFractionDigits: 2 })}`
                               : '---'}
                           </span>
@@ -311,7 +328,7 @@ export default function Catalog() {
                   </motion.div>
                 ))}
               </AnimatePresence>
-            </motion.div>
+            </div>
           </div>
         </div>
 
@@ -357,13 +374,48 @@ export default function Catalog() {
                 <FiX className="text-xl" />
               </button>
 
-              {/* Lado Izquierdo: Imagen Responsiva */}
-              <div className="w-full md:w-1/2 bg-[#f8fafc] p-10 flex items-center justify-center border-b md:border-b-0 md:border-r border-slate-200">
-                <img
-                  src={selectedProduct.image}
-                  alt={selectedProduct.name}
-                  className="w-full max-w-xs object-contain mix-blend-multiply drop-shadow-xl"
-                />
+              {/* Lado Izquierdo: 3D Viewer o Imagen */}
+              <div className="w-full md:w-1/2 bg-[#f8fafc] flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-slate-200">
+                {selectedProduct.modelo3D ? (
+                  <div className="w-full flex flex-col items-center">
+                    <Suspense fallback={
+                      <div className="w-full flex items-center justify-center" style={{ height: 320 }}>
+                        <div className="w-8 h-8 rounded-full border-4 border-t-indigo-600 animate-spin" />
+                      </div>
+                    }>
+                      <ProductModel3D
+                        modelPath={selectedProduct.modelo3D}
+                        selectedColor={modalColor || '#cccccc'}
+                      />
+                    </Suspense>
+                    {/* Color Swatches */}
+                    {(selectedProduct.colores && selectedProduct.colores.length > 0) && (
+                      <div className="flex items-center gap-2 py-4 px-6">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mr-1">Color:</span>
+                        {selectedProduct.colores.map((hex) => (
+                          <button
+                            key={hex}
+                            onClick={() => setModalColor(hex)}
+                            className={`w-7 h-7 rounded-full border-2 transition-all duration-200 hover:scale-110 ${modalColor === hex
+                              ? 'border-indigo-500 ring-2 ring-indigo-200 scale-110'
+                              : 'border-slate-300'
+                              }`}
+                            style={{ backgroundColor: hex }}
+                            title={hex}
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="p-10 flex items-center justify-center">
+                    <img
+                      src={selectedProduct.image}
+                      alt={selectedProduct.name}
+                      className="w-full max-w-xs object-contain mix-blend-multiply drop-shadow-xl"
+                    />
+                  </div>
+                )}
               </div>
 
               {/* Lado Derecho: Datos y Botón Carrito */}
@@ -375,7 +427,7 @@ export default function Catalog() {
                 <h2 className="text-3xl font-black font-outfit text-[#0a192f] leading-tight mb-4">
                   {selectedProduct.name}
                 </h2>
-                
+
                 {/* Descripción Placeholder */}
                 <p className="text-slate-500 text-sm mb-6 leading-relaxed">
                   Fabricado con resinas de grado industrial y diseñado para una alta compatibilidad con el mercado. Proporciona un sello seguro y cuenta con aplicaciones múltiples que cumplen los estándares de fabricación.
@@ -391,7 +443,7 @@ export default function Catalog() {
                   </div>
                   <div className="flex justify-between items-center bg-amber-50 p-4 rounded-2xl border border-amber-100/50">
                     <span className="text-xs text-amber-700 font-bold uppercase tracking-wider flex items-center gap-1">
-                      <FiInfo className="text-sm"/> Min. Venta
+                      <FiInfo className="text-sm" /> Min. Venta
                     </span>
                     <span className="text-amber-600 font-black">{fmtMOQ(selectedProduct.moq)} PZ</span>
                   </div>
@@ -419,9 +471,9 @@ export default function Catalog() {
                     <div className="w-full sm:w-2/3 flex flex-col justify-center px-5 py-2 bg-slate-50 rounded-xl border-2 border-slate-100">
                       <span className="text-[10px] uppercase tracking-wider font-bold text-slate-400">Total Estimado</span>
                       <span className="text-2xl font-black font-outfit text-slate-800">
-                        {(parseInt(modalQty, 10) >= selectedProduct.moq) 
-                          ? `$${(selectedProduct.price * parseInt(modalQty, 10)).toLocaleString('es-MX', { minimumFractionDigits: 2 })}` 
-                          : '---'} 
+                        {(parseInt(modalQty, 10) >= selectedProduct.moq)
+                          ? `$${(selectedProduct.price * parseInt(modalQty, 10)).toLocaleString('es-MX', { minimumFractionDigits: 2 })}`
+                          : '---'}
                         <span className="text-xs font-normal text-slate-500 ml-1">+ IVA</span>
                       </span>
                     </div>
