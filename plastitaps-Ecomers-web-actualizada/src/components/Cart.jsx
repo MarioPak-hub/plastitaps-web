@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   FiX, FiTrash2, FiFileText, FiAlertTriangle,
@@ -54,6 +54,16 @@ export default function Cart() {
   } = useCart();
 
   const [showConfirmClear, setShowConfirmClear] = useState(false);
+
+  // Cerrar con tecla Escape (accesibilidad)
+  useEffect(() => {
+    if (!isCartOpen) return;
+    const handleEsc = (e) => {
+      if (e.key === 'Escape') setIsCartOpen(false);
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [isCartOpen, setIsCartOpen]);
 
   return (
     <>

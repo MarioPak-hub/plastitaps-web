@@ -1,10 +1,14 @@
 import React from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import { useNavigate, Navigate } from 'react-router-dom';
-import { ShieldCheck } from 'lucide-react';
+import { ShieldCheck, AlertTriangle } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useAuth } from '../context/AuthContext';
+
+// Detecta si el Client ID es el placeholder de desarrollo
+const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
+const IS_MOCK_CLIENT = !CLIENT_ID || CLIENT_ID === 'mock-client-id';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -37,14 +41,27 @@ export default function Login() {
           Autenticación corporativa requerida. Tu sesión está protegida bajo estándares internacionales.
         </p>
 
+        {/* Aviso de desarrollo cuando no hay Client ID configurado */}
+        {IS_MOCK_CLIENT && (
+          <div className="w-full mb-6 bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-start gap-3 text-sm text-amber-700">
+            <AlertTriangle className="w-5 h-5 flex-shrink-0 mt-0.5 text-amber-500" />
+            <div>
+              <p className="font-bold mb-1">Configuración pendiente</p>
+              <p className="text-xs leading-relaxed">
+                Agrega <code className="bg-amber-100 px-1 py-0.5 rounded font-mono">VITE_GOOGLE_CLIENT_ID</code> en el archivo{' '}
+                <code className="bg-amber-100 px-1 py-0.5 rounded font-mono">.env</code> para activar el login con Google.
+              </p>
+            </div>
+          </div>
+        )}
+
         <div className="w-full bg-white p-10 rounded-3xl shadow-[0_10px_40px_rgba(37,99,235,0.06)] border border-slate-200 flex flex-col items-center">
           <h3 className="text-center font-bold text-slate-700 mb-6">Continuar con Google Workspace</h3>
 
-          {/* 
-            GoogleLogin renders ONE isolated button managed by @react-oauth/google.
-            The GoogleOAuthProvider in App.jsx calls initialize() ONCE at mount.
-            Do NOT call google.accounts.id.initialize() anywhere else.
-            useOneTap is intentionally OMITTED to prevent double-initialization.
+          {/*
+            GoogleLogin con ux_mode="popup" para evitar redirección en localhost.
+            Acepta cualquier cuenta de Google — no hay restricción de dominio en el código.
+            Solo el Client ID en .env determina qué proyecto de Google Cloud se usa.
           */}
           <div className="hover:scale-105 transition-transform duration-300">
             <GoogleLogin
@@ -55,6 +72,7 @@ export default function Login() {
               size="large"
               text="continue_with"
               logo_alignment="left"
+              ux_mode="popup"
             />
           </div>
 
