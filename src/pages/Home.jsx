@@ -34,11 +34,11 @@ const slides = [
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-slate-50 font-inter text-slate-800 selection:bg-blue-600/20 selection:text-blue-900 pointer-events-auto">
+    <div className="min-h-screen bg-slate-50 font-inter text-slate-800">
       <Navbar />
       
       {/* VIP Corporate Hero Slider */}
-      <section className="relative h-[90vh] md:h-screen w-full pt-16 md:pt-20">
+      <section className="relative h-[75vh] sm:h-[85vh] md:h-screen w-full pt-16 md:pt-20">
         <Swiper
           modules={[Autoplay, EffectFade, Pagination, Navigation]}
           effect="fade"
@@ -61,14 +61,14 @@ export default function Home() {
                       transition={{ duration: 0.8, ease: "easeOut" }}
                       className="text-center px-6 max-w-4xl"
                     >
-                      <h1 className="text-5xl md:text-7xl font-black font-outfit text-white mb-6 drop-shadow-md tracking-tight leading-tight">
+                      <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black font-outfit text-white mb-4 sm:mb-6 drop-shadow-md tracking-tight leading-tight">
                         {slide.title}
                       </h1>
-                      <p className="text-lg md:text-2xl text-slate-100 font-medium mb-10 max-w-3xl mx-auto drop-shadow-md">
+                      <p className="text-sm sm:text-lg md:text-2xl text-slate-100 font-medium mb-6 sm:mb-10 max-w-3xl mx-auto drop-shadow-md">
                         {slide.subtitle}
                       </p>
                       <Link to="/catalogo">
-                        <button className="px-10 py-4 bg-white hover:bg-slate-100 text-blue-700 font-bold rounded-full transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1 text-lg">
+                        <button className="px-6 sm:px-10 py-3 sm:py-4 bg-white hover:bg-slate-100 text-blue-700 font-bold rounded-full transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1 text-base sm:text-lg">
                           {slide.cta}
                         </button>
                       </Link>
@@ -82,16 +82,16 @@ export default function Home() {
       </section>
 
       {/* Nuestras Categorías */}
-      <section className="py-24 px-6 max-w-7xl mx-auto">
+      <section className="py-16 sm:py-20 lg:py-24 px-4 sm:px-6 max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-black font-outfit text-slate-800 mb-4 tracking-tight">Nuestras Soluciones</h2>
+          <h2 className="text-3xl sm:text-4xl font-black font-outfit text-slate-800 mb-4 tracking-tight">Nuestras Soluciones</h2>
           <div className="w-24 h-1.5 bg-blue-600 mx-auto rounded-full mb-6" />
           <p className="text-slate-500 font-medium text-lg max-w-2xl mx-auto">
             Descubra nuestro amplio catálogo diseñado para superar los requerimientos más estrictos del envasado profesional.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {[
             { icon: FiPackage, name: "Envases PET", desc: "Cristalinos y resistentes para múltiples industrias." },
             { icon: FiSettings, name: "Tapas y Cierres", desc: "Flip-tops, disc-tops y seguridad inviolable." },
@@ -101,28 +101,28 @@ export default function Home() {
             <motion.div 
               key={i}
               whileHover={{ y: -10 }}
-              className="bg-white p-8 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(37,99,235,0.12)] border border-slate-100 transition-all text-center flex flex-col items-center group cursor-pointer"
+              className="bg-white p-4 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(37,99,235,0.12)] border border-slate-100 transition-all text-center flex flex-col items-center group cursor-pointer"
             >
-              <div className="w-20 h-20 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bg-blue-50 text-blue-600 rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4 lg:mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
                 <cat.icon className="text-4xl" />
               </div>
-              <h3 className="text-xl font-bold font-outfit text-slate-800 mb-3">{cat.name}</h3>
-              <p className="text-slate-500 text-sm">{cat.desc}</p>
+              <h3 className="text-sm sm:text-base lg:text-xl font-bold font-outfit text-slate-800 mb-1 sm:mb-3">{cat.name}</h3>
+              <p className="text-slate-500 text-[11px] sm:text-xs lg:text-sm hidden sm:block">{cat.desc}</p>
             </motion.div>
           ))}
         </div>
       </section>
 
       {/* Certificaciones y Corporativo */}
-      <section className="py-24 relative overflow-hidden bg-white border-t border-slate-100">
+      <section className="py-16 sm:py-20 lg:py-24 relative overflow-hidden bg-white border-t border-slate-100">
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-50 rounded-full blur-3xl opacity-50 -translate-y-1/2 translate-x-1/2" />
         
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center relative z-10">
           <div>
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-700 rounded-full font-bold text-sm tracking-wide mb-6">
               <FiShield className="text-lg" /> CALIDAD COMPROBADA
             </div>
-            <h2 className="text-4xl md:text-5xl font-black font-outfit text-slate-800 mb-6 leading-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black font-outfit text-slate-800 mb-4 sm:mb-6 leading-tight">
               Respaldado por la certificación <span className="text-blue-600">FSCC 22000</span>
             </h2>
             <p className="text-lg text-slate-600 mb-8 leading-relaxed">
@@ -145,7 +145,7 @@ export default function Home() {
             <motion.div 
               animate={{ y: [0, -10, 0] }}
               transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-              className="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl flex items-center gap-4 border border-slate-100"
+              className="absolute -bottom-4 -left-4 sm:-bottom-6 sm:-left-6 bg-white p-3 sm:p-6 rounded-xl sm:rounded-2xl shadow-xl flex items-center gap-2 sm:gap-4 border border-slate-100"
             >
               <div className="w-12 h-12 bg-green-50 text-green-600 rounded-full flex items-center justify-center">
                 <FiCheckCircle className="text-2xl" />

@@ -1,6 +1,6 @@
 import React, { useState, useMemo, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiFilter, FiPlusCircle, FiAlertTriangle, FiInfo, FiCheckCircle, FiX, FiBox } from 'react-icons/fi';
+import { FiFilter, FiPlusCircle, FiAlertTriangle, FiInfo, FiCheckCircle, FiX, FiBox, FiChevronDown } from 'react-icons/fi';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import productsData from '../data/products.json';
@@ -16,6 +16,7 @@ export default function Catalog({ openProductBySlug }) {
   const [activeTag, setActiveTag] = useState('All');
   const [quantities, setQuantities] = useState({});
   const [tapasOpen, setTapasOpen] = useState(false);
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   // El modal se maneja globalmente en App.jsx
 
@@ -155,20 +156,163 @@ export default function Catalog({ openProductBySlug }) {
         )}
       </AnimatePresence>
 
-      <div className="pt-32 pb-16 px-6 max-w-7xl mx-auto">
-        <div className="mb-12 text-center md:text-left border-b border-slate-200 pb-10">
+      <div className="pt-24 sm:pt-32 pb-8 sm:pb-16 px-4 sm:px-6 max-w-7xl mx-auto">
+        <div className="mb-8 sm:mb-12 text-center md:text-left border-b border-slate-200 pb-6 sm:pb-10">
           <motion.h1 initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}
-            className="text-5xl md:text-6xl font-black font-outfit mb-4 tracking-tight text-[#0a192f]">
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black font-outfit mb-3 sm:mb-4 tracking-tight text-[#0a192f]">
             Catálogo <span className="text-cyan-600">Digital</span>
           </motion.h1>
-          <p className="text-slate-600 max-w-2xl text-lg font-medium">
+          <p className="text-slate-600 max-w-2xl text-sm sm:text-base lg:text-lg font-medium">
             Precios en MXN + IVA · Todo bajo pedido · Producción mínima garantizada por MOQ.
           </p>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-10">
-          {/* Sidebar filter — sticky con scroll interno independiente */}
-          <aside className="w-full md:w-64 flex-shrink-0">
+        <div className="flex flex-col md:flex-row gap-6 sm:gap-8 lg:gap-10">
+
+          {/* ── Mobile: Floating filter toggle button ── */}
+          <div className="md:hidden">
+            <button
+              onClick={() => setMobileFiltersOpen(o => !o)}
+              className="w-full flex items-center justify-between px-5 py-3.5 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
+            >
+              <div className="flex items-center gap-2.5">
+                <FiFilter className="text-cyan-600 text-lg" />
+                <span className="font-bold text-[#0a192f] text-sm">Filtros</span>
+                {(activeCategory !== 'All' || activeTag !== 'All') && (
+                  <span className="bg-cyan-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full min-w-[20px] text-center">
+                    {(activeCategory !== 'All' ? 1 : 0) + (activeTag !== 'All' ? 1 : 0)}
+                  </span>
+                )}
+              </div>
+              <motion.span
+                animate={{ rotate: mobileFiltersOpen ? 180 : 0 }}
+                transition={{ duration: 0.25 }}
+              >
+                <FiChevronDown className="text-slate-400 text-lg" />
+              </motion.span>
+            </button>
+
+            {/* Mobile filter panel overlay */}
+            <AnimatePresence>
+              {mobileFiltersOpen && (
+                <>
+                  {/* Backdrop */}
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"
+                    onClick={() => setMobileFiltersOpen(false)}
+                  />
+
+                  {/* Slide-up panel */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20, height: 0 }}
+                    animate={{ opacity: 1, y: 0, height: 'auto' }}
+                    exit={{ opacity: 0, y: 20, height: 0 }}
+                    transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                    className="relative z-50 mt-3 bg-white rounded-2xl border border-slate-200 shadow-xl overflow-hidden"
+                  >
+                    <div className="p-5 max-h-[60vh] overflow-y-auto overscroll-contain filter-scroll">
+                      {/* Header with close button */}
+                      <div className="flex items-center justify-between mb-5">
+                        <h3 className="text-[#0a192f] font-bold text-lg font-outfit flex items-center gap-2">
+                          <FiFilter className="text-cyan-600" /> Filtros
+                        </h3>
+                        <button
+                          onClick={() => setMobileFiltersOpen(false)}
+                          className="w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-colors"
+                        >
+                          <FiX className="text-slate-500 text-sm" />
+                        </button>
+                      </div>
+
+                      {/* Tipo de Producto */}
+                      <div className="mb-6">
+                        <h3 className="text-slate-500 uppercase tracking-widest text-xs font-bold mb-3">Tipo de Producto</h3>
+                        <div className="flex flex-col gap-1.5">
+                          {MENU.map(item => {
+                            if (item.type === 'child' && !tapasOpen) return null;
+                            const isActive = activeCategory === item.id;
+                            const isChild = item.type === 'child';
+                            const isParent = item.type === 'parent';
+                            return (
+                              <motion.button
+                                key={item.id}
+                                layout
+                                onClick={() => { handleMenuClick(item); }}
+                                className={`
+                                  text-left rounded-xl transition-all font-bold text-sm flex items-center justify-between
+                                  ${isChild ? 'ml-4 pl-3 pr-3 py-2' : 'px-4 py-2.5'}
+                                  ${isActive
+                                    ? 'bg-[#0a192f] text-white shadow-md'
+                                    : isChild
+                                      ? 'text-slate-500 hover:bg-slate-100 hover:text-[#0a192f]'
+                                      : 'text-slate-600 hover:bg-slate-100 hover:text-[#0a192f] hover:shadow-sm'
+                                  }
+                                `}
+                              >
+                                <span className={isChild ? 'text-xs' : ''}>{item.label}</span>
+                                <span className={`ml-1.5 text-[10px] font-normal ${isActive ? 'text-white/70' : 'text-slate-400'}`}>
+                                  ({catCounts[item.id] ?? 0})
+                                </span>
+                                {isParent && (
+                                  <span className={`text-xs ml-auto transition-transform duration-200 ${tapasOpen ? 'rotate-90' : ''}`}>
+                                    ›
+                                  </span>
+                                )}
+                              </motion.button>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {/* Filtros Adicionales (Tags) */}
+                      <div className="mb-4">
+                        <h3 className="text-slate-500 uppercase tracking-widest text-xs font-bold mb-3">Filtros Adicionales</h3>
+                        <div className="flex flex-wrap gap-2">
+                          {['All', ...(tagCounts['3D'] ? ['3D'] : []), ...new Set(productsData.flatMap(p => p.tags))].map(tag => {
+                            const count = tagCounts[tag] ?? 0;
+                            const isActive = activeTag === tag;
+                            return (
+                              <button key={tag} onClick={() => { setActiveTag(tag); }}
+                                className={`px-3 py-1.5 text-xs font-bold rounded-full border transition-all ${isActive
+                                  ? tag === '3D' ? 'border-indigo-600 bg-indigo-50 text-indigo-800' : 'border-cyan-600 bg-cyan-50 text-cyan-800'
+                                  : 'border-slate-300 text-slate-500 hover:border-slate-400 hover:text-slate-700'
+                                }`}>
+                                {tag === 'All' ? 'Todos' : tag === '3D' ? <><FiBox className="inline mr-1 text-[10px]" />3D</> : tag}
+                                <span className={`ml-1 font-normal ${isActive ? (tag === '3D' ? 'text-indigo-600' : 'text-cyan-600') : 'text-slate-400'}`}>({tag === 'All' ? tagCounts['All'] : count})</span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {/* Apply / Clear actions */}
+                      <div className="flex gap-2 pt-3 border-t border-slate-100">
+                        <button
+                          onClick={() => { setActiveCategory('All'); setActiveTag('All'); }}
+                          className="flex-1 py-2.5 rounded-xl border border-slate-200 text-slate-500 text-xs font-bold hover:bg-slate-50 transition-colors"
+                        >
+                          Limpiar
+                        </button>
+                        <button
+                          onClick={() => setMobileFiltersOpen(false)}
+                          className="flex-1 py-2.5 rounded-xl bg-[#0a192f] text-white text-xs font-bold hover:bg-black transition-colors"
+                        >
+                          Ver {filteredProducts.length} productos
+                        </button>
+                      </div>
+                    </div>
+                  </motion.div>
+                </>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* ── Desktop: Sidebar filter — sticky con scroll interno independiente ── */}
+          <aside className="hidden md:block w-64 flex-shrink-0">
             <div
               className="bg-white rounded-3xl sticky top-32 border border-slate-200 shadow-sm overflow-hidden"
               style={{ maxHeight: 'calc(100vh - 9rem)' }}
@@ -330,7 +474,7 @@ export default function Catalog({ openProductBySlug }) {
         </div>
 
         {/* Términos y Condiciones */}
-        <div className="mt-20 bg-white rounded-3xl p-8 shadow-sm border border-slate-200">
+        <div className="mt-12 sm:mt-20 bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-sm border border-slate-200">
           <h3 className="font-outfit font-black text-xl mb-4 text-[#0a192f] flex items-center gap-2">
             <FiInfo className="text-cyan-600" /> Términos y Condiciones
           </h3>

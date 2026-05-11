@@ -90,7 +90,7 @@ const ProductModel3D = React.memo(function ProductModel3D({
   const controlsRef = useRef();
 
   return (
-    <div style={{ width: '100%', height: '320px' }}>
+    <div style={{ width: '100%', height: '380px' }}>
       <Canvas3DErrorBoundary>
         <Canvas camera={{ position: [0, 0, 3], fov: 45 }}>
           {/* Luces */}

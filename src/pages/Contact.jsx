@@ -19,16 +19,16 @@ export default function Contact() {
     <div className="min-h-screen bg-slate-50 font-inter text-slate-800 flex flex-col">
       <Navbar />
 
-      <div className="pt-32 pb-6 px-6 max-w-7xl mx-auto w-full">
+      <div className="pt-24 sm:pt-32 pb-4 sm:pb-6 px-4 sm:px-6 max-w-7xl mx-auto w-full">
         {/* Título de la Sección */}
-        <h1 className="text-4xl md:text-5xl font-black font-outfit text-[#0a192f] mb-12 text-center">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-black font-outfit text-[#0a192f] mb-8 sm:mb-12 text-center">
           Centro de Atención <span className="text-blue-600">Plastitaps</span>
         </h1>
 
         {/* Bloque Superior (Fila de Información) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-10 sm:mb-16">
           {/* Col 1 */}
-          <div className="flex flex-col items-center text-center p-8 bg-white rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+          <div className="flex flex-col items-center text-center p-5 sm:p-8 bg-white rounded-2xl sm:rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
             <div className="w-16 h-16 rounded-full bg-blue-50/50 flex items-center justify-center mb-6">
               <Headset className="w-8 h-8 text-blue-600 stroke-[1.5]" />
             </div>
@@ -38,7 +38,7 @@ export default function Contact() {
             </p>
           </div>
           {/* Col 2 */}
-          <div className="flex flex-col items-center text-center p-8 bg-white rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+          <div className="flex flex-col items-center text-center p-5 sm:p-8 bg-white rounded-2xl sm:rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
             <div className="w-16 h-16 rounded-full bg-blue-50/50 flex items-center justify-center mb-6">
               <ShieldCheck className="w-8 h-8 text-blue-600 stroke-[1.5]" />
             </div>
@@ -48,7 +48,7 @@ export default function Contact() {
             </p>
           </div>
           {/* Col 3 */}
-          <div className="flex flex-col items-center text-center p-8 bg-white rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+          <div className="flex flex-col items-center text-center p-5 sm:p-8 bg-white rounded-2xl sm:rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow sm:col-span-2 md:col-span-1">
             <div className="w-16 h-16 rounded-full bg-blue-50/50 flex items-center justify-center mb-6">
               <HandCoins className="w-8 h-8 text-blue-600 stroke-[1.5]" />
             </div>
@@ -60,10 +60,10 @@ export default function Contact() {
         </div>
 
         {/* Bloque Medio: Contacto Directo */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 mb-10 sm:mb-16 items-stretch">
           
           {/* Tarjeta 1: Datos Oficiales */}
-          <div className="bg-[#0a192f] text-white rounded-3xl p-8 shadow-xl border border-slate-800 flex flex-col h-full relative overflow-hidden">
+          <div className="bg-[#0a192f] text-white rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-xl border border-slate-800 flex flex-col h-full relative overflow-hidden">
             <div className="absolute top-0 right-0 w-40 h-40 bg-cyan-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 -translate-y-1/2 translate-x-1/2"></div>
 
             {/* Encabezado centrado */}
@@ -127,7 +127,7 @@ export default function Contact() {
 
 
           {/* Tarjeta 2: Formulario de Contacto */}
-          <div className="bg-[#fdfbf7] rounded-3xl p-8 shadow-xl border border-slate-200 flex flex-col h-full">
+          <div className="bg-[#fdfbf7] rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-xl border border-slate-200 flex flex-col h-full">
             <h3 className="font-outfit font-black text-2xl mb-6 text-[#0a192f]">Escríbenos</h3>
             <form onSubmit={handleContactSubmit} className="flex flex-col flex-1 gap-4">
               <div>
@@ -173,7 +173,7 @@ export default function Contact() {
       </div>
 
       {/* Bloque Inferior (Mapa Completo) */}
-      <div className="w-full relative h-[500px] md:h-[650px] bg-slate-200 border-t border-slate-200">
+      <div className="w-full relative h-[350px] sm:h-[450px] md:h-[500px] lg:h-[650px] bg-slate-200 border-t border-slate-200">
         
         {/* Iframe: búsqueda por nombre para mostrar tarjeta nativa de Google Maps */}
         <iframe 
