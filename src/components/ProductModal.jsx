@@ -49,7 +49,7 @@ export default function ProductModal({ selectedProduct, onClose }) {
           </button>
 
           {/* Lado Izquierdo: 3D Viewer o Imagen */}
-          <div className="w-full md:w-1/2 bg-[#f8fafc] flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-slate-200 min-h-[240px] sm:min-h-[320px]">
+          <div className="w-full md:w-1/2 shrink-0 bg-[#f8fafc] flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-slate-200 min-h-[300px] sm:min-h-[380px] pb-4 md:pb-0">
             {selectedProduct.modelo3D ? (
               <div className="w-full flex flex-col items-center">
                 <Suspense fallback={
@@ -64,7 +64,7 @@ export default function ProductModal({ selectedProduct, onClose }) {
                 </Suspense>
                 {/* Color Swatches */}
                 {(selectedProduct.colores && selectedProduct.colores.length > 0) && (
-                  <div className="flex items-center gap-2 py-3 sm:py-4 px-4 sm:px-6">
+                  <div className="flex flex-wrap items-center justify-center gap-2 py-3 sm:py-4 px-4 sm:px-6">
                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mr-1">Color:</span>
                     {selectedProduct.colores.map((hex) => (
                       <button

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   FiX, FiTrash2, FiFileText, FiAlertTriangle,
-  FiCreditCard, FiAlertCircle, FiShoppingBag,
+  FiCreditCard, FiAlertCircle, FiShoppingBag, FiInfo
 } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
@@ -200,6 +200,14 @@ export default function Cart() {
                     >
                       <FiTrash2 className="text-lg" /> Vaciar Carrito
                     </button>
+                  </div>
+
+                  {/* Leyenda de Envíos */}
+                  <div className="mt-2 bg-slate-100 rounded-xl p-3 flex gap-2.5 items-start border border-slate-200">
+                    <FiInfo className="text-blue-500 mt-0.5 shrink-0 text-sm" />
+                    <p className="text-[11px] text-slate-500 font-medium leading-relaxed">
+                      Para detalles de envío y seguimiento, el personal de Plastitaps se pondrá en contacto contigo.
+                    </p>
                   </div>
                 </div>
               )}

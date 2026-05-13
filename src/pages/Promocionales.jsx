@@ -9,11 +9,11 @@ import retailProducts from '../data/retail_products.json';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 const fmtMXN = (n) => (n || 0).toLocaleString('es-MX', { minimumFractionDigits: 2 });
-const fmtU   = (n) => (n || 0).toLocaleString('es-MX');
+const fmtU = (n) => (n || 0).toLocaleString('es-MX');
 
 // ── Stripe payment form ──────────────────────────────────────────────────────
 function PromoCheckoutForm({ total }) {
-  const stripe   = useStripe();
+  const stripe = useStripe();
   const elements = useElements();
   const [status, setStatus] = useState('idle');
   const [errMsg, setErrMsg] = useState('');
@@ -52,8 +52,8 @@ function PromoCheckoutForm({ total }) {
 // ── Main Promocionales page ──────────────────────────────────────────────────
 export default function Promocionales() {
   // lineItems: { [productId]: { ...product, qty } }
-  const [lineItems,   setLineItems]   = useState({});
-  const [inCheckout,  setInCheckout]  = useState(false);
+  const [lineItems, setLineItems] = useState({});
+  const [inCheckout, setInCheckout] = useState(false);
 
   // Click card → add at qty=1; click again → remove
   const toggleProduct = (product) => {
@@ -80,15 +80,15 @@ export default function Promocionales() {
   };
 
   const activeItems = Object.values(lineItems);
-  const subtotal    = activeItems.reduce((a, i) => a + i.qty * i.price, 0);
-  const totalIVA    = subtotal * 1.16;
+  const subtotal = activeItems.reduce((a, i) => a + i.qty * i.price, 0);
+  const totalIVA = subtotal * 1.16;
 
   const stripeOptions = {
-    mode:       'payment',
-    amount:     Math.max(50, Math.round(totalIVA * 100)),
-    currency:   'mxn',
+    mode: 'payment',
+    amount: Math.max(50, Math.round(totalIVA * 100)),
+    currency: 'mxn',
     appearance: {
-      theme:     'stripe',
+      theme: 'stripe',
       variables: { colorPrimary: '#2563eb', borderRadius: '12px', fontFamily: 'Inter, system-ui, sans-serif' },
     },
   };
@@ -117,18 +117,17 @@ export default function Promocionales() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
               {retailProducts.map(p => {
                 const selected = !!lineItems[p.id];
-                const item     = lineItems[p.id];
+                const item = lineItems[p.id];
 
                 return (
                   <motion.div key={p.id} whileHover={{ y: -4 }} transition={{ type: 'spring', stiffness: 300 }}>
                     {/* Card header — clicking toggles selection */}
                     <div
                       onClick={() => toggleProduct(p)}
-                      className={`cursor-pointer rounded-3xl border-2 overflow-hidden transition-all ${
-                        selected
-                          ? 'border-blue-600 shadow-[0_0_0_4px_rgba(37,99,235,0.12)]'
-                          : 'border-slate-200 hover:border-blue-300 hover:shadow-md shadow-sm'
-                      }`}>
+                      className={`cursor-pointer rounded-3xl border-2 overflow-hidden transition-all ${selected
+                        ? 'border-blue-600 shadow-[0_0_0_4px_rgba(37,99,235,0.12)]'
+                        : 'border-slate-200 hover:border-blue-300 hover:shadow-md shadow-sm'
+                        }`}>
 
                       {/* Image */}
                       <div className="bg-slate-50 flex items-center justify-center p-6 h-44 relative">
@@ -154,11 +153,10 @@ export default function Promocionales() {
                           {p.packOptions.map(pack => (
                             <button key={pack}
                               onClick={e => { e.stopPropagation(); setPackQty(p, pack); }}
-                              className={`flex-1 py-1.5 text-xs font-bold rounded-xl border transition-all ${
-                                selected && item?.qty === pack
-                                  ? 'bg-blue-600 text-white border-blue-600'
-                                  : 'bg-white text-slate-600 border-slate-200 hover:border-blue-400'
-                              }`}>
+                              className={`flex-1 py-1.5 text-xs font-bold rounded-xl border transition-all ${selected && item?.qty === pack
+                                ? 'bg-blue-600 text-white border-blue-600'
+                                : 'bg-white text-slate-600 border-slate-200 hover:border-blue-400'
+                                }`}>
                               {fmtU(pack)} {p.unit}
                             </button>
                           ))}

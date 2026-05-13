@@ -5,7 +5,6 @@ import * as THREE from 'three';
 import Canvas3DErrorBoundary from './Canvas3DErrorBoundary';
 
 export const INK_COLORS = [
-  { hex: '#aee0f5', name: 'Transparente'         },
   { hex: '#ffffff', name: 'Blanco Ártico'         },
   { hex: '#000000', name: 'Negro Ónix'            },
   { hex: '#ef4444', name: 'Rojo Corporativo'      },
@@ -167,7 +166,7 @@ function RealCupModel({ color, logo }) {
   const clonedScene = useMemo(() => scene.clone(true), [scene]);
 
   const colorObj = useMemo(() => {
-    try { return new THREE.Color(color); } catch { return new THREE.Color('#aee0f5'); }
+    try { return new THREE.Color(color); } catch { return new THREE.Color('#ffffff'); }
   }, [color]);
 
   // Textura dinámica con logo
@@ -188,9 +187,11 @@ function RealCupModel({ color, logo }) {
       // Aplicar textura con logo solo al mesh principal
       if (child === mainMesh && logo && logoTexture) {
         material.map = logoTexture;
+        material.color.setHex(0xffffff);
         material.needsUpdate = true;
       } else {
         material.map = null;
+        material.color.copy(colorObj);
         material.needsUpdate = true;
       }
 
@@ -234,7 +235,7 @@ function RealCupModel({ color, logo }) {
 useGLTF.preload(MODEL_PATH);
 
 // ── Canvas principal con el modelo 3D real ──
-export default function VasoViewer3D({ color = '#aee0f5', logo }) {
+export default function VasoViewer3D({ color = '#ffffff', logo }) {
   return (
     <div style={{ width: '100%', height: '420px' }}>
       <Canvas3DErrorBoundary>

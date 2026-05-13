@@ -54,7 +54,7 @@ export default function App() {
               <Route path="/" element={<Home />} />
               <Route path="/contacto" element={<Contact />} />
               <Route path="/disena-tu-vaso" element={<InteractiveDesign />} />
-              <Route path="/promocionales" element={<Promocionales />} />
+              <Route path="/promocionales" element={<Promocionales openProductBySlug={openProductBySlug} />} />
               <Route path="/catalogo" element={<Catalog openProductBySlug={openProductBySlug} />} />
               <Route path="/carrito" element={<CarritoCheckout />} />
               <Route path="/pago-exitoso" element={<PagoExitoso />} />

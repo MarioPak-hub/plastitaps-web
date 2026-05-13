@@ -9,7 +9,7 @@ import { Sparkles } from 'lucide-react';
 import { loadStripe } from '@stripe/stripe-js';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import { TEMPLATES, INK_COLORS } from '../components/VasoViewer3D';
+import { INK_COLORS } from '../components/VasoViewer3D';
 import promoCatalog from '../data/promo_catalog.json';
 import { Security } from '../utils/security';
 import { useAuth } from '../context/AuthContext';
@@ -102,14 +102,12 @@ function PromoGallery() {
 // ─────────────────────────────────────────────────────────────────────────────
 function Studio3D() {
   const { user }  = useAuth();
-  const [cupColor,  setCupColor]  = useState(TEMPLATES[0].color);
-  const [template,  setTemplate]  = useState(TEMPLATES[0]);
+  const [cupColor,  setCupColor]  = useState(INK_COLORS[0].hex);
   const [qty,       setQty]       = useState(MIN_QTY);
   const [logo,      setLogo]      = useState(null);
   const [notes,     setNotes]     = useState('');
   const [mailStatus,setMailStatus]= useState('idle');
 
-  const handleTemplate = (t) => { setTemplate(t); setCupColor(t.color); };
   const handleLogo     = (e)  => { const f = e.target.files[0]; if (f) setLogo(URL.createObjectURL(f)); };
   const colorName = INK_COLORS.find(c => c.hex === cupColor)?.name || cupColor;
 
@@ -121,14 +119,13 @@ function Studio3D() {
       ``,
       `Cliente: ${user?.empresa || user?.name || 'N/A'}`,
       `Email:   ${user?.email || 'N/A'}`,
-      `Plantilla: ${template.label}`,
       `Color: ${colorName} (${cupColor})`,
       `Cantidad solicitada: ${fmtU(qty)} pz`,
       `Notas: ${notes || '—'}`,
       ``,
       `Por favor cotizar tiempos de entrega y validar arte.`,
     ].join('\n');
-    window.location.href = `mailto:${dest}?subject=${encodeURIComponent(`Diseño Personalizado — ${template.label}`)}&body=${encodeURIComponent(body)}`;
+    window.location.href = `mailto:${dest}?subject=${encodeURIComponent(`Diseño Personalizado — ${colorName}`)}&body=${encodeURIComponent(body)}`;
     setTimeout(() => setMailStatus('done'), 1500);
   };
 
@@ -177,15 +174,7 @@ function Studio3D() {
               </div>
             </div>
 
-            {/* Plantillas */}
-            <div className="mt-4 sm:mt-5 flex flex-wrap gap-2 justify-center">
-              {TEMPLATES.map(t => (
-                <button key={t.id} onClick={() => handleTemplate(t)}
-                  className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full font-bold text-[11px] sm:text-xs border-2 transition-all ${template.id === t.id ? 'bg-white text-slate-900 border-white scale-105 shadow-lg' : 'border-white/20 text-slate-300 hover:border-white/50 hover:text-white'}`}>
-                  {t.label}
-                </button>
-              ))}
-            </div>
+
           </div>
 
           {/* Right: Controls */}

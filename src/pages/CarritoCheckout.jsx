@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FiCreditCard, FiShield, FiTrash2, FiAlertCircle, FiCheckCircle } from 'react-icons/fi';
+import { FiCreditCard, FiShield, FiTrash2, FiAlertCircle, FiCheckCircle, FiInfo } from 'react-icons/fi';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { Link, useNavigate } from 'react-router-dom';
@@ -126,6 +126,14 @@ export default function CarritoCheckout() {
               <div className="flex justify-between text-white font-black text-2xl font-outfit pt-2 border-t border-blue-600">
                 <span>Total</span><span>${fmtMXN(total)} MXN</span>
               </div>
+            </div>
+            
+            {/* Leyenda de envíos */}
+            <div className="mt-4 bg-blue-50/50 rounded-2xl p-4 flex gap-3 items-start border border-blue-100">
+              <FiInfo className="text-blue-600 mt-0.5 shrink-0 text-lg" />
+              <p className="text-xs text-blue-800/80 font-medium leading-relaxed">
+                Para detalles de envío y seguimiento, el personal de Plastitaps se pondrá en contacto contigo.
+              </p>
             </div>
           </motion.div>
 
