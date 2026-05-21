@@ -12,7 +12,7 @@
     "description": "Tapa 18 Capto Cap. Precios + IVA",
     "image": "/caps_pet_1773858527690.png",
     "slug": "18-capto-cap",
-    "modelo3D": "/models/Cafe 16oz.glb",
+    "modelo3D": "/models/R28 Roja.glb",
     "colores": [
       "#ffffff",
       "#000000",
@@ -110,7 +110,17 @@
     "unit": "pz",
     "description": "Tapa 28/410 Flip Top. Precios + IVA",
     "image": "/caps_pet_1773858527690.png",
-    "slug": "28-410-flip-top"
+    "slug": "28-410-flip-top",
+    "modelo3D": "/models/28 410 Flip.glb",
+    "colores": [
+      "#ffffff",
+      "#000000",
+      "#ef4444",
+      "#3b82f6",
+      "#10b981",
+      "#f59e0b",
+      "#8b5cf6"
+    ]
   },
   {
     "id": 8,
@@ -229,7 +239,17 @@
     "unit": "pz",
     "description": "Tapa 38 Flip Top Lisa (Sin liner). Precios + IVA",
     "image": "/caps_pet_1773858527690.png",
-    "slug": "38-flip-top-lisa-sin-liner"
+    "slug": "38-flip-top-lisa-sin-liner",
+    "modelo3D": "/models/38 Flip Top Lisa (Sin liner).glb",
+    "colores": [
+      "#ffffff",
+      "#000000",
+      "#ef4444",
+      "#3b82f6",
+      "#10b981",
+      "#f59e0b",
+      "#8b5cf6"
+    ]
   },
   {
     "id": 16,
@@ -273,7 +293,17 @@
     "unit": "pz",
     "description": "38 Tapa Rosca 2 Entradas. Precios + IVA",
     "image": "/caps_pet_1773858527690.png",
-    "slug": "38-tapa-rosca-2-entradas"
+    "slug": "38-tapa-rosca-2-entradas",
+    "modelo3D": "/models/38 Tapa Rosca 2 Entradas.glb",
+    "colores": [
+      "#ffffff",
+      "#000000",
+      "#ef4444",
+      "#3b82f6",
+      "#10b981",
+      "#f59e0b",
+      "#8b5cf6"
+    ]
   },
   {
     "id": 19,
@@ -582,7 +612,17 @@
     "description": "VASOS PARA BEBIDAS COLORES 16 OZ CON TAPA. Precios + IVA",
     "image": "/caps_pet_1773858527690.png",
     "slug": "vasos-para-bebidas-colores-16-oz-con-tapa",
-    "stock": 1000
+    "stock": 1000,
+    "modelo3D": "/models/VASOS PARA BEBIDAS COLORES 16 OZ CON TAPA.glb",
+    "colores": [
+      "#ffffff",
+      "#000000",
+      "#ef4444",
+      "#3b82f6",
+      "#10b981",
+      "#f59e0b",
+      "#8b5cf6"
+    ]
   },
   {
     "id": 40,
@@ -919,10 +959,11 @@
     "price": 21.0286,
     "moq": 10,
     "unit": "pz",
-    "description": "TARRO CILÍNDRICO R110. Precios + IVA",
+    "description": "TARRO CILÍNDRICO R110 (La tapa se vende por separado). Precios + IVA",
     "image": "/caps_pet_1773858527690.png",
     "slug": "tarro-cil-ndrico-r110",
-    "stock": 1000
+    "stock": 1000,
+    "modelo3D": "/models/TARRO GALON CILÍNDRICO R110 3750 ml.glb"
   },
   {
     "id": 62,
@@ -1009,10 +1050,11 @@
     "price": 25.6741,
     "moq": 40,
     "unit": "pz",
-    "description": "BOTELLA SALSERA. Precios + IVA",
+    "description": "BOTELLA SALSERA 200ML. Precios + IVA",
     "image": "/caps_pet_1773858527690.png",
     "slug": "botella-salsera",
-    "stock": 1000
+    "stock": 1000,
+    "modelo3D": "/models/BOTELLA SALSERA R26 200ml.glb"
   },
   {
     "id": 68,
@@ -1056,8 +1098,9 @@
     "unit": "pz",
     "description": "BOTELLA RP R28. Precios + IVA",
     "image": "/caps_pet_1773858527690.png",
-    "slug": "botella-rp-r28",
-    "stock": 1000
+    "slug": "botella-rp-r28-500ml",
+    "stock": 1000,
+    "modelo3D": "/models/BOTELLA RP R28 500ml.glb"
   },
   {
     "id": 71,
