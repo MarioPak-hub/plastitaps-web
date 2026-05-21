@@ -1,6 +1,6 @@
 import React, { useState, Suspense, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiX, FiInfo, FiPlusCircle, FiBox } from 'react-icons/fi';
+import { FiX, FiInfo, FiPlusCircle, FiBox, FiCheckCircle, FiTarget, FiBriefcase, FiTool, FiDroplet, FiAward } from 'react-icons/fi';
 import { useCart } from '../context/CartContext';
 
 const ProductModel3D = React.lazy(() => import('./ProductModel3D'));
@@ -102,10 +102,88 @@ export default function ProductModal({ selectedProduct, onClose }) {
               {selectedProduct.name}
             </h2>
 
-            {/* Descripción */}
-            <p className="text-slate-500 text-sm mb-5 sm:mb-6 leading-relaxed">
-              {selectedProduct.description || 'Fabricado con resinas de grado industrial y diseñado para una alta compatibilidad con el mercado. Proporciona un sello seguro y cuenta con aplicaciones múltiples que cumplen los estándares de fabricación.'}
-            </p>
+            {/* Descripción Completa Premium */}
+            {selectedProduct.fullDescription ? (
+              <div className="mb-6 sm:mb-8 space-y-5">
+                <p className="text-slate-500 text-sm leading-relaxed text-justify">
+                  {selectedProduct.fullDescription.about}
+                </p>
+                
+                <div className="grid grid-cols-1 gap-4 mt-4 border-t border-slate-100 pt-4">
+                  {/* Usos recomendados */}
+                  {selectedProduct.fullDescription.uses && selectedProduct.fullDescription.uses.length > 0 && (
+                    <div>
+                      <h4 className="text-xs font-bold text-slate-800 uppercase tracking-widest flex items-center gap-1.5 mb-2">
+                        <FiTarget className="text-cyan-600" /> Usos Recomendados
+                      </h4>
+                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                        {selectedProduct.fullDescription.uses.map((use, idx) => (
+                          <li key={idx} className="flex items-start gap-1.5 text-xs text-slate-500">
+                            <FiCheckCircle className="text-cyan-500 shrink-0 mt-0.5 text-[10px]" /> {use}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Ventajas */}
+                  {selectedProduct.fullDescription.advantages && selectedProduct.fullDescription.advantages.length > 0 && (
+                    <div>
+                      <h4 className="text-xs font-bold text-slate-800 uppercase tracking-widest flex items-center gap-1.5 mb-2">
+                        <FiAward className="text-cyan-600" /> Ventajas Clave
+                      </h4>
+                      <div className="flex flex-wrap gap-1.5">
+                        {selectedProduct.fullDescription.advantages.map((adv, idx) => (
+                          <span key={idx} className="bg-slate-100 text-slate-600 px-2 py-1 rounded-md text-[10px] font-bold">
+                            {adv}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Aplicaciones */}
+                  {selectedProduct.fullDescription.applications && (
+                    <div>
+                      <h4 className="text-xs font-bold text-slate-800 uppercase tracking-widest flex items-center gap-1.5 mb-1.5">
+                        <FiBriefcase className="text-cyan-600" /> Aplicaciones
+                      </h4>
+                      <p className="text-xs text-slate-500 leading-relaxed">
+                        {selectedProduct.fullDescription.applications}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Personalización y Material (en 2 columnas si es desktop) */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {selectedProduct.fullDescription.customization && (
+                      <div className="bg-cyan-50/50 p-3 rounded-xl border border-cyan-100/50">
+                        <h4 className="text-[10px] font-bold text-cyan-700 uppercase tracking-widest flex items-center gap-1 mb-1">
+                          <FiTool /> Personalización
+                        </h4>
+                        <p className="text-xs text-slate-600">
+                          {selectedProduct.fullDescription.customization}
+                        </p>
+                      </div>
+                    )}
+                    {selectedProduct.fullDescription.material && (
+                      <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                        <h4 className="text-[10px] font-bold text-slate-700 uppercase tracking-widest flex items-center gap-1 mb-1">
+                          <FiDroplet className="text-slate-400" /> Material / Resistencia
+                        </h4>
+                        <p className="text-xs text-slate-600">
+                          {selectedProduct.fullDescription.material}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <p className="text-slate-500 text-sm mb-5 sm:mb-6 leading-relaxed">
+                {selectedProduct.description || 'Fabricado con resinas de grado industrial y diseñado para una alta compatibilidad con el mercado. Proporciona un sello seguro y cuenta con aplicaciones múltiples que cumplen los estándares de fabricación.'}
+              </p>
+            )}
 
             {/* Datos de Venta */}
             <div className="mb-6 sm:mb-8 space-y-3">

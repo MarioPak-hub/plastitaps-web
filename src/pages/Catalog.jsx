@@ -444,7 +444,10 @@ export default function Catalog({ openProductBySlug }) {
                     {/* Body */}
                     <div className="p-5 flex flex-col flex-1">
                       <h3 className="font-bold text-[#0a192f] mb-1 text-lg leading-tight group-hover:text-cyan-700 transition-colors">{product.name}</h3>
-                      <p className="text-slate-500 text-xs mb-4 line-clamp-2">{product.description}</p>
+                      {product.shortDescription && (
+                        <p className="text-slate-400 text-[11px] italic mb-4 line-clamp-1">{product.shortDescription}</p>
+                      )}
+
 
                       {/* Pricing */}
                       <div className="bg-white rounded-xl p-3 mb-2 border border-slate-200 shadow-sm">

@@ -5,6 +5,15 @@
     "name": "Vaso Navidad",
     "subtitle": "Edición Especial",
     "description": "Vaso policarbonato con diseño festivo de Navidad. Reutilizable y apto para lavavajillas.",
+    "shortDescription": "Edición festiva reutilizable — Ideal para eventos corporativos",
+    "fullDescription": {
+      "about": "Vaso de policarbonato de edición especial navideña, combinando la durabilidad del grado industrial con un diseño festivo y elegante. Su resistencia a impactos y cambios de temperatura lo hace perfecto para celebraciones y regalos empresariales.",
+      "uses": ["Brindis y eventos corporativos", "Regalos empresariales de fin de año", "Servicio en restaurantes temáticos"],
+      "advantages": ["Alta durabilidad y resistencia", "Apto para lavavajillas industrial", "Reutilizable y ecológico"],
+      "applications": "Excelente opción para activaciones de marca en temporada navideña, cenas de fin de año y merchandising festivo. Soporta bebidas calientes y frías.",
+      "customization": "Espacio designado para impresión de logotipo corporativo junto al diseño navideño.",
+      "material": "Policarbonato (PC) premium — BPA Free"
+    },
     "category": "Promocionales",
     "price": 14.90,
     "moq": 10,
@@ -28,6 +37,15 @@
     "name": "Vaso Graduación",
     "subtitle": "Recuerdo Premium",
     "description": "Vaso premium ideal para regalos y recuerdos de graduación. Personalizable con nombre.",
+    "shortDescription": "Recuerdo premium personalizable para generaciones",
+    "fullDescription": {
+      "about": "Diseñado específicamente para eventos de graduación institucional y académica. Este vaso premium ofrece una apariencia sofisticada y una durabilidad que permite conservar el recuerdo a largo plazo, superando a las opciones desechables tradicionales.",
+      "uses": ["Ceremonias de graduación", "Cenas de gala estudiantiles", "Regalos de generación institucionales"],
+      "advantages": ["Apariencia cristalina de alta gama", "Larga vida útil garantizada", "Excelente retención térmica"],
+      "applications": "El artículo conmemorativo ideal para universidades, colegios e instituciones educativas que buscan ofrecer un recuerdo útil y de alta calidad a sus egresados.",
+      "customization": "Superficie optimizada para grabado de logotipos institucionales, años de generación y personalización de nombres.",
+      "material": "Policarbonato (PC) de alta claridad"
+    },
     "category": "Promocionales",
     "price": 14.90,
     "moq": 10,
@@ -47,6 +65,15 @@
     "name": "Vaso Café 16oz",
     "subtitle": "Take-Away Premium",
     "description": "Vaso take-away 16oz con tapa para café, té o bebidas frías. Presentación corporativa.",
+    "shortDescription": "Vaso corporativo con tapa para bebidas calientes",
+    "fullDescription": {
+      "about": "Vaso tipo take-away de 16 oz (473 ml) con tapa hermética, concebido para el servicio profesional de café y bebidas de especialidad. Su estructura de grado industrial asegura el manejo seguro de líquidos calientes mientras proyecta una imagen corporativa impecable.",
+      "uses": ["Cafeterías y barras de especialidad", "Servicios de catering corporativo", "Kioscos y food trucks"],
+      "advantages": ["Capacidad estándar de barista (16 oz)", "Tapa con ajuste de precisión anti-derrames", "Aislamiento térmico eficiente"],
+      "applications": "Una solución integral para negocios de hospitalidad que requieren envases confiables para bebidas on-the-go, manteniendo la temperatura y seguridad del producto.",
+      "customization": "Área de impresión 360° perfecta para branding corporativo, promociones o diseños de temporada.",
+      "material": "Polipropileno (PP) termorresistente"
+    },
     "category": "Promocionales",
     "price": 9.90,
     "moq": 10,
@@ -71,6 +98,15 @@
     "name": "Vaso Corporativo",
     "subtitle": "Línea Negocio",
     "description": "Vaso transparente policarbonato. La opción clásica y elegante para eventos empresariales.",
+    "shortDescription": "Diseño sobrio y elegante para imagen institucional",
+    "fullDescription": {
+      "about": "El estándar premium para merchandising corporativo. Un vaso de policarbonato de diseño clásico que ofrece la elegancia visual del vidrio con la practicidad irrompible del plástico de ingeniería. Perfecto para alinear la experiencia física con la identidad de marca.",
+      "uses": ["Salas de juntas y conferencias", "Convenciones y exposiciones B2B", "Kits de bienvenida (onboarding)"],
+      "advantages": ["Estética ejecutiva minimalista", "Resistencia extrema en ambientes concurridos", "Mantenimiento sencillo e higiene garantizada"],
+      "applications": "Ideal como dotación estándar en corporativos, hoteles de negocios y agencias, así como artículo promocional de alto valor percibido para clientes clave.",
+      "customization": "Superficie pulida ideal para serigrafía a uno o varios colores, garantizando la fidelidad de logos corporativos.",
+      "material": "Policarbonato (PC) de alto impacto"
+    },
     "category": "Promocionales",
     "price": 13.50,
     "moq": 10,

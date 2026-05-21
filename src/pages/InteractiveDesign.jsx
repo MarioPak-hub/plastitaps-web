@@ -68,7 +68,11 @@ function PromoGallery({ openProductBySlug }) {
               </div>
               <div className="p-4 sm:p-5 bg-white flex flex-col flex-1">
                 <h3 className="font-bold text-slate-800 text-sm sm:text-base mb-1">{p.name}</h3>
-                <p className="text-xs text-slate-400 mb-2 flex-1">{p.subtitle}</p>
+                {p.shortDescription ? (
+                  <p className="text-[11px] italic text-slate-400 mb-2 flex-1 line-clamp-2">{p.shortDescription}</p>
+                ) : (
+                  <p className="text-xs text-slate-400 mb-2 flex-1">{p.subtitle}</p>
+                )}
                 {openProductBySlug && p.slug && (
                   <button
                     onClick={(e) => { e.stopPropagation(); openProductBySlug(p.slug); }}
