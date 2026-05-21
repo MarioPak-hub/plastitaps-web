@@ -28,6 +28,8 @@ export default function CompleteProfile() {
   if (user.profileComplete) return <Navigate to="/perfil" replace />;
 
   const onSubmit = (data) => {
+    // Force RFC to uppercase
+    data.rfc = (data.rfc || '').toUpperCase();
     // Sanitize before submitting to unified session state
     const cleanData = Security.sanitizeValues(data);
     completeProfile(cleanData);

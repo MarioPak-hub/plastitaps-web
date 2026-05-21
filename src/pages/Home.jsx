@@ -36,7 +36,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-slate-50 font-inter text-slate-800">
       <Navbar />
-      
+
       {/* VIP Corporate Hero Slider */}
       <section className="relative h-[75vh] sm:h-[85vh] md:h-screen w-full pt-16 md:pt-20">
         <Swiper
@@ -53,9 +53,9 @@ export default function Home() {
                 <>
                   <div className="absolute inset-0 bg-slate-900/40 z-10" />
                   <img src={slide.image} alt={slide.title} className="absolute inset-0 w-full h-full object-cover z-0" />
-                  
+
                   <div className="absolute inset-0 z-20 flex items-center justify-center pt-10">
-                    <motion.div 
+                    <motion.div
                       initial={{ opacity: 0, y: 30 }}
                       animate={isActive ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                       transition={{ duration: 0.8, ease: "easeOut" }}
@@ -98,7 +98,7 @@ export default function Home() {
             { icon: FiDroplet, name: "Dispensadores", desc: "Atomizadores y bombas de alta precisión." },
             { icon: FiStar, name: "Promocionales", desc: "Vasos y artículos personalizables corporativos." }
           ].map((cat, i) => (
-            <motion.div 
+            <motion.div
               key={i}
               whileHover={{ y: -10 }}
               className="bg-white p-4 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(37,99,235,0.12)] border border-slate-100 transition-all text-center flex flex-col items-center group cursor-pointer"
@@ -116,22 +116,22 @@ export default function Home() {
       {/* Certificaciones y Corporativo */}
       <section className="py-16 sm:py-20 lg:py-24 relative overflow-hidden bg-white border-t border-slate-100">
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-50 rounded-full blur-3xl opacity-50 -translate-y-1/2 translate-x-1/2" />
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center relative z-10">
           <div>
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-700 rounded-full font-bold text-sm tracking-wide mb-6">
               <FiShield className="text-lg" /> CALIDAD COMPROBADA
             </div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black font-outfit text-slate-800 mb-4 sm:mb-6 leading-tight">
-              Respaldado por la certificación <span className="text-blue-600">FSCC 22000</span>
+              Certificados con <span className="text-blue-600">ISO 9001-2015</span>
             </h2>
             <p className="text-lg text-slate-600 mb-8 leading-relaxed">
-              En Plastitaps estamos comprometidos con la inocuidad. Todos nuestros envases y tapas se fabrican cumpliendo los más altos estándares de calidad y buenas prácticas (BPM), garantizando la seguridad absoluta para el segmento alimenticio, farmacéutico y de belleza.
+              En Plastitaps estamos comprometidos con la inocuidad y la mejora continua. Nuestros procesos cumplen con los más altos estándares internacionales de gestión de calidad, garantizando la seguridad absoluta para los segmentos alimenticio, farmacéutico y de belleza.
             </p>
             <ul className="space-y-4 font-medium text-slate-700">
-              <li className="flex items-center gap-3"><FiCheckCircle className="text-blue-600 text-xl" /> Trazabilidad total del producto.</li>
-              <li className="flex items-center gap-3"><FiCheckCircle className="text-blue-600 text-xl" /> Ambientes limpios y controlados en la fábrica.</li>
-              <li className="flex items-center gap-3"><FiCheckCircle className="text-blue-600 text-xl" /> Materiales 100% virgenes y avalados por FDA.</li>
+              <li className="flex items-center gap-3"><FiCheckCircle className="text-blue-600 text-xl flex-shrink-0" /> <span><strong>ISO 9001-2015</strong> — Sistema de Gestión de Calidad certificado.</span></li>
+              <li className="flex items-center gap-3"><FiCheckCircle className="text-blue-600 text-xl flex-shrink-0" /> <span><strong>IAF</strong> — International Accreditation Forum: reconocimiento global.</span></li>
+              <li className="flex items-center gap-3"><FiCheckCircle className="text-blue-600 text-xl flex-shrink-0" /> <span><strong>ema</strong> — Entidad Mexicana de Acreditación A.C.</span></li>
             </ul>
           </div>
           <div className="relative">
@@ -142,7 +142,7 @@ export default function Home() {
               </div>
             </div>
             {/* Pequeño badge flotante */}
-            <motion.div 
+            <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
               className="absolute -bottom-4 -left-4 sm:-bottom-6 sm:-left-6 bg-white p-3 sm:p-6 rounded-xl sm:rounded-2xl shadow-xl flex items-center gap-2 sm:gap-4 border border-slate-100"
@@ -151,8 +151,8 @@ export default function Home() {
                 <FiCheckCircle className="text-2xl" />
               </div>
               <div>
-                <p className="font-bold text-slate-800 font-outfit">FSCC 22000</p>
-                <p className="text-xs text-slate-500 font-medium">Global STD Certification</p>
+                <p className="font-bold text-slate-800 font-outfit">ISO 9001-2015</p>
+                <p className="text-xs text-slate-500 font-medium">IAF · ema</p>
               </div>
             </motion.div>
           </div>

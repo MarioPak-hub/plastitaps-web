@@ -42,24 +42,54 @@ export function generateQuotationPDF({ cart, user, folio }) {
 
   // ── CLIENT SECTION ─────────────────────────────────────────────────────────
   let y = 52;
-  doc.setFillColor(241, 245, 249); // slate-100
-  doc.roundedRect(14, y - 5, W - 28, 26, 3, 3, 'F');
+  // Row 1: Empresa + RFC
+  const clientStartY = y;
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(9);
   doc.setTextColor(30, 64, 175);
-  doc.text('DATOS DEL CLIENTE', 18, y);
-  y += 6;
-  doc.setTextColor(30, 41, 59); // slate-800
+  // Row 1
+  const row1Y = y + 6;
+  doc.setTextColor(30, 41, 59);
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(9);
-  doc.text(`Empresa: ${user?.empresa || '—'}`, 18, y);
-  doc.text(`RFC: ${user?.rfc || '—'}`, 110, y);
-  y += 5;
-  doc.text(`Contacto: ${user?.name || '—'}`, 18, y);
-  doc.text(`Email: ${user?.email || '—'}`, 110, y);
-  y += 5;
-  doc.text(`Dirección: ${user?.direccion || '—'}`, 18, y);
-  doc.text(`Teléfono: ${user?.telefono || '—'}`, 110, y);
+  doc.text(`Empresa: ${user?.empresa || '—'}`, 18, row1Y);
+  doc.text(`RFC: ${user?.rfc || '—'}`, 110, row1Y);
+  // Row 2: Contacto + Email
+  const row2Y = row1Y + 5;
+  doc.text(`Contacto: ${user?.name || '—'}`, 18, row2Y);
+  doc.text(`Email: ${user?.email || '—'}`, 110, row2Y);
+  // Row 3: Dirección (con wrap dinámico)
+  const row3Y = row2Y + 5;
+  const direccionStr = `Dirección: ${user?.direccion || '—'}`;
+  const maxDirWidth = 85; // mm
+  const direccionLines = doc.splitTextToSize(direccionStr, maxDirWidth);
+  doc.text(direccionLines, 18, row3Y);
+  // Row 4: Teléfono (debajo de la dirección, nunca encimado)
+  const dirHeight = direccionLines.length * 4;
+  const row4Y = row3Y + dirHeight + 1;
+  doc.text(`Teléfono: ${user?.telefono || '—'}`, 110, row3Y);
+  // Dynamic client box height
+  const clientBoxH = (row4Y - clientStartY) + 4;
+  // Draw background behind (render before text would be ideal, but jsPDF layers are flat)
+  // Redraw background
+  doc.setFillColor(241, 245, 249);
+  doc.roundedRect(14, clientStartY - 5, W - 28, clientBoxH, 3, 3, 'F');
+  // Re-render header label
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9);
+  doc.setTextColor(30, 64, 175);
+  doc.text('DATOS DEL CLIENTE', 18, clientStartY);
+  // Re-render all rows on top of background
+  doc.setTextColor(30, 41, 59);
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(9);
+  doc.text(`Empresa: ${user?.empresa || '—'}`, 18, row1Y);
+  doc.text(`RFC: ${user?.rfc || '—'}`, 110, row1Y);
+  doc.text(`Contacto: ${user?.name || '—'}`, 18, row2Y);
+  doc.text(`Email: ${user?.email || '—'}`, 110, row2Y);
+  doc.text(direccionLines, 18, row3Y);
+  doc.text(`Teléfono: ${user?.telefono || '—'}`, 110, row3Y);
+  y = clientStartY - 5 + clientBoxH;
 
   // ── PRODUCTS TABLE ─────────────────────────────────────────────────────────
   y += 14;
@@ -131,7 +161,7 @@ export function generateQuotationPDF({ cart, user, folio }) {
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8);
   doc.setTextColor(255, 255, 255);
-  doc.text('PLASTITAPS © 2025 · Todos los derechos reservados · ventas@plastitaps.com', W / 2, H - 5, { align: 'center' });
+  doc.text('PLASTITAPS © 2026 · Todos los derechos reservados · ventas@plastitaps.com', W / 2, H - 5, { align: 'center' });
 
   return doc;
 }

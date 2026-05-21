@@ -53,7 +53,7 @@ export default function App() {
               {/* Públicas */}
               <Route path="/" element={<Home />} />
               <Route path="/contacto" element={<Contact />} />
-              <Route path="/disena-tu-vaso" element={<InteractiveDesign />} />
+              <Route path="/disena-tu-vaso" element={<InteractiveDesign openProductBySlug={openProductBySlug} />} />
               <Route path="/promocionales" element={<Promocionales openProductBySlug={openProductBySlug} />} />
               <Route path="/catalogo" element={<Catalog openProductBySlug={openProductBySlug} />} />
               <Route path="/carrito" element={<CarritoCheckout />} />

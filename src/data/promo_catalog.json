@@ -1,9 +1,11 @@
 [
   {
     "id": "pc1",
+    "slug": "pc1",
     "name": "Vaso Navidad",
     "subtitle": "Edición Especial",
     "description": "Vaso policarbonato con diseño festivo de Navidad. Reutilizable y apto para lavavajillas.",
+    "category": "Promocionales",
     "price": 14.90,
     "moq": 10,
     "unit": "pz",
@@ -11,13 +13,22 @@
     "badgeColor": "#dc2626",
     "accentColor": "#ef4444",
     "emoji": "🎄",
-    "filter": "sepia(0.3) saturate(3) hue-rotate(320deg) brightness(0.8)"
+    "filter": "sepia(0.3) saturate(3) hue-rotate(320deg) brightness(0.8)",
+    "image": "/vaso_transparente.png",
+    "colores": [
+      "#ef4444",
+      "#ffffff",
+      "#22c55e",
+      "#f59e0b"
+    ]
   },
   {
     "id": "pc2",
+    "slug": "pc2",
     "name": "Vaso Graduación",
     "subtitle": "Recuerdo Premium",
     "description": "Vaso premium ideal para regalos y recuerdos de graduación. Personalizable con nombre.",
+    "category": "Promocionales",
     "price": 14.90,
     "moq": 10,
     "unit": "pz",
@@ -25,13 +36,18 @@
     "badgeColor": "#7c3aed",
     "accentColor": "#8b5cf6",
     "emoji": "🎓",
-    "filter": "hue-rotate(240deg) saturate(2) brightness(0.85)"
+    "filter": "hue-rotate(240deg) saturate(2) brightness(0.85)",
+    "image": "/vaso_transparente.png",
+    "modelo3D": "/models/Graduacion.glb",
+    "colores": []
   },
   {
     "id": "pc3",
+    "slug": "pc3",
     "name": "Vaso Café 16oz",
     "subtitle": "Take-Away Premium",
     "description": "Vaso take-away 16oz con tapa para café, té o bebidas frías. Presentación corporativa.",
+    "category": "Promocionales",
     "price": 9.90,
     "moq": 10,
     "unit": "pz",
@@ -39,13 +55,23 @@
     "badgeColor": "#92400e",
     "accentColor": "#d97706",
     "emoji": "☕",
-    "filter": "sepia(0.6) saturate(1.5) brightness(0.85)"
+    "filter": "sepia(0.6) saturate(1.5) brightness(0.85)",
+    "image": "/vaso_transparente.png",
+    "modelo3D": "/models/Cafe 16oz.glb",
+    "colores": [
+      "#92400e",
+      "#d97706",
+      "#000000",
+      "#ffffff"
+    ]
   },
   {
     "id": "pc4",
+    "slug": "pc4",
     "name": "Vaso Corporativo",
     "subtitle": "Línea Negocio",
     "description": "Vaso transparente policarbonato. La opción clásica y elegante para eventos empresariales.",
+    "category": "Promocionales",
     "price": 13.50,
     "moq": 10,
     "unit": "pz",
@@ -53,6 +79,14 @@
     "badgeColor": "#1e3a8a",
     "accentColor": "#2563eb",
     "emoji": "🏢",
-    "filter": "none"
+    "filter": "none",
+    "image": "/vaso_transparente.png",
+    "colores": [
+      "#1e3a8a",
+      "#2563eb",
+      "#000000",
+      "#ffffff",
+      "#64748b"
+    ]
   }
 ]

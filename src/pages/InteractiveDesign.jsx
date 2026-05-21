@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   FiCreditCard, FiPlus, FiMinus, FiCheckCircle,
   FiUpload, FiRefreshCcw, FiSend,
-  FiShoppingBag
+  FiShoppingBag, FiEye
 } from 'react-icons/fi';
 import { Sparkles } from 'lucide-react';
 import { loadStripe } from '@stripe/stripe-js';
@@ -25,7 +25,7 @@ const MIN_QTY = 10;
 // ─────────────────────────────────────────────────────────────────────────────
 // SECTION 1: Nuestros Promocionales
 // ─────────────────────────────────────────────────────────────────────────────
-function PromoGallery() {
+function PromoGallery({ openProductBySlug }) {
   const { addToCart } = useCart();
   const [qtys,  setQtys]  = useState(() => Object.fromEntries(promoCatalog.map(p => [p.id, p.moq])));
   const [added, setAdded] = useState({});
@@ -39,8 +39,8 @@ function PromoGallery() {
   const setQty = (id, qty, moq) => setQtys(prev => ({ ...prev, [id]: Math.max(moq, qty) }));
 
   return (
-    <section className="py-16 sm:py-20 lg:py-24 px-4 sm:px-6 max-w-7xl mx-auto">
-      <div className="text-center mb-10 sm:mb-14">
+    <section className="py-10 sm:py-14 lg:py-16 px-4 sm:px-6 max-w-7xl mx-auto">
+      <div className="text-center mb-8 sm:mb-10">
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-bold uppercase tracking-widest mb-5">
           <FiCreditCard /> Compra Directa · Stripe
         </div>
@@ -68,7 +68,15 @@ function PromoGallery() {
               </div>
               <div className="p-4 sm:p-5 bg-white flex flex-col flex-1">
                 <h3 className="font-bold text-slate-800 text-sm sm:text-base mb-1">{p.name}</h3>
-                <p className="text-xs text-slate-400 mb-3 sm:mb-4 flex-1">{p.subtitle}</p>
+                <p className="text-xs text-slate-400 mb-2 flex-1">{p.subtitle}</p>
+                {openProductBySlug && p.slug && (
+                  <button
+                    onClick={(e) => { e.stopPropagation(); openProductBySlug(p.slug); }}
+                    className="w-full mb-3 py-2 rounded-xl border-2 border-slate-200 text-slate-600 hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50 text-xs font-bold flex items-center justify-center gap-1.5 transition-all"
+                  >
+                    <FiEye className="text-sm" /> Ver Detalles
+                  </button>
+                )}
                 <div className="flex justify-between items-center mb-3 sm:mb-4">
                   <div><p className="text-xs text-slate-500">Precio / pz</p><p className="font-black text-blue-700 text-lg sm:text-xl">${fmtMXN(p.price)}</p></div>
                   <div className="text-right"><p className="text-xs text-slate-500">Mín {fmtU(p.moq)} pz</p><p className="text-xs font-bold text-slate-600">${fmtMXN(p.moq * p.price * 1.16)} c/IVA</p></div>
@@ -277,13 +285,13 @@ function Studio3D() {
 // ─────────────────────────────────────────────────────────────────────────────
 // PAGE — Diseño mejorado con espaciados simétricos
 // ─────────────────────────────────────────────────────────────────────────────
-export default function InteractiveDesign() {
+export default function InteractiveDesign({ openProductBySlug }) {
   return (
     <div className="min-h-screen font-inter text-slate-800 bg-white">
       <Navbar />
 
       {/* Header de la página — espaciado reducido y limpio */}
-      <div className="pt-24 sm:pt-28 pb-4 sm:pb-6 px-4 sm:px-6 text-center bg-white border-b border-slate-100">
+      <div className="pt-20 sm:pt-24 pb-2 sm:pb-3 px-4 sm:px-6 text-center bg-white border-b border-slate-100">
         <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black font-outfit text-slate-900">
           Personaliza tu <span className="text-blue-600">Vaso</span>
         </h1>
@@ -291,15 +299,15 @@ export default function InteractiveDesign() {
       </div>
 
       {/* Floor 1: Photo gallery + Stripe */}
-      <PromoGallery />
+      <PromoGallery openProductBySlug={openProductBySlug} />
 
       {/* Divider — transición limpia */}
       <div className="relative h-12 sm:h-16 bg-white overflow-hidden">
         <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, white, #0f172a)' }} />
         <div className="relative z-10 flex items-center justify-center h-full gap-3 px-4">
-          <div className="h-px flex-1 bg-gradient-to-r from-transparent to-slate-700" />
-          <span className="text-slate-400 text-[10px] sm:text-xs font-bold uppercase tracking-widest whitespace-nowrap">O crea el tuyo desde cero</span>
-          <div className="h-px flex-1 bg-gradient-to-l from-transparent to-slate-700" />
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent to-slate-400" />
+          <span className="text-white text-[10px] sm:text-xs font-bold uppercase tracking-widest whitespace-nowrap drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)]">O crea el tuyo desde cero</span>
+          <div className="h-px flex-1 bg-gradient-to-l from-transparent to-slate-400" />
         </div>
       </div>
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiCreditCard, FiShield, FiPlus, FiMinus, FiAlertCircle, FiCheckCircle, FiTrash2, FiShoppingBag } from 'react-icons/fi';
+import { FiCreditCard, FiShield, FiPlus, FiMinus, FiAlertCircle, FiCheckCircle, FiTrash2, FiShoppingBag, FiEye } from 'react-icons/fi';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import Navbar from '../components/Navbar';
@@ -50,7 +50,7 @@ function PromoCheckoutForm({ total }) {
 }
 
 // ── Main Promocionales page ──────────────────────────────────────────────────
-export default function Promocionales() {
+export default function Promocionales({ openProductBySlug }) {
   // lineItems: { [productId]: { ...product, qty } }
   const [lineItems, setLineItems] = useState({});
   const [inCheckout, setInCheckout] = useState(false);
@@ -141,7 +141,17 @@ export default function Promocionales() {
                       {/* Info */}
                       <div className="p-5 bg-white">
                         <h3 className="font-bold text-slate-800 text-base leading-tight mb-1">{p.name}</h3>
-                        <p className="text-xs text-slate-400 mb-4">{p.description}</p>
+                        <p className="text-xs text-slate-400 mb-3">{p.description}</p>
+
+                        {/* Ver detalles button — opens global modal */}
+                        {openProductBySlug && p.slug && (
+                          <button
+                            onClick={e => { e.stopPropagation(); openProductBySlug(p.slug); }}
+                            className="w-full mb-3 py-2 rounded-xl border-2 border-slate-200 text-slate-600 hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50 text-xs font-bold flex items-center justify-center gap-1.5 transition-all"
+                          >
+                            <FiEye className="text-sm" /> Ver detalles
+                          </button>
+                        )}
 
                         <div className="bg-blue-50 rounded-xl p-3 border border-blue-100 flex justify-between items-center mb-4">
                           <span className="text-xs text-slate-500 font-medium">Precio unitario</span>

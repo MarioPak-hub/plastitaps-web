@@ -1,6 +1,6 @@
 import React, { useState, useMemo, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiFilter, FiPlusCircle, FiAlertTriangle, FiInfo, FiCheckCircle, FiX, FiBox, FiChevronDown } from 'react-icons/fi';
+import { FiFilter, FiPlusCircle, FiAlertTriangle, FiInfo, FiCheckCircle, FiX, FiBox, FiChevronDown, FiSearch } from 'react-icons/fi';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import productsData from '../data/products.json';
@@ -17,6 +17,7 @@ export default function Catalog({ openProductBySlug }) {
   const [quantities, setQuantities] = useState({});
   const [tapasOpen, setTapasOpen] = useState(false);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   // El modal se maneja globalmente en App.jsx
 
@@ -56,11 +57,11 @@ export default function Catalog({ openProductBySlug }) {
     cat === 'Tapas Diámetro Grande' ||
     cat === 'Tapas Especializadas';
 
-  // Filtra con soporte de '__tapas__' (todas las tapas de cualquier diámetro)
   const filteredProducts = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
     return productsData.filter(p => {
-      // Si el producto está agotado (stock === 0), lo omitimos del frontend entero (lógica de negocio futura)
-      // if (p.stock === 0) return false; 
+      // Search filter
+      if (query && !p.name.toLowerCase().includes(query)) return false;
 
       const matchCat =
         activeCategory === 'All'
@@ -78,7 +79,7 @@ export default function Catalog({ openProductBySlug }) {
             : p.tags.includes(activeTag);
       return matchCat && matchTag;
     });
-  }, [activeCategory, activeTag]);
+  }, [activeCategory, activeTag, searchQuery]);
 
   // Contadores por categoría (totales estáticos del dataset descontando agotados si se configuraran)
   const catCounts = useMemo(() => {
@@ -165,6 +166,27 @@ export default function Catalog({ openProductBySlug }) {
           <p className="text-slate-600 max-w-2xl text-sm sm:text-base lg:text-lg font-medium">
             Precios en MXN + IVA · Todo bajo pedido · Producción mínima garantizada por MOQ.
           </p>
+
+          {/* Search bar */}
+          <div className="mt-4 sm:mt-6 max-w-xl relative">
+            <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-lg" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              placeholder="Buscar producto por nombre..."
+              className="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm font-medium text-slate-800 placeholder-slate-400 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 shadow-sm transition-all"
+              id="catalog-search"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1 rounded-full hover:bg-slate-100 transition-colors"
+              >
+                <FiX className="text-sm" />
+              </button>
+            )}
+          </div>
         </div>
 
         <div className="flex flex-col md:flex-row gap-6 sm:gap-8 lg:gap-10">
@@ -280,7 +302,7 @@ export default function Catalog({ openProductBySlug }) {
                                 className={`px-3 py-1.5 text-xs font-bold rounded-full border transition-all ${isActive
                                   ? tag === '3D' ? 'border-indigo-600 bg-indigo-50 text-indigo-800' : 'border-cyan-600 bg-cyan-50 text-cyan-800'
                                   : 'border-slate-300 text-slate-500 hover:border-slate-400 hover:text-slate-700'
-                                }`}>
+                                  }`}>
                                 {tag === 'All' ? 'Todos' : tag === '3D' ? <><FiBox className="inline mr-1 text-[10px]" />3D</> : tag}
                                 <span className={`ml-1 font-normal ${isActive ? (tag === '3D' ? 'text-indigo-600' : 'text-cyan-600') : 'text-slate-400'}`}>({tag === 'All' ? tagCounts['All'] : count})</span>
                               </button>

@@ -66,11 +66,23 @@ export const AuthProvider = ({ children }) => {
   };
 
   const completeProfile = (corporateData) => {
+    // Force RFC to uppercase as a last line of defense
+    if (corporateData.rfc) corporateData.rfc = corporateData.rfc.toUpperCase();
     const updatedUser = { ...user, ...corporateData, profileComplete: true };
     setUser(updatedUser);
     localStorage.setItem(USER_PROFILE_KEY, JSON.stringify(updatedUser));
     // Also persist under the email-specific key for future logins
     localStorage.setItem(USER_PROFILE_KEY + '_' + updatedUser.email, JSON.stringify(updatedUser));
+  };
+
+  const updateProfile = (partialData) => {
+    if (!user) return;
+    const updatedUser = { ...user, ...partialData };
+    setUser(updatedUser);
+    localStorage.setItem(USER_PROFILE_KEY, JSON.stringify(updatedUser));
+    if (updatedUser.email) {
+      localStorage.setItem(USER_PROFILE_KEY + '_' + updatedUser.email, JSON.stringify(updatedUser));
+    }
   };
 
   const logout = () => {
@@ -80,7 +92,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, loginWithGoogle, completeProfile, logout }}>
+    <AuthContext.Provider value={{ user, loading, loginWithGoogle, completeProfile, updateProfile, logout }}>
       {children}
     </AuthContext.Provider>
   );

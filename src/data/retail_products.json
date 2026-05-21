@@ -1,8 +1,10 @@
 [
   {
     "id": "r1",
+    "slug": "r1",
     "name": "Vaso Policarbonato 9 oz",
     "description": "Vaso premium reutilizable 9oz. Transparente cristalino, resistente a impactos.",
+    "category": "Vasos",
     "price": 13.50,
     "moq": 1,
     "packOptions": [1, 10, 50],
@@ -13,8 +15,10 @@
   },
   {
     "id": "r2",
+    "slug": "r2",
     "name": "Vaso Policarbonato 12 oz",
     "description": "Vaso premium 12oz. Ideal para bebidas, cocteles y eventos.",
+    "category": "Vasos",
     "price": 15.50,
     "moq": 1,
     "packOptions": [1, 10, 50],
@@ -25,8 +29,10 @@
   },
   {
     "id": "r3",
+    "slug": "r3",
     "name": "Vaso Café 16 oz c/Tapa",
     "description": "Vaso take-away 16oz con tapa incluida. Perfecto para café, té y bebidas frías.",
+    "category": "Vasos",
     "price": 9.90,
     "moq": 1,
     "packOptions": [1, 10, 50],
@@ -37,8 +43,10 @@
   },
   {
     "id": "r4",
+    "slug": "r4",
     "name": "Bote 1 Lt c/Tapa y Cintillo",
     "description": "Bote 1 litro con tapa y cintillo de seguridad. Presentación completa.",
+    "category": "Envases",
     "price": 8.50,
     "moq": 1,
     "packOptions": [1, 12, 60],

@@ -9,6 +9,7 @@ import {
   FiShoppingBag,
   FiChevronRight,
 } from 'react-icons/fi';
+import { useCart } from '../context/CartContext';
 
 // ── Indicador "Escribiendo..." ────────────────────────────────────────────────
 function TypingIndicator() {
@@ -107,6 +108,7 @@ function MessageBubble({ message, onProductClick }) {
 
 export default function FloatingChatbot({ onProductClick }) {
   const [isOpen, setIsOpen] = useState(false);
+  const { isCartOpen } = useCart();
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
@@ -282,42 +284,44 @@ export default function FloatingChatbot({ onProductClick }) {
         )}
       </AnimatePresence>
 
-      {/* ── Botón flotante ────────────────────────────────────────────── */}
-      <motion.button
-        onClick={() => setIsOpen((prev) => !prev)}
-        whileHover={{ scale: 1.08 }}
-        whileTap={{ scale: 0.94 }}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg hover:shadow-blue-500/40 flex items-center justify-center transition-colors"
-        aria-label={isOpen ? 'Cerrar asistente' : 'Abrir asistente virtual'}
-        id="chatbot-toggle-btn"
-      >
-        <AnimatePresence mode="wait">
-          {isOpen ? (
-            <motion.span
-              key="close"
-              initial={{ rotate: -90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: 90, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              <FiMinimize2 size={22} />
-            </motion.span>
-          ) : (
-            <motion.span
-              key="open"
-              initial={{ rotate: 90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: -90, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              <FiMessageSquare size={22} />
-            </motion.span>
-          )}
-        </AnimatePresence>
-      </motion.button>
+      {/* ── Botón flotante (hidden when cart is open) ───────────────────── */}
+      {!isCartOpen && (
+        <motion.button
+          onClick={() => setIsOpen((prev) => !prev)}
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.94 }}
+          className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg hover:shadow-blue-500/40 flex items-center justify-center transition-colors"
+          aria-label={isOpen ? 'Cerrar asistente' : 'Abrir asistente virtual'}
+          id="chatbot-toggle-btn"
+        >
+          <AnimatePresence mode="wait">
+            {isOpen ? (
+              <motion.span
+                key="close"
+                initial={{ rotate: -90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={{ rotate: 90, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <FiMinimize2 size={22} />
+              </motion.span>
+            ) : (
+              <motion.span
+                key="open"
+                initial={{ rotate: 90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={{ rotate: -90, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <FiMessageSquare size={22} />
+              </motion.span>
+            )}
+          </AnimatePresence>
+        </motion.button>
+      )}
 
-      {/* Pulso de atención (solo cuando el chat está cerrado) */}
-      {!isOpen && (
+      {/* Pulso de atención (solo cuando el chat está cerrado y carrito no abierto) */}
+      {!isOpen && !isCartOpen && (
         <span className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-blue-600 opacity-40 animate-ping pointer-events-none" />
       )}
     </>
