@@ -10,6 +10,7 @@ import {
   FiChevronRight,
 } from 'react-icons/fi';
 import { useCart } from '../context/CartContext';
+import { apiFetch } from '../utils/apiFetch';
 
 // ── Indicador "Escribiendo..." ────────────────────────────────────────────────
 function TypingIndicator() {
@@ -153,7 +154,7 @@ export default function FloatingChatbot({ onProductClick }) {
     setIsTyping(true);
 
     try {
-      const response = await fetch('/api/chat', {
+      const response = await apiFetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

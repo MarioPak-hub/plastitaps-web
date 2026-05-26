@@ -14,7 +14,6 @@ import promoCatalog from '../data/promo_catalog.json';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { useQuotes } from '../context/QuotesContext';
-import { uploadLogoToStorage } from '../utils/firebase';
 
 const VasoViewer3D = lazy(() => import('../components/VasoViewer3D'));
 loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY); // warm up
@@ -113,9 +112,19 @@ function PromoGallery({ openProductBySlug }) {
 // ─────────────────────────────────────────────────────────────────────────────
 // SECTION 2: Estudio 3D — envío real al backend con Firebase upload
 // ─────────────────────────────────────────────────────────────────────────────
+// Convierte un File a data URL base64 — usado para enviar el logo al backend
+function fileToDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload  = () => resolve(reader.result);
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(file);
+  });
+}
+
 function Studio3D() {
-  const { user }     = useAuth();
-  const { addQuote } = useQuotes();
+  const { user }        = useAuth();
+  const { submitQuote } = useQuotes();
 
   const [cupColor,   setCupColor]   = useState(INK_COLORS[0].hex);
   const [qty,        setQty]        = useState(MIN_QTY);
@@ -146,16 +155,15 @@ function Studio3D() {
     setSendError('');
 
     try {
-      // 1. Generar folio temporal para Firebase path
-      const tempFolio = `PLT-${Date.now().toString(36).toUpperCase()}`;
-
-      // 2. Subir logo a Firebase Storage
-      let logoUrl = null;
+      // 1. Convertir logo (si existe) a base64 — el backend lo guardará en /uploads
+      let logoBase64 = null;
+      let logoExt    = null;
       if (logoFile) {
-        logoUrl = await uploadLogoToStorage(logoFile, tempFolio);
+        logoBase64 = await fileToDataUrl(logoFile);
+        logoExt    = (logoFile.name.split('.').pop() || 'png').toLowerCase();
       }
 
-      // 3. Construir payload
+      // 2. Construir payload
       const payload = {
         tipo: 'personalizado',
         cliente: {
@@ -171,28 +179,18 @@ function Studio3D() {
           color:    `${colorName} (${cupColor})`,
           tipo:     'diseño-personalizado',
         }],
-        logoUrl,
+        logoBase64,
+        logoExt,
         observaciones: notes || '',
       };
 
-      // 4. POST al backend
-      const res  = await fetch('/api/quotes', {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify(payload),
-      });
-      const data = await res.json();
+      // 3. Submit (POST + Firestore en QuotesContext)
+      const data = await submitQuote(payload, user?.email);
 
-      if (data.success) {
-        setResultFolio(data.folio);
-        addQuote(data.record);
-        setSendStatus('done');
-      } else {
-        setSendError(data.error || 'Error al enviar la cotización.');
-        setSendStatus('error');
-      }
+      setResultFolio(data.folio);
+      setSendStatus('done');
     } catch (err) {
-      setSendError('Error de conexión. Intenta de nuevo.');
+      setSendError(err.message || 'Error de conexión. Intenta de nuevo.');
       setSendStatus('error');
     }
   };
@@ -277,7 +275,7 @@ function Studio3D() {
                 <label className="flex flex-col items-center justify-center p-4 sm:p-6 border-2 border-dashed border-indigo-500/40 hover:border-indigo-400/70 rounded-xl sm:rounded-2xl transition-all hover:bg-indigo-500/5 group cursor-pointer">
                   <FiUpload className="text-xl sm:text-2xl text-indigo-400/50 group-hover:text-indigo-400 mb-2 transition-colors" />
                   <span className="text-xs sm:text-sm text-slate-300 font-bold">Sube tu archivo (PNG/SVG/JPG)</span>
-                  <span className="text-[10px] text-slate-500 mt-1">Se subirá a Firebase Cloud Storage</span>
+                  <span className="text-[10px] text-slate-500 mt-1">Se adjunta a la solicitud al enviar</span>
                   <input type="file" accept="image/png,image/svg+xml,image/jpeg" onChange={handleLogo} className="hidden" />
                 </label>
               ) : (

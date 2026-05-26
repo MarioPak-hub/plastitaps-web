@@ -12,6 +12,35 @@ export function getQuotes() {
   return [...quotesStore];
 }
 
+export function getQuoteByFolio(folio) {
+  return quotesStore.find(q => q.folio === folio) || null;
+}
+
+/**
+ * Actualiza el estado de una cotización en el store en memoria.
+ * Devuelve el record actualizado o null si no existe.
+ */
+export function updateEstado(folio, estado) {
+  const record = quotesStore.find(q => q.folio === folio);
+  if (!record) return null;
+  record.estado    = estado;
+  record.updatedAt = new Date().toISOString();
+  return record;
+}
+
+/**
+ * Marca el record como sincronizado con Bind y guarda el bindFolioId.
+ * Devuelve el record actualizado o null si no existe.
+ */
+export function markSynced(folio, bindFolioId) {
+  const record = quotesStore.find(q => q.folio === folio);
+  if (!record) return null;
+  record.syncedToBind = true;
+  record.bindFolioId  = bindFolioId || null;
+  record.updatedAt    = new Date().toISOString();
+  return record;
+}
+
 export async function notifyVentas(payload) {
   const rows = (payload.productos || []).map(p =>
     `<tr>
@@ -85,9 +114,11 @@ export async function sendToBind(payload) {
       throw new Error(`Bind respondió ${res.status}: ${text.slice(0, 200)}`);
     }
 
-    const data = await res.json().catch(() => ({}));
-    console.log(`[Bind] sendToBind quotes ✓ ${payload.folio} → bindFolioId=${data.bindFolioId || data.id || 'n/a'}`);
-    return { success: true, bindFolioId: data.bindFolioId || data.id || null, response: data };
+    const data        = await res.json().catch(() => ({}));
+    const bindFolioId = data.bindFolioId || data.id || null;
+    markSynced(payload.folio, bindFolioId);
+    console.log(`[Bind] sendToBind quotes ✓ ${payload.folio} → bindFolioId=${bindFolioId || 'n/a'}`);
+    return { success: true, bindFolioId, response: data };
   } catch (err) {
     console.error(`[Bind] sendToBind quotes ✗ ${payload.folio}:`, err.message);
     return { success: false, error: err.message };

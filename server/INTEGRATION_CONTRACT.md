@@ -2,12 +2,17 @@
 
 ## Endpoints disponibles
 
-| Método | Ruta                  | Descripción                                         | Auth requerida          |
-|--------|-----------------------|-----------------------------------------------------|-------------------------|
-| POST   | /api/quotes           | Registrar cotización personalizada (diseño 3D)      | Bearer Token (futuro)   |
-| POST   | /api/checkout/send    | Enviar cotización industrial del carrito            | Bearer Token (futuro)   |
-| POST   | /api/contact          | Formulario de contacto web                          | No                      |
-| GET    | /api/health           | Health check del servidor                           | No                      |
+| Método | Ruta                                | Descripción                                         | Auth requerida          |
+|--------|-------------------------------------|-----------------------------------------------------|-------------------------|
+| POST   | /api/quotes                         | Registrar cotización personalizada (diseño 3D)      | No                      |
+| GET    | /api/quotes/:folio                  | Obtener estado actual (polling del frontend)        | No                      |
+| PATCH  | /api/quotes/:folio/status           | Actualizar estado (webhook entrante de Bind)        | `X-Bind-Key`            |
+| POST   | /api/checkout/send                  | Enviar cotización industrial del carrito            | No                      |
+| GET    | /api/checkout/:folio                | Obtener estado actual (polling del frontend)        | No                      |
+| PATCH  | /api/checkout/:folio/status         | Actualizar estado (webhook entrante de Bind)        | `X-Bind-Key`            |
+| POST   | /api/contact                        | Formulario de contacto web                          | No                      |
+| GET    | /uploads/{folio}.{ext}              | Logo adjunto del cliente (servido estáticamente)    | No                      |
+| GET    | /api/health                         | Health check del servidor                           | No                      |
 
 ---
 
@@ -187,7 +192,7 @@ interface Solicitud {
 
 ## Autenticación
 
-**Plastitaps API → Bind Automations** (outbound)
+### Plastitaps API → Bind Automations (outbound)
 
 El backend de Plastitaps hace POST a Bind con el header:
 ```
@@ -199,12 +204,6 @@ Endpoints destino:
 - Cotizaciones personalizadas → `POST {BIND_API_URL}/api/ecommerce/quote`
 - Checkout industrial         → `POST {BIND_API_URL}/api/ecommerce/order`
 
-Variables en `/server/.env`:
-```
-BIND_API_URL=http://localhost:3000
-BIND_API_KEY=plastitaps-bind-2026
-```
-
 **Respuesta esperada de Bind** (cualquiera de las dos formas):
 ```json
 { "bindFolioId": "BIND-2026-00123" }
@@ -214,15 +213,74 @@ o
 { "id": "BIND-2026-00123" }
 ```
 
-Si Bind devuelve status ≠ 2xx, el error se loguea y `syncedToBind` permanece en `false`. La cotización/pedido sigue persistido localmente para reintento manual.
+Si Bind devuelve status ≠ 2xx, el error se loguea y `syncedToBind` permanece en `false`. La cotización/pedido sigue persistido localmente para reintento manual. Si la respuesta es 2xx, el backend marca `syncedToBind: true` y guarda el `bindFolioId` en el store en memoria.
+
+### Bind Automations → Plastitaps API (inbound webhook)
+
+Bind notifica cambios de estado con:
+```
+PATCH /api/quotes/{folio}/status       (o /api/checkout/{folio}/status)
+X-Bind-Key: <BIND_INCOMING_KEY>
+Content-Type: application/json
+
+{ "estado": "revisada" }
+```
+
+Estados válidos: `nueva`, `revisada`, `contactado`, `cotizada`, `aprobada`, `rechazada`.
+
+El frontend hace polling cada 30s a `GET /api/quotes/:folio` (o `/api/checkout/:folio`), detecta el cambio de estado y lo persiste en Firestore (`updateEstado(folio, estado)`).
+
+### Variables en `/server/.env`
+```
+BIND_API_URL=http://localhost:3000
+BIND_API_KEY=plastitaps-bind-2026
+BIND_INCOMING_KEY=bind-to-plastitaps-2026
+```
 
 ---
 
 ## Eventos / Webhooks preparados
 
-- **Nueva cotización recibida** — dispara `POST /api/quotes` → notifica ventas@plastitaps.com + stub `sendToBind()`
-- **Checkout industrial enviado** — dispara `POST /api/checkout/send` → notifica ventas@plastitaps.com + stub `sendToBind()`
-- **Cambio de estado** (futuro) — Bind puede hacer `PATCH /api/quotes/:folio/status` para actualizar estado en el expediente del cliente
+- **Nueva cotización recibida** — `POST /api/quotes` → notifica ventas@plastitaps.com + `sendToBind()` real + frontend guarda en Firestore
+- **Checkout industrial enviado** — `POST /api/checkout/send` → notifica ventas@plastitaps.com + `sendToBind()` real + frontend guarda en Firestore
+- **Cambio de estado (entrante)** — Bind hace `PATCH /api/quotes/:folio/status` (header `X-Bind-Key`); el frontend lo detecta vía polling y actualiza Firestore con `updateEstado(folio, nuevoEstado)`
+
+---
+
+## Persistencia y almacenamiento de logos
+
+### Firestore — fuente de verdad para el cliente
+El frontend persiste cada solicitud en la colección `solicitudes` de Firestore (Firebase v12), usando el `folio` como `documentId`. Esto permite que el cliente vea su expediente desde cualquier dispositivo y conserve el historial entre sesiones.
+
+Estructura del documento:
+```js
+{
+  folio:           "PLT-20260526-A3B7",
+  tipo:            "cotizacion" | "pedido" | "personalizado",
+  estado:          "nueva" | "revisada" | "contactado" | "cotizada" | "aprobada" | "rechazada",
+  fecha:           Timestamp,
+  clienteEmail:    string,    // para filtrar por cliente (Google OAuth)
+  clienteNombre:   string,
+  clienteEmpresa:  string,
+  clienteTelefono: string,
+  clienteRfc:      string,
+  productos:       array,
+  logoUrl:         string | null,  // ruta servida por backend: /uploads/PLT-xxx.png
+  pdfUrl:          string | null,
+  observaciones:   string,
+  syncedToBind:    boolean,
+  bindFolioId:     string | null,
+  updatedAt:       Timestamp,
+}
+```
+
+### Logos — guardado local en el servidor
+Cuando el frontend envía un logo, lo manda como `logoBase64` (data URL) dentro del payload de `POST /api/quotes`. El backend:
+1. Decodifica el base64 con `fs` nativo de Node
+2. Lo guarda en `/server/uploads/{folio}.{ext}`
+3. Devuelve `logoUrl: "/uploads/{folio}.ext"` en el record
+
+`/server/uploads/` está en `.gitignore` y se sirve estáticamente con `express.static`. Bind puede acceder al logo via `GET {BACKEND_URL}/uploads/{folio}.{ext}`.
 
 ---
 
@@ -230,14 +288,18 @@ Si Bind devuelve status ≠ 2xx, el error se loguea y `syncedToBind` permanece e
 
 1. **Formato de folio**: `PLT-YYYYMMDD-XXXX` donde XXXX es un sufijo aleatorio de 4 chars base36 mayúscula. Generado en `/server/utils/folioGenerator.js`.
 
-2. **Firebase Storage**: Los logos subidos por los clientes viven en `gs://[bucket]/logos/[folio].[ext]`. Bind puede usar directamente la URL pública que devuelve `record.logoUrl`.
+2. **Estado inicial**: Todas las solicitudes llegan con `estado: "nueva"`. Bind debe actualizar el estado vía `PATCH /api/{quotes|checkout}/:folio/status` según el flujo de negocio.
 
-3. **Estado inicial**: Todas las solicitudes llegan con `estado: "nueva"`. Bind debe actualizar el estado a `"revisada"` cuando el equipo de ventas la revisa, y así sucesivamente por el flujo de negocio.
+3. **`sendToBind()`** — implementado en `quotesService.js` y `checkoutService.js`. Hace `POST` real a Bind con `X-API-Key` y, en caso de respuesta exitosa, marca `syncedToBind: true` y guarda `bindFolioId` en el store en memoria.
 
-4. **`sendToBind()`**: Actualmente es un stub en `quotesService.js` y `checkoutService.js` que solo loguea el payload. Implementar la llamada HTTP real cuando Bind provea el endpoint y credenciales.
+4. **Polling del frontend**: `Account.jsx` hace polling cada 30 segundos a `GET /api/quotes/:folio` y `GET /api/checkout/:folio` para detectar cambios de estado producidos por el webhook entrante de Bind, y sincroniza Firestore vía `updateEstado()`.
 
 5. **Rate limiting**: El servidor tiene límites por IP — cotizaciones: 20/15min, checkout: 10/15min, contacto: 5/15min. Bind debe implementar reintentos con backoff exponencial.
 
-6. **SMTP**: El envío de correos usa Nodemailer. Las variables `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` deben configurarse en `/server/.env`. Si SMTP no está configurado, el sistema omite el envío de correo sin fallar.
+6. **SMTP**: El envío de correos usa Nodemailer. Si SMTP no está configurado, el sistema omite el envío sin fallar.
 
-7. **Persistencia**: Actualmente en memoria (reinicia con el servidor). Para producción, conectar a una base de datos (MongoDB/PostgreSQL) en `quotesService.js` y `checkoutService.js`.
+7. **Persistencia backend**: El store de cotizaciones del backend es en memoria — se borra al reiniciar el servidor. Firestore (frontend) actúa como persistencia primaria del cliente. Para flujos de negocio críticos, conectar `quotesService.js` y `checkoutService.js` a una BD.
+
+8. **CORS**: El backend acepta `Content-Type`, `X-Bind-Key` y `X-API-Key` como headers permitidos. Los métodos `GET`, `POST`, `PATCH` y `OPTIONS` están habilitados.
+
+9. **URL de producción**: El frontend usa `VITE_API_BASE_URL` (root `.env`). Vacío en dev → usa el proxy de Vite; en producción debe apuntar al dominio del backend.

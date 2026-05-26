@@ -12,6 +12,27 @@ export function getOrders() {
   return [...ordersStore];
 }
 
+export function getOrderByFolio(folio) {
+  return ordersStore.find(o => o.folio === folio) || null;
+}
+
+export function updateEstado(folio, estado) {
+  const record = ordersStore.find(o => o.folio === folio);
+  if (!record) return null;
+  record.estado    = estado;
+  record.updatedAt = new Date().toISOString();
+  return record;
+}
+
+export function markSynced(folio, bindFolioId) {
+  const record = ordersStore.find(o => o.folio === folio);
+  if (!record) return null;
+  record.syncedToBind = true;
+  record.bindFolioId  = bindFolioId || null;
+  record.updatedAt    = new Date().toISOString();
+  return record;
+}
+
 export async function sendOrderEmail(payload) {
   const fmtMXN = (n) => (n || 0).toLocaleString('es-MX', { minimumFractionDigits: 2 });
   const fmtP   = (n) => (n || 0).toLocaleString('es-MX', { minimumFractionDigits: 4 });
@@ -93,9 +114,11 @@ export async function sendToBind(payload) {
       throw new Error(`Bind respondió ${res.status}: ${text.slice(0, 200)}`);
     }
 
-    const data = await res.json().catch(() => ({}));
-    console.log(`[Bind] sendToBind checkout ✓ ${payload.folio} → bindFolioId=${data.bindFolioId || data.id || 'n/a'}`);
-    return { success: true, bindFolioId: data.bindFolioId || data.id || null, response: data };
+    const data        = await res.json().catch(() => ({}));
+    const bindFolioId = data.bindFolioId || data.id || null;
+    markSynced(payload.folio, bindFolioId);
+    console.log(`[Bind] sendToBind checkout ✓ ${payload.folio} → bindFolioId=${bindFolioId || 'n/a'}`);
+    return { success: true, bindFolioId, response: data };
   } catch (err) {
     console.error(`[Bind] sendToBind checkout ✗ ${payload.folio}:`, err.message);
     return { success: false, error: err.message };

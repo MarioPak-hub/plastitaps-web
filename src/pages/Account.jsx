@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   FiLogOut, FiUserCheck, FiPackage, FiShield, FiMapPin, FiPhone,
   FiEdit3, FiSave, FiX, FiBriefcase, FiFileText, FiClock,
+  FiAlertCircle, FiCheck, FiRefreshCw,
 } from 'react-icons/fi';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -10,26 +11,99 @@ import { useAuth } from '../context/AuthContext';
 import { useQuotes } from '../context/QuotesContext';
 
 const ESTADO_LABEL = {
-  nueva:      { label: 'Nueva',      color: 'bg-blue-100 text-blue-700' },
+  nueva:      { label: 'Nueva',      color: 'bg-blue-100   text-blue-700' },
   revisada:   { label: 'Revisada',   color: 'bg-yellow-100 text-yellow-700' },
-  contactado: { label: 'Contactado', color: 'bg-purple-100 text-purple-700' },
-  aprobada:   { label: 'Aprobada',   color: 'bg-green-100 text-green-700' },
-  rechazada:  { label: 'Rechazada',  color: 'bg-red-100 text-red-700' },
+  contactado: { label: 'Contactado', color: 'bg-orange-100 text-orange-700' },
+  cotizada:   { label: 'Cotizada',   color: 'bg-purple-100 text-purple-700' },
+  aprobada:   { label: 'Aprobada',   color: 'bg-green-100  text-green-700' },
+  rechazada:  { label: 'Rechazada',  color: 'bg-red-100    text-red-700' },
 };
 
 const TIPO_LABEL = {
-  cotizacion:  'Cotización Industrial',
+  cotizacion:    'Cotización Industrial',
   personalizado: 'Diseño Personalizado',
-  pedido:      'Pedido',
+  pedido:        'Pedido',
 };
+
+const POLL_INTERVAL_MS = 30000; // 30 segundos
+
+// ── Helper: arma el objeto cliente para mostrar ─────────────────────────────
+function getCliente(q) {
+  // Firestore: campos planos / API: anidados en `cliente`
+  return q.cliente || {
+    email:    q.clienteEmail,
+    nombre:   q.clienteNombre,
+    empresa:  q.clienteEmpresa,
+    telefono: q.clienteTelefono,
+    rfc:      q.clienteRfc,
+  };
+}
+
+// ── Skeleton para el loading inicial ────────────────────────────────────────
+function SkeletonCard() {
+  return (
+    <div className="border border-slate-200 rounded-2xl p-5 animate-pulse">
+      <div className="flex justify-between mb-3">
+        <div className="h-4 bg-slate-200 rounded w-32" />
+        <div className="h-5 bg-slate-200 rounded-full w-20" />
+      </div>
+      <div className="space-y-2">
+        <div className="h-3 bg-slate-100 rounded w-1/2" />
+        <div className="h-3 bg-slate-100 rounded w-1/3" />
+      </div>
+    </div>
+  );
+}
 
 export default function Account() {
   const navigate = useNavigate();
   const { user, logout, updateProfile } = useAuth();
-  const { quotes } = useQuotes();
+  const { quotes, loading, error, loadFromFirestore, syncEstadoFromServer } = useQuotes();
 
-  const [editing, setEditing] = useState(false);
+  const [editing,    setEditing]    = useState(false);
   const [editFields, setEditFields] = useState({});
+  const [refreshing, setRefreshing] = useState(false);
+  const pollRef = useRef(null);
+
+  // ── Cargar historial al montar + polling cada 30s ──────────────────────────
+  useEffect(() => {
+    if (!user?.email) return;
+
+    let cancelled = false;
+
+    // Carga inicial
+    loadFromFirestore(user.email);
+
+    // Polling: revisa el backend en busca de cambios de estado y sincroniza Firestore
+    const tick = async () => {
+      if (cancelled) return;
+      // Para cada solicitud local, preguntar al backend si cambió el estado
+      const localQuotes = quotes.filter(q => q.clienteEmail === user.email);
+      await Promise.all(localQuotes.map(q => {
+        const tipo = q.tipo === 'cotizacion' ? 'order' : 'quote';
+        return syncEstadoFromServer(q.folio, tipo);
+      }));
+      // Recarga el snapshot desde Firestore
+      await loadFromFirestore(user.email);
+    };
+
+    pollRef.current = setInterval(tick, POLL_INTERVAL_MS);
+    return () => {
+      cancelled = true;
+      if (pollRef.current) clearInterval(pollRef.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.email]);
+
+  const handleManualRefresh = async () => {
+    if (!user?.email) return;
+    setRefreshing(true);
+    try {
+      await loadFromFirestore(user.email);
+    } finally {
+      setRefreshing(false);
+    }
+  };
 
   const handleLogout = () => { logout(); navigate('/'); };
 
@@ -55,8 +129,10 @@ export default function Account() {
 
   if (!user) return null;
 
-  // Filter quotes for this user's email
-  const myQuotes = quotes.filter(q => q.cliente?.email === user.email);
+  const myQuotes = quotes.filter(q => {
+    const email = q.clienteEmail || q.cliente?.email;
+    return email === user.email;
+  });
 
   return (
     <div className="min-h-screen bg-slate-50 font-inter text-slate-800">
@@ -177,16 +253,38 @@ export default function Account() {
             <h3 className="font-bold text-xl mb-6 text-slate-800 flex items-center gap-3">
               <FiPackage className="text-blue-600" /> Expediente de Solicitudes
               {myQuotes.length > 0 && (
-                <span className="ml-auto text-xs font-bold bg-blue-100 text-blue-700 px-2.5 py-1 rounded-full">
+                <span className="text-xs font-bold bg-blue-100 text-blue-700 px-2.5 py-1 rounded-full">
                   {myQuotes.length} registro{myQuotes.length !== 1 ? 's' : ''}
                 </span>
               )}
+              <button onClick={handleManualRefresh} disabled={loading || refreshing}
+                className="ml-auto flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-500 hover:text-slate-700 text-xs font-bold transition-all disabled:opacity-40"
+                title="Refrescar expediente">
+                <FiRefreshCw className={`text-xs ${(loading || refreshing) ? 'animate-spin' : ''}`} />
+                Actualizar
+              </button>
             </h3>
 
-            {myQuotes.length === 0 ? (
+            {/* Error de Firestore — degradación graceful */}
+            {error && (
+              <div className="mb-4 flex items-start gap-2 bg-amber-50 border border-amber-200 rounded-xl p-3 text-amber-800 text-xs">
+                <FiAlertCircle className="shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-bold">No se pudo sincronizar con Firestore.</p>
+                  <p className="opacity-80">Mostrando expediente en caché local. Verifica tu conexión.</p>
+                </div>
+              </div>
+            )}
+
+            {/* Loading skeleton (solo carga inicial sin caché) */}
+            {loading && myQuotes.length === 0 ? (
+              <div className="space-y-4">
+                {[1, 2, 3].map(i => <SkeletonCard key={i} />)}
+              </div>
+            ) : myQuotes.length === 0 ? (
               <div className="text-center py-16 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200">
                 <FiPackage className="text-5xl mx-auto mb-4 text-slate-300" />
-                <p className="text-slate-500 text-sm mb-4">No hay cotizaciones vinculadas a su expediente.</p>
+                <p className="text-slate-500 text-sm mb-4">No tienes solicitudes aún.</p>
                 <Link to="/catalogo" className="inline-block px-6 py-2 bg-white border border-slate-200 text-blue-600 rounded-full font-bold shadow-sm hover:shadow-md transition-shadow">
                   Iniciar Nueva Cotización
                 </Link>
@@ -194,7 +292,8 @@ export default function Account() {
             ) : (
               <div className="space-y-4 overflow-y-auto max-h-[560px] pr-1">
                 {myQuotes.map(q => {
-                  const estado = ESTADO_LABEL[q.estado] || ESTADO_LABEL.nueva;
+                  const estado  = ESTADO_LABEL[q.estado] || ESTADO_LABEL.nueva;
+                  const cliente = getCliente(q);
                   return (
                     <div key={q.folio} className="border border-slate-200 rounded-2xl p-4 sm:p-5 hover:border-blue-200 hover:shadow-sm transition-all">
                       <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
@@ -202,15 +301,26 @@ export default function Account() {
                           <p className="font-black text-slate-800 font-outfit text-sm">{q.folio}</p>
                           <p className="text-xs text-slate-400 mt-0.5">{TIPO_LABEL[q.tipo] || q.tipo}</p>
                         </div>
-                        <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide ${estado.color}`}>
-                          {estado.label}
-                        </span>
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide ${estado.color}`}>
+                            {estado.label}
+                          </span>
+                          {q.syncedToBind ? (
+                            <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-green-100 text-green-700 flex items-center gap-1">
+                              <FiCheck className="text-xs" /> Recibido por ventas
+                            </span>
+                          ) : (
+                            <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-slate-100 text-slate-500">
+                              Pendiente sync
+                            </span>
+                          )}
+                        </div>
                       </div>
 
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs text-slate-600 mb-3">
                         <div className="flex items-center gap-1.5">
                           <FiClock className="text-slate-400" />
-                          <span>{new Date(q.fecha).toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
+                          <span>{q.fecha ? new Date(q.fecha).toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'}</span>
                         </div>
                         {q.productos?.length > 0 && (
                           <div className="flex items-center gap-1.5">
@@ -220,7 +330,7 @@ export default function Account() {
                         )}
                         {(q.subtotal || q.totalIVA) && (
                           <div className="font-bold text-blue-700">
-                            ${(q.totalIVA || q.subtotal * 1.16 || 0).toLocaleString('es-MX', { minimumFractionDigits: 2 })} MXN
+                            ${(q.totalIVA || (q.subtotal || 0) * 1.16 || 0).toLocaleString('es-MX', { minimumFractionDigits: 2 })} MXN
                           </div>
                         )}
                       </div>
@@ -236,6 +346,12 @@ export default function Account() {
                           className="inline-flex items-center gap-1 text-[10px] text-blue-600 font-bold hover:underline mt-2">
                           Ver logo adjunto →
                         </a>
+                      )}
+
+                      {q.bindFolioId && (
+                        <p className="text-[10px] text-slate-400 mt-2 font-mono">
+                          ID Bind: <span className="font-bold text-slate-600">{q.bindFolioId}</span>
+                        </p>
                       )}
                     </div>
                   );

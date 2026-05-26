@@ -26,9 +26,9 @@ const localFolio = () => `PLT-${Date.now().toString(36).toUpperCase()}`;
 
 export default function Checkout() {
   const { cart, clearCart, totalPrice } = useCart();
-  const { user }    = useAuth();
-  const { addQuote } = useQuotes();
-  const navigate    = useNavigate();
+  const { user }        = useAuth();
+  const { submitOrder } = useQuotes();
+  const navigate        = useNavigate();
 
   const [pdfFolio]   = useState(localFolio);
   const [sendStatus, setSendStatus] = useState('idle'); // idle | sending | done | error
@@ -66,25 +66,14 @@ export default function Checkout() {
         totalIVA,
       };
 
-      const res  = await fetch('/api/checkout/send', {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify(payload),
-      });
-      const data = await res.json();
+      const data = await submitOrder(payload, user?.email);
 
-      if (data.success) {
-        setResultFolio(data.folio);
-        addQuote(data.record);
-        clearCart();
-        setSendStatus('done');
-        setTimeout(() => navigate('/perfil'), 4000);
-      } else {
-        setSendError(data.error || 'Error al enviar la cotización.');
-        setSendStatus('error');
-      }
-    } catch {
-      setSendError('Error de conexión. Intenta de nuevo.');
+      setResultFolio(data.folio);
+      clearCart();
+      setSendStatus('done');
+      setTimeout(() => navigate('/perfil'), 4000);
+    } catch (err) {
+      setSendError(err.message || 'Error de conexión. Intenta de nuevo.');
       setSendStatus('error');
     }
   };

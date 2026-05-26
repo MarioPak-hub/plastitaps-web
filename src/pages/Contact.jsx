@@ -8,6 +8,7 @@ import { FiMapPin, FiPhone, FiMail, FiPhoneCall, FiMessageCircle, FiSend, FiChec
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { Security } from '../utils/security';
+import { apiFetch } from '../utils/apiFetch';
 
 const contactSchema = z.object({
   nombre:  z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
@@ -29,7 +30,7 @@ export default function Contact() {
     setErrorMsg('');
     try {
       const clean = Security.sanitizeValues(data);
-      const res   = await fetch('/api/contact', {
+      const res   = await apiFetch('/api/contact', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify(clean),
