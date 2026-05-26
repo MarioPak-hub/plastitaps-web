@@ -19,6 +19,7 @@ import FloatingChatbot from './components/FloatingChatbot';
 import ProductModal from './components/ProductModal';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
+import { QuotesProvider } from './context/QuotesContext';
 
 import productsData from './data/products.json';
 import retailProducts from './data/retail_products.json';
@@ -44,6 +45,7 @@ export default function App() {
   return (
     <GoogleOAuthProvider clientId={clientId}>
       <AuthProvider>
+        <QuotesProvider>
         <CartProvider>
           <BrowserRouter>
             <Cart />
@@ -70,6 +72,7 @@ export default function App() {
             </Routes>
           </BrowserRouter>
         </CartProvider>
+        </QuotesProvider>
       </AuthProvider>
     </GoogleOAuthProvider>
   );

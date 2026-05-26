@@ -11,7 +11,7 @@ import { Security } from '../utils/security';
 
 const profileSchema = z.object({
   empresa: z.string().min(2, 'La empresa es requerida'),
-  rfc: z.string().min(12, 'El RFC debe tener al menos 12 caracteres validos').max(13),
+  rfc: z.string().min(12, 'El RFC debe tener al menos 12 caracteres válidos').max(13, 'El RFC no puede exceder 13 caracteres'),
   direccion: z.string().min(10, 'Dirección completa requerida'),
   telefono: z.string().min(10, 'El teléfono debe tener al menos 10 dígitos').regex(/^[0-9]+$/, 'Solo se permiten números sin guiones')
 });
@@ -68,7 +68,7 @@ export default function CompleteProfile() {
               <label className="block text-xs uppercase tracking-wider font-bold text-slate-500 mb-2">Registro RFC *</label>
               <div className="relative">
                 <FiShield className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-                <input {...register('rfc')} className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-4 py-3 text-slate-800 focus:outline-none focus:border-blue-500 font-medium uppercase" placeholder="ABC123456T1" />
+                <input {...register('rfc')} maxLength={13} className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-4 py-3 text-slate-800 focus:outline-none focus:border-blue-500 font-medium uppercase" placeholder="ABC123456T1" />
               </div>
               {errors.rfc && <p className="text-red-500 text-xs mt-2 flex items-center gap-1 font-semibold"><FiShield /> {errors.rfc.message}</p>}
             </div>

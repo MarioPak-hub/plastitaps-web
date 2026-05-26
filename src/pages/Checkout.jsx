@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { FiDownload, FiSend, FiFileText, FiShield, FiAlertCircle } from 'react-icons/fi';
+import { FiDownload, FiSend, FiFileText, FiShield, FiAlertCircle, FiCheckCircle, FiLoader } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
-import { Security } from '../utils/security';
+import { useQuotes } from '../context/QuotesContext';
 import { generateQuotationPDF } from '../utils/quotationPDF';
 
-const fmtMXN = (n) => n.toLocaleString('es-MX', { minimumFractionDigits: 2 });
-const fmtU = (n) => n.toLocaleString('es-MX');
-const fmtP = (n) => n.toLocaleString('es-MX', { minimumFractionDigits: 4 });
+const fmtMXN = (n) => (n || 0).toLocaleString('es-MX', { minimumFractionDigits: 2 });
+const fmtU   = (n) => (n || 0).toLocaleString('es-MX');
+const fmtP   = (n) => (n || 0).toLocaleString('es-MX', { minimumFractionDigits: 4 });
 
 const TERMS = [
   '1. Precios en MXN sujetos a cambio sin previo aviso.',
@@ -21,39 +21,75 @@ const TERMS = [
   '5. Penalización del 80% en cancelaciones no autorizadas.',
 ];
 
+// Folio local solo para el PDF — el folio oficial viene del servidor
+const localFolio = () => `PLT-${Date.now().toString(36).toUpperCase()}`;
+
 export default function Checkout() {
   const { cart, clearCart, totalPrice } = useCart();
-  const { user } = useAuth();
-  const navigate = useNavigate();
-  const [sent, setSent] = useState(false);
+  const { user }    = useAuth();
+  const { addQuote } = useQuotes();
+  const navigate    = useNavigate();
 
-  const folio = `PLT-${Date.now().toString(36).toUpperCase()}`;
+  const [pdfFolio]   = useState(localFolio);
+  const [sendStatus, setSendStatus] = useState('idle'); // idle | sending | done | error
+  const [sendError,  setSendError]  = useState('');
+  const [resultFolio, setResultFolio] = useState('');
+
   const totalIVA = totalPrice * 1.16;
 
   const handleDownloadPDF = () => {
-    const doc = generateQuotationPDF({ cart, user, folio });
-    doc.save(`Cotizacion_Plastitaps_${folio}.pdf`);
+    const doc = generateQuotationPDF({ cart, user, folio: pdfFolio });
+    doc.save(`Cotizacion_Plastitaps_${pdfFolio}.pdf`);
   };
 
-  const handleSendEmail = () => {
-    const dest = Security.getVentasEndpoint();
-    let body = `Cotización Folio: ${folio}\n\n`;
-    body += `Cliente: ${user?.empresa || 'N/A'} | RFC: ${user?.rfc || 'N/A'}\n`;
-    body += `Email: ${user?.email} | Tel: ${user?.telefono || 'N/A'}\n\n`;
-    body += `PRODUCTOS:\n`;
-    cart.forEach((item, i) => {
-      body += `${i + 1}. ${item.name} — ${fmtU(item.quantity)} ${item.unit} × $${fmtP(item.price)} = $${fmtMXN(item.quantity * item.price)}\n`;
-    });
-    body += `\nSUBTOTAL: $${fmtMXN(totalPrice)} | TOTAL + IVA: $${fmtMXN(totalIVA)} MXN\n\n`;
-    body += TERMS.join('\n');
+  const handleSend = async () => {
+    setSendStatus('sending');
+    setSendError('');
+    try {
+      const payload = {
+        cliente: {
+          nombre:   user?.name      || '',
+          email:    user?.email     || '',
+          telefono: user?.telefono  || '',
+          empresa:  user?.empresa   || '',
+          rfc:      user?.rfc       || '',
+        },
+        productos: cart.map(item => ({
+          id:       item.id,
+          name:     item.name,
+          category: item.category,
+          quantity: item.quantity,
+          unit:     item.unit,
+          price:    item.price,
+        })),
+        totalPrice,
+        totalIVA,
+      };
 
-    window.location.href = `mailto:${dest}?subject=${encodeURIComponent(`Cotización ${folio} — ${user?.empresa || 'Cliente'}`)}&body=${encodeURIComponent(body)}`;
-    setSent(true);
-    clearCart();
-    setTimeout(() => navigate('/perfil'), 2500);
+      const res  = await fetch('/api/checkout/send', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(payload),
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        setResultFolio(data.folio);
+        addQuote(data.record);
+        clearCart();
+        setSendStatus('done');
+        setTimeout(() => navigate('/perfil'), 4000);
+      } else {
+        setSendError(data.error || 'Error al enviar la cotización.');
+        setSendStatus('error');
+      }
+    } catch {
+      setSendError('Error de conexión. Intenta de nuevo.');
+      setSendStatus('error');
+    }
   };
 
-  if (cart.length === 0 && !sent) {
+  if (cart.length === 0 && sendStatus !== 'done') {
     return (
       <div className="min-h-screen bg-white flex flex-col items-center justify-center gap-4 font-inter">
         <Navbar />
@@ -67,41 +103,53 @@ export default function Checkout() {
   return (
     <div className="min-h-screen bg-slate-50 font-inter text-slate-800">
       <Navbar />
-      <div className="pt-32 pb-24 px-6 max-w-5xl mx-auto">
+      <div className="pt-32 pb-24 px-4 sm:px-6 max-w-5xl mx-auto">
 
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 text-blue-700 bg-blue-100 px-5 py-2 rounded-full font-bold uppercase tracking-wider text-xs border border-blue-200 mb-5">
-            <FiFileText /> Cotización Industrial · Folio {folio}
+            <FiFileText /> Cotización Industrial
           </div>
           <h1 className="text-4xl md:text-5xl font-black font-outfit tracking-tight text-slate-900">
             Resumen de Cotización
           </h1>
         </div>
 
+        {/* Success banner */}
+        {sendStatus === 'done' && (
+          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+            className="mb-8 flex items-center gap-3 bg-green-50 border border-green-200 text-green-800 rounded-2xl px-6 py-4 font-bold">
+            <FiCheckCircle className="text-2xl text-green-600 shrink-0" />
+            <div>
+              <p>¡Cotización enviada exitosamente a ventas@plastitaps.com!</p>
+              <p className="text-sm font-normal mt-0.5">Folio oficial: <strong>{resultFolio}</strong> — Redirigiendo a tu perfil…</p>
+            </div>
+          </motion.div>
+        )}
+
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-10">
 
-          {/* Product Table */}
+          {/* Product table */}
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
             className="xl:col-span-2 bg-white border border-slate-200 rounded-[2rem] overflow-hidden shadow-sm">
-            <div className="px-8 py-5 border-b border-slate-100 flex justify-between items-center">
+            <div className="px-6 sm:px-8 py-5 border-b border-slate-100 flex justify-between items-center">
               <h3 className="font-bold text-slate-800 font-outfit text-lg">Detalle de Productos</h3>
               <span className="text-xs text-slate-400 font-medium">{cart.length} línea(s)</span>
             </div>
             <div className="divide-y divide-slate-100">
               {cart.map(item => (
-                <div key={item.id} className="px-8 py-5 flex justify-between items-center gap-4 hover:bg-slate-50 transition-colors">
-                  <div className="flex-1">
-                    <p className="font-bold text-slate-800">{item.name}</p>
+                <div key={item.id} className="px-6 sm:px-8 py-5 flex justify-between items-center gap-4 hover:bg-slate-50 transition-colors">
+                  <div className="flex-1 min-w-0">
+                    <p className="font-bold text-slate-800 truncate">{item.name}</p>
                     <p className="text-xs text-slate-400 mt-0.5">{item.category} · MOQ: {fmtU(item.moq)} {item.unit}</p>
                   </div>
-                  <div className="text-right">
+                  <div className="text-right flex-shrink-0">
                     <p className="text-sm font-medium text-slate-600">{fmtU(item.quantity)} {item.unit} × ${fmtP(item.price)}</p>
                     <p className="font-black text-blue-700 font-outfit">${fmtMXN(item.quantity * item.price)}</p>
                   </div>
                 </div>
               ))}
             </div>
-            <div className="px-8 py-5 bg-blue-700 flex justify-between items-center">
+            <div className="px-6 sm:px-8 py-5 bg-blue-700 flex justify-between items-center">
               <div>
                 <p className="text-blue-200 text-sm">Subtotal sin IVA: <span className="font-bold text-white">${fmtMXN(totalPrice)}</span></p>
                 <p className="text-white font-black text-xl font-outfit mt-1">Total + IVA 16%: ${fmtMXN(totalIVA)} MXN</p>
@@ -116,7 +164,9 @@ export default function Checkout() {
 
             {/* Client card */}
             <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm">
-              <h4 className="font-bold text-slate-800 mb-4 flex items-center gap-2 text-sm uppercase tracking-wide"><FiShield className="text-blue-600" /> Datos del Solicitante</h4>
+              <h4 className="font-bold text-slate-800 mb-4 flex items-center gap-2 text-sm uppercase tracking-wide">
+                <FiShield className="text-blue-600" /> Datos del Solicitante
+              </h4>
               <div className="space-y-2 text-sm text-slate-600">
                 <div className="flex justify-between"><span className="text-slate-400">Empresa</span><span className="font-bold truncate ml-2">{user?.empresa || '—'}</span></div>
                 <div className="flex justify-between"><span className="text-slate-400">RFC</span><span className="font-bold">{user?.rfc || '—'}</span></div>
@@ -126,20 +176,36 @@ export default function Checkout() {
 
             {/* T&C */}
             <div className="bg-amber-50 border border-amber-200 rounded-3xl p-6">
-              <h4 className="font-bold text-amber-800 mb-3 flex items-center gap-2 text-sm uppercase tracking-wide"><FiAlertCircle /> Términos y Condiciones</h4>
+              <h4 className="font-bold text-amber-800 mb-3 flex items-center gap-2 text-sm uppercase tracking-wide">
+                <FiAlertCircle /> Términos y Condiciones
+              </h4>
               <ul className="space-y-2">
                 {TERMS.map((t, i) => <li key={i} className="text-xs text-amber-900 font-medium">{t}</li>)}
               </ul>
             </div>
+
+            {/* Error */}
+            {sendStatus === 'error' && (
+              <div className="flex items-start gap-2 bg-red-50 border border-red-200 rounded-2xl p-4 text-red-700 text-sm font-medium">
+                <FiAlertCircle className="shrink-0 mt-0.5 text-lg" /> {sendError}
+              </div>
+            )}
 
             {/* CTAs */}
             <button onClick={handleDownloadPDF}
               className="w-full py-4 bg-slate-900 hover:bg-black text-white font-bold rounded-2xl flex items-center justify-center gap-2 shadow-lg transition-all">
               <FiDownload /> Descargar PDF
             </button>
-            <button onClick={handleSendEmail}
-              className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl flex items-center justify-center gap-2 shadow-lg transition-all">
-              <FiSend /> Enviar a ventas@plastitaps.com
+
+            <button onClick={handleSend} disabled={sendStatus === 'sending' || sendStatus === 'done'}
+              className={`w-full py-4 font-bold rounded-2xl flex items-center justify-center gap-2 shadow-lg transition-all ${
+                sendStatus === 'done'    ? 'bg-green-600 text-white cursor-default' :
+                sendStatus === 'sending' ? 'bg-blue-400 text-white cursor-wait' :
+                'bg-blue-600 hover:bg-blue-700 text-white'
+              }`}>
+              {sendStatus === 'sending' ? <><FiLoader className="animate-spin" /> Enviando...</> :
+               sendStatus === 'done'    ? <><FiCheckCircle /> ¡Enviada!</> :
+               <><FiSend /> Enviar a ventas@plastitaps.com</>}
             </button>
           </motion.div>
         </div>
