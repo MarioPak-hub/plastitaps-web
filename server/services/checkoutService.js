@@ -1,10 +1,31 @@
 import { sendEmail, escape } from './emailService.js';
+import { loadStore, saveStore } from '../utils/jsonStore.js';
 
-// In-memory store — replace with database in production
-const ordersStore = [];
+// ── Persistencia simple ──────────────────────────────────────────────────────
+// In-memory store, hidratado al boot desde /server/data/orders-store.json
+// y re-escrito a disco en cada mutación. Esto garantiza que los folios
+// (y su estado actualizado por webhooks de Bind) sobreviven a reinicios.
+const STORE_FILE  = 'orders-store.json';
+const ordersStore = loadStore(STORE_FILE);
+
+// Tombstones: folios que Bind eliminó vía DELETE webhook. Persistidos en su
+// propio archivo. Permiten que el GET /:folio distinga "borrado intencional"
+// (deleted:true) de "ausente por reinicio con JSON vacío" (record:null sin flag),
+// evitando que el polling borre datos de Firestore por error tras un reinicio.
+const DELETED_FILE  = 'orders-deleted.json';
+const deletedFolios = new Set(loadStore(DELETED_FILE));
+
+function persist() {
+  saveStore(STORE_FILE, ordersStore);
+}
+
+function persistDeleted() {
+  saveStore(DELETED_FILE, [...deletedFolios]);
+}
 
 export function saveOrder(payload) {
   ordersStore.push({ ...payload, savedAt: new Date().toISOString() });
+  persist();
   return payload;
 }
 
@@ -16,12 +37,71 @@ export function getOrderByFolio(folio) {
   return ordersStore.find(o => o.folio === folio) || null;
 }
 
+/**
+ * Elimina un folio del store y lo registra como tombstone.
+ * Idempotente: si el folio no estaba en el store, igual lo marca como borrado
+ * para que el GET responda deleted:true en futuros polls.
+ * Devuelve true si el folio estaba presente en el store, false si no.
+ */
+export function deleteOrder(folio) {
+  const idx = ordersStore.findIndex(o => o.folio === folio);
+  const existed = idx !== -1;
+  if (existed) {
+    ordersStore.splice(idx, 1); // splice in-place: preserva la referencia const
+    persist();
+  }
+  if (!deletedFolios.has(folio)) {
+    deletedFolios.add(folio);
+    persistDeleted();
+  }
+  return existed;
+}
+
+/** true si el folio fue eliminado vía DELETE webhook de Bind (tombstone). */
+export function isDeleted(folio) {
+  return deletedFolios.has(folio);
+}
+
 export function updateEstado(folio, estado) {
   const record = ordersStore.find(o => o.folio === folio);
   if (!record) return null;
   record.estado    = estado;
   record.updatedAt = new Date().toISOString();
+  persist();
   return record;
+}
+
+/**
+ * Upsert del estado por folio.
+ * Si el folio ya existe → lo actualiza.
+ * Si NO existe (típico tras reiniciar el servidor: el store in-memory está vacío
+ * pero Bind sigue mandando webhooks con folios viejos) → crea un registro
+ * mínimo con `syncedToBind: true` para que el siguiente polling del frontend
+ * lo lea y propague el estado a Firestore vía `updateEstado(folio, estado)`.
+ *
+ * Devuelve { record, created } — created=true cuando hubo que insertarlo.
+ */
+export function upsertEstado(folio, estado) {
+  const existing = ordersStore.find(o => o.folio === folio);
+  if (existing) {
+    existing.estado    = estado;
+    existing.updatedAt = new Date().toISOString();
+    persist();
+    return { record: existing, created: false };
+  }
+
+  const now = new Date().toISOString();
+  const minimal = {
+    folio,
+    estado,
+    syncedToBind: true,
+    bindFolioId:  null,
+    savedAt:      now,
+    updatedAt:    now,
+  };
+  ordersStore.push(minimal);
+  persist();
+  return { record: minimal, created: true };
 }
 
 export function markSynced(folio, bindFolioId) {
@@ -30,6 +110,7 @@ export function markSynced(folio, bindFolioId) {
   record.syncedToBind = true;
   record.bindFolioId  = bindFolioId || null;
   record.updatedAt    = new Date().toISOString();
+  persist();
   return record;
 }
 
@@ -121,6 +202,53 @@ export async function sendToBind(payload) {
     return { success: true, bindFolioId, response: data };
   } catch (err) {
     console.error(`[Bind] sendToBind checkout ✗ ${payload.folio}:`, err.message);
+    return { success: false, error: err.message };
+  }
+}
+
+/**
+ * Notifica a Bind que una solicitud fue cancelada por el cliente.
+ * Outbound, mismo patrón que sendToBind (X-API-Key + BIND_API_URL).
+ * Fire-and-forget: si Bind falla, la cancelación local sigue válida.
+ *
+ * Identifica la solicitud por nuestro `folio` (no por bindFolioId) — Bind
+ * espera el folio en la URL para resolver la solicitud en su lado.
+ *
+ * Skip silencioso solo si BIND_API_URL/KEY no están configuradas (dev sin Bind).
+ */
+export async function notifyBindCancellation(folio) {
+  const baseUrl = process.env.BIND_API_URL;
+  const apiKey  = process.env.BIND_API_KEY;
+
+  if (!baseUrl || !apiKey) {
+    console.warn('[Cancel→Bind] skip (sin config):', folio);
+    return { skipped: true, reason: 'no-config' };
+  }
+
+  const url  = `${baseUrl.replace(/\/$/, '')}/api/ecommerce/requests/${folio}/status`;
+  const body = { estado: 'cancelada', usuario: 'cliente' };
+
+  console.log('[Cancel→Bind] enviando:', url, body);
+
+  try {
+    const res = await fetch(url, {
+      method:  'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-API-Key':    apiKey,
+      },
+      body: JSON.stringify(body),
+    });
+
+    console.log('[Cancel→Bind] respuesta:', res.status);
+
+    if (!res.ok) {
+      const text = await res.text().catch(() => '');
+      throw new Error(`Bind respondió ${res.status}: ${text.slice(0, 200)}`);
+    }
+    return { success: true };
+  } catch (err) {
+    console.error(`[Cancel→Bind] error ${folio}:`, err.message);
     return { success: false, error: err.message };
   }
 }

@@ -4,7 +4,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import { db } from '../firebase';
 import {
-  collection, doc, setDoc, getDoc,
+  collection, doc, setDoc, getDoc, deleteDoc,
   query, where, orderBy, getDocs, updateDoc, serverTimestamp,
 } from 'firebase/firestore';
 
@@ -109,4 +109,27 @@ export async function markSyncedToBind(folio, bindFolioId) {
     bindFolioId:  bindFolioId || null,
     updatedAt:    serverTimestamp(),
   });
+}
+
+// ── Cancelar solicitud ──────────────────────────────────────────────────────
+// Marca el documento como cancelado en Firestore. La validación de "solo se
+// puede cancelar si estado === 'nueva'" vive en el cliente (QuotesContext) y
+// en el backend (/cancel endpoint) — Firestore solo persiste el resultado final.
+export async function cancelarSolicitud(folio) {
+  if (!folio) return;
+  const ref = doc(db, COL, folio);
+  await updateDoc(ref, {
+    estado:    'cancelada',
+    updatedAt: serverTimestamp(),
+  });
+}
+
+// ── Eliminar solicitud ──────────────────────────────────────────────────────
+// Borra el documento de Firestore. Lo dispara el polling cuando detecta que
+// Bind eliminó la solicitud en el backend (GET devuelve deleted:true). El
+// cliente NO inicia borrados — solo puede cancelar.
+export async function eliminarSolicitud(folio) {
+  if (!folio) return;
+  const ref = doc(db, COL, folio);
+  await deleteDoc(ref);
 }

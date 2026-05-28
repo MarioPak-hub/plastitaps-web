@@ -228,7 +228,7 @@ Content-Type: application/json
 
 Estados válidos: `nueva`, `revisada`, `contactado`, `cotizada`, `aprobada`, `rechazada`.
 
-El frontend hace polling cada 30s a `GET /api/quotes/:folio` (o `/api/checkout/:folio`), detecta el cambio de estado y lo persiste en Firestore (`updateEstado(folio, estado)`).
+El frontend hace polling cada 10s a `GET /api/quotes/:folio` (o `/api/checkout/:folio`), detecta el cambio de estado y lo persiste en Firestore (`updateEstado(folio, estado)`). Si el folio no existe en el store in-memory del backend (típico tras un reinicio), el endpoint `PATCH /:folio/status` lo **upserta** con `{ folio, estado, syncedToBind: true }` y responde 200 — el siguiente polling lo recoge y propaga a Firestore.
 
 ### Variables en `/server/.env`
 ```
@@ -292,7 +292,7 @@ Cuando el frontend envía un logo, lo manda como `logoBase64` (data URL) dentro 
 
 3. **`sendToBind()`** — implementado en `quotesService.js` y `checkoutService.js`. Hace `POST` real a Bind con `X-API-Key` y, en caso de respuesta exitosa, marca `syncedToBind: true` y guarda `bindFolioId` en el store en memoria.
 
-4. **Polling del frontend**: `Account.jsx` hace polling cada 30 segundos a `GET /api/quotes/:folio` y `GET /api/checkout/:folio` para detectar cambios de estado producidos por el webhook entrante de Bind, y sincroniza Firestore vía `updateEstado()`.
+4. **Polling del frontend**: `Account.jsx` hace polling cada 10 segundos a `GET /api/quotes/:folio` y `GET /api/checkout/:folio` para detectar cambios de estado producidos por el webhook entrante de Bind, y sincroniza Firestore vía `updateEstado()`.
 
 5. **Rate limiting**: El servidor tiene límites por IP — cotizaciones: 20/15min, checkout: 10/15min, contacto: 5/15min. Bind debe implementar reintentos con backoff exponencial.
 

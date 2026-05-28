@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
+import { signInWithGooglePopup, signOutFromFirebase } from '../firebase';
 
 const AuthContext = createContext();
 const AUTH_TOKEN_KEY = '__plastitaps_secure_auth';
@@ -25,15 +26,20 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const loginWithGoogle = (credentialResponse) => {
-    // Decode the Google JWT to extract PII (name, email, picture).
-    // In production, send credential to backend to verify signature server-side.
-    const base64Url = credentialResponse.credential.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(
-      atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join('')
-    );
-    const payload = JSON.parse(jsonPayload);
+  /**
+   * Login con Google vía Firebase Auth (popup).
+   * Firebase Auth queda autenticado → Firestore rules ven request.auth.uid.
+   * Lanza si el usuario cancela el popup o Firebase rechaza — el caller debe try/catch.
+   */
+  const loginWithGoogle = async () => {
+    const fbUser = await signInWithGooglePopup();
+
+    // Mapeo Firebase User → shape del contexto
+    const profile = {
+      email:   fbUser.email,
+      name:    fbUser.displayName || fbUser.email,
+      picture: fbUser.photoURL    || null,
+    };
 
     // ── CRITICAL SECURITY: Full reset on every login ─────────────────────────
     // Wipe previous session COMPLETELY before persisting new identity.
@@ -42,19 +48,18 @@ export const AuthProvider = ({ children }) => {
     Cookies.remove(AUTH_TOKEN_KEY);
     // ─────────────────────────────────────────────────────────────────────────
 
-    // Re-hydrate with real Google data
+    // Check if this specific email already completed B2B profile
     const existingProfile = (() => {
-      // Check if this specific email already completed B2B profile
-      const raw = localStorage.getItem(USER_PROFILE_KEY + '_' + payload.email);
+      const raw = localStorage.getItem(USER_PROFILE_KEY + '_' + profile.email);
       return raw ? JSON.parse(raw) : null;
     })();
 
     const activeUser = existingProfile
-      ? { ...existingProfile, name: payload.name, picture: payload.picture, email: payload.email }
-      : { email: payload.email, name: payload.name, picture: payload.picture, profileComplete: false };
+      ? { ...existingProfile, ...profile }
+      : { ...profile, profileComplete: false };
 
     // Set session token (HttpOnly-like simulation)
-    Cookies.set(AUTH_TOKEN_KEY, btoa(payload.email + ':' + Date.now()), {
+    Cookies.set(AUTH_TOKEN_KEY, btoa(profile.email + ':' + Date.now()), {
       secure: true, sameSite: 'strict', expires: 1
     });
 
@@ -89,6 +94,9 @@ export const AuthProvider = ({ children }) => {
     Cookies.remove(AUTH_TOKEN_KEY);
     localStorage.removeItem(USER_PROFILE_KEY);
     setUser(null);
+    signOutFromFirebase().catch(err =>
+      console.warn('[Firebase Auth] signOut failed:', err?.message || err)
+    );
   };
 
   return (

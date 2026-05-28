@@ -30,3 +30,6 @@ dist-ssr
 
 # Server local logo uploads (no persisted to git)
 server/uploads/
+
+# Server local store cache (JSON persistence for in-memory stores)
+server/data/

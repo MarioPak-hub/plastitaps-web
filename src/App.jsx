@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { GoogleOAuthProvider } from '@react-oauth/google';
 import Home from './pages/Home';
 import Catalog from './pages/Catalog';
 import InteractiveDesign from './pages/InteractiveDesign';
@@ -27,8 +26,6 @@ import promoCatalog from './data/promo_catalog.json';
 
 const allProducts = [...productsData, ...retailProducts, ...promoCatalog];
 
-const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || 'mock-client-id';
-
 export default function App() {
   const [globalProduct, setGlobalProduct] = useState(null);
 
@@ -43,37 +40,35 @@ export default function App() {
   };
 
   return (
-    <GoogleOAuthProvider clientId={clientId}>
-      <AuthProvider>
-        <QuotesProvider>
-        <CartProvider>
-          <BrowserRouter>
-            <Cart />
-            <FloatingChatbot onProductClick={openProductBySlug} />
-            <ProductModal selectedProduct={globalProduct} onClose={() => setGlobalProduct(null)} />
-            <Routes>
-              {/* Públicas */}
-              <Route path="/" element={<Home />} />
-              <Route path="/contacto" element={<Contact />} />
-              <Route path="/disena-tu-vaso" element={<InteractiveDesign openProductBySlug={openProductBySlug} />} />
-              <Route path="/promocionales" element={<Promocionales openProductBySlug={openProductBySlug} />} />
-              <Route path="/catalogo" element={<Catalog openProductBySlug={openProductBySlug} />} />
-              <Route path="/carrito" element={<CarritoCheckout />} />
-              <Route path="/pago-exitoso" element={<PagoExitoso />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/completar-perfil" element={<CompleteProfile />} />
+    <AuthProvider>
+      <QuotesProvider>
+      <CartProvider>
+        <BrowserRouter>
+          <Cart />
+          <FloatingChatbot onProductClick={openProductBySlug} />
+          <ProductModal selectedProduct={globalProduct} onClose={() => setGlobalProduct(null)} />
+          <Routes>
+            {/* Públicas */}
+            <Route path="/" element={<Home />} />
+            <Route path="/contacto" element={<Contact />} />
+            <Route path="/disena-tu-vaso" element={<InteractiveDesign openProductBySlug={openProductBySlug} />} />
+            <Route path="/promocionales" element={<Promocionales openProductBySlug={openProductBySlug} />} />
+            <Route path="/catalogo" element={<Catalog openProductBySlug={openProductBySlug} />} />
+            <Route path="/carrito" element={<CarritoCheckout />} />
+            <Route path="/pago-exitoso" element={<PagoExitoso />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/completar-perfil" element={<CompleteProfile />} />
 
-              {/* Protegidas */}
-              <Route element={<ProtectedRoute />}>
-                <Route path="/checkout" element={<Checkout />} />
-                <Route path="/pagar" element={<StripeCheckout />} />
-                <Route path="/perfil" element={<Account />} />
-              </Route>
-            </Routes>
-          </BrowserRouter>
-        </CartProvider>
-        </QuotesProvider>
-      </AuthProvider>
-    </GoogleOAuthProvider>
+            {/* Protegidas */}
+            <Route element={<ProtectedRoute />}>
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/pagar" element={<StripeCheckout />} />
+              <Route path="/perfil" element={<Account />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </CartProvider>
+      </QuotesProvider>
+    </AuthProvider>
   );
 }
