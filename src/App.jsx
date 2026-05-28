@@ -42,32 +42,32 @@ export default function App() {
   return (
     <AuthProvider>
       <QuotesProvider>
-      <CartProvider>
-        <BrowserRouter>
-          <Cart />
-          <FloatingChatbot onProductClick={openProductBySlug} />
-          <ProductModal selectedProduct={globalProduct} onClose={() => setGlobalProduct(null)} />
-          <Routes>
-            {/* Públicas */}
-            <Route path="/" element={<Home />} />
-            <Route path="/contacto" element={<Contact />} />
-            <Route path="/disena-tu-vaso" element={<InteractiveDesign openProductBySlug={openProductBySlug} />} />
-            <Route path="/promocionales" element={<Promocionales openProductBySlug={openProductBySlug} />} />
-            <Route path="/catalogo" element={<Catalog openProductBySlug={openProductBySlug} />} />
-            <Route path="/carrito" element={<CarritoCheckout />} />
-            <Route path="/pago-exitoso" element={<PagoExitoso />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/completar-perfil" element={<CompleteProfile />} />
+        <CartProvider>
+          <BrowserRouter>
+            <Cart />
+            <FloatingChatbot onProductClick={openProductBySlug} />
+            <ProductModal selectedProduct={globalProduct} onClose={() => setGlobalProduct(null)} />
+            <Routes>
+              {/* Públicas */}
+              <Route path="/" element={<Home openProductBySlug={openProductBySlug} />} />
+              <Route path="/contacto" element={<Contact />} />
+              <Route path="/disena-tu-vaso" element={<InteractiveDesign openProductBySlug={openProductBySlug} />} />
+              <Route path="/promocionales" element={<Promocionales openProductBySlug={openProductBySlug} />} />
+              <Route path="/catalogo" element={<Catalog openProductBySlug={openProductBySlug} />} />
+              <Route path="/carrito" element={<CarritoCheckout />} />
+              <Route path="/pago-exitoso" element={<PagoExitoso />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/completar-perfil" element={<CompleteProfile />} />
 
-            {/* Protegidas */}
-            <Route element={<ProtectedRoute />}>
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/pagar" element={<StripeCheckout />} />
-              <Route path="/perfil" element={<Account />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </CartProvider>
+              {/* Protegidas */}
+              <Route element={<ProtectedRoute />}>
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/pagar" element={<StripeCheckout />} />
+                <Route path="/perfil" element={<Account />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </CartProvider>
       </QuotesProvider>
     </AuthProvider>
   );
