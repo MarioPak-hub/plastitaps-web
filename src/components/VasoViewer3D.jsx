@@ -22,47 +22,12 @@ export const TEMPLATES = [
   { id: 'corporate', label: '🏢 Corporativo', color: '#1e3a8a' },
 ];
 
-// ── Ruta del modelo 3D real ──
-const MODEL_PATH = '/models/Cafe 16oz.glb';
-
-// ── Tamaño del canvas de textura — Rectangular para compensar estiramiento cilíndrico ──
+// Canvas de textura: 2048px ancho × 2048px alto (cuadrado)
+// Para colocar la imagen en un recuadro pequeño centrado.
 const TEX_W = 2048;
-const TEX_H = 1024;
+const TEX_H = 2048;
 
-/**
- * Genera coordenadas UV cilíndricas para una geometría que carece de ellas.
- * Proyecta U = ángulo alrededor del eje Y, V = altura normalizada.
- * Esto es ideal para vasos, botellas, y cilindros en general.
- */
-function generateCylindricalUVs(geometry) {
-  const pos = geometry.attributes.position;
-  if (!pos) return;
 
-  geometry.computeBoundingBox();
-  const bb = geometry.boundingBox;
-  const minY = bb.min.y;
-  const height = bb.max.y - bb.min.y || 1;
-
-  const uvs = new Float32Array(pos.count * 2);
-
-  for (let i = 0; i < pos.count; i++) {
-    const x = pos.getX(i);
-    const y = pos.getY(i);
-    const z = pos.getZ(i);
-
-    // U: ángulo en el plano XZ, normalizado a [0, 1]
-    let u = Math.atan2(z, x); // rango [-PI, PI]
-    u = (u + Math.PI) / (2 * Math.PI); // normalizar a [0, 1]
-
-    // V: altura normalizada
-    const v = (y - minY) / height;
-
-    uvs[i * 2] = u;
-    uvs[i * 2 + 1] = v;
-  }
-
-  geometry.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
-}
 
 /**
  * Encuentra el mesh principal del vaso (el de mayor superficie geométrica).
@@ -93,10 +58,10 @@ function findMainMesh(object3d) {
 }
 
 // ── Componente que carga el modelo GLB real y aplica la textura ──
-function RealCupModel({ color, logo }) {
+function RealCupModel({ color, logo, modelPath }) {
   const groupRef = useRef();
   const centered = useRef(false);
-  const { scene } = useGLTF(MODEL_PATH);
+  const { scene } = useGLTF(modelPath);
 
   const clonedScene = useMemo(() => scene.clone(true), [scene]);
 
@@ -119,60 +84,52 @@ function RealCupModel({ color, logo }) {
 
     const tex = new THREE.CanvasTexture(c);
     tex.colorSpace = THREE.SRGBColorSpace;
-    tex.flipY = false; // GLB estándar usa flipY=false
+    tex.flipY = true;  // true = canvas top → UV V=1 → top of cup
     tex.wrapS = THREE.ClampToEdgeWrapping;
     tex.wrapT = THREE.ClampToEdgeWrapping;
     textureRef.current = tex;
   }
 
-  // Función para pintar el canvas con color base + logo
+  // ── paintCanvas: centra la imagen en un recuadro pequeño ──
   const paintCanvas = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
 
-    // 1. Fondo sólido del color del vaso
+    // 1. Pintar todo el canvas con el color sólido
     ctx.fillStyle = color;
     ctx.fillRect(0, 0, TEX_W, TEX_H);
 
-    // 2. Logo centrado y proporcional
+    // 2. Imagen en un recuadro central pequeño (object-fit: contain)
     const img = logoImgRef.current;
     if (img && img.complete && img.naturalWidth > 0) {
-      // Use 30% of texture width as max logo dimension to avoid oversizing
-      const maxW = TEX_W * 0.30;
-      const maxH = TEX_H * 0.35;
-      const aspect = img.naturalWidth / img.naturalHeight;
+      // Definimos el "recuadro pequeño" (25% del tamaño de textura)
+      const printW = TEX_W * 0.25;
+      const printH = TEX_H * 0.25;
+      const printX = (TEX_W - printW) / 2;
+      const printY = (TEX_H - printH) / 2;
 
-      let drawW, drawH;
-      if (aspect >= 1) {
-        // Landscape: fit to maxW
-        drawW = Math.min(maxW, img.naturalWidth);
-        drawH = drawW / aspect;
-        if (drawH > maxH) {
-          drawH = maxH;
-          drawW = drawH * aspect;
-        }
-      } else {
-        // Portrait: fit to maxH
-        drawH = Math.min(maxH, img.naturalHeight);
-        drawW = drawH * aspect;
-        if (drawW > maxW) {
-          drawW = maxW;
-          drawH = drawW / aspect;
-        }
-      }
+      // Calcular escalas para object-fit: contain
+      const scaleX = printW / img.naturalWidth;
+      const scaleY = printH / img.naturalHeight;
+      const scale = Math.min(scaleX, scaleY);
 
-      // Center the logo on the canvas
-      const x = (TEX_W - drawW) / 2;
-      const y = (TEX_H - drawH) / 2;
-      ctx.drawImage(img, x, y, drawW, drawH);
+      const drawW = img.naturalWidth * scale;
+      const drawH = img.naturalHeight * scale;
+      
+      ctx.save();
+      // Trasladamos el contexto al centro del recuadro
+      ctx.translate(printX + printW / 2, printY + printH / 2);
+      
+      // Rotamos -90 grados (o 90 grados) para compensar la orientación UV nativa del GLB
+      ctx.rotate(-Math.PI / 2);
+      
+      // Dibujamos la imagen centrada respecto al nuevo origen (el centro)
+      ctx.drawImage(img, -drawW / 2, -drawH / 2, drawW, drawH);
+      ctx.restore();
     }
 
-    // Marcar textura para re-upload a GPU
-    if (textureRef.current) {
-      textureRef.current.needsUpdate = true;
-    }
-    // Incrementar version para forzar re-aplicación del material
+    if (textureRef.current) textureRef.current.needsUpdate = true;
     setTexVersion(v => v + 1);
   }, [color]);
 
@@ -208,29 +165,8 @@ function RealCupModel({ color, logo }) {
   useLayoutEffect(() => {
     const mainMesh = findMainMesh(clonedScene);
 
-    // Compute actual cylinder aspect ratio for texture repeat compensation
-    let cylinderAspect = 1;
-    if (mainMesh && mainMesh.geometry) {
-      mainMesh.geometry.computeBoundingBox();
-      const bb = mainMesh.geometry.boundingBox;
-      if (bb) {
-        const size = new THREE.Vector3();
-        bb.getSize(size);
-        // Approximate circumference vs height ratio
-        const radius = Math.max(size.x, size.z) / 2;
-        const circumference = 2 * Math.PI * radius;
-        const height = size.y || 1;
-        cylinderAspect = circumference / height;
-      }
-    }
-
     clonedScene.traverse((child) => {
       if (!child.isMesh || !child.geometry) return;
-
-      // Generar UVs cilíndricos si no existen
-      if (!child.geometry.attributes.uv) {
-        generateCylindricalUVs(child.geometry);
-      }
 
       if (!child.material) return;
 
@@ -238,14 +174,15 @@ function RealCupModel({ color, logo }) {
       material.roughness = 0.2;
       material.metalness = 0.05;
 
-      // Aplicar textura con logo solo al mesh principal
-      if (child === mainMesh && logo && textureRef.current) {
+      // Aplicar textura del canvas siempre al mesh principal
+      // (el canvas ya maneja el caso sin logo pintando todo con el color del vaso)
+      if (child === mainMesh && textureRef.current) {
         textureRef.current.repeat.set(1, 1);
         textureRef.current.offset.set(0, 0);
         material.map = textureRef.current;
         material.color.setHex(0xffffff); // blanco para no teñir la textura
         material.needsUpdate = true;
-      } else {
+      } else if (child !== mainMesh) {
         material.map = null;
         material.color.copy(colorObj);
         material.needsUpdate = true;
@@ -287,11 +224,9 @@ function RealCupModel({ color, logo }) {
   );
 }
 
-// Pre-cargar el modelo para evitar flashes
-useGLTF.preload(MODEL_PATH);
 
 // ── Canvas principal con el modelo 3D real ──
-export default function VasoViewer3D({ color = '#ffffff', logo }) {
+export default function VasoViewer3D({ color = '#ffffff', logo, modelPath }) {
   return (
     <div style={{ width: '100%', height: '420px' }}>
       <Canvas3DErrorBoundary>
@@ -310,7 +245,7 @@ export default function VasoViewer3D({ color = '#ffffff', logo }) {
           <pointLight position={[3, 0, 3]} intensity={0.6} color="#e0e7ff" />
 
           <React.Suspense fallback={null}>
-            <RealCupModel color={color} logo={logo} />
+            <RealCupModel key={modelPath} color={color} logo={logo} modelPath={modelPath} />
           </React.Suspense>
 
           <OrbitControls

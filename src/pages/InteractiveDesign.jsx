@@ -1,18 +1,18 @@
-import React, { useState, Suspense, lazy } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useRef, Suspense, lazy, useMemo } from 'react';
+import { motion } from 'framer-motion';
 import {
-  FiCreditCard, FiPlus, FiMinus, FiCheckCircle,
+  FiCreditCard, FiMinus, FiPlus,
   FiUpload, FiRefreshCcw, FiSend,
-  FiShoppingBag, FiAlertCircle, FiLoader,
+  FiAlertCircle, FiLoader, FiCheckCircle, FiBox
 } from 'react-icons/fi';
 import { Sparkles } from 'lucide-react';
 import { loadStripe } from '@stripe/stripe-js';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { INK_COLORS } from '../components/VasoViewer3D';
+import ProductModel3D from '../components/ProductModel3D';
 import promoCatalog from '../data/promo_catalog.json';
 import { useAuth } from '../context/AuthContext';
-import { useCart } from '../context/CartContext';
 import { useQuotes } from '../context/QuotesContext';
 
 const VasoViewer3D = lazy(() => import('../components/VasoViewer3D'));
@@ -25,80 +25,60 @@ const MIN_QTY = 10;
 // ─────────────────────────────────────────────────────────────────────────────
 // SECTION 1: Nuestros Promocionales — click en tarjeta abre modal
 // ─────────────────────────────────────────────────────────────────────────────
-function PromoGallery({ openProductBySlug }) {
-  const { addToCart } = useCart();
-  const [qtys,  setQtys]  = useState(() => Object.fromEntries(promoCatalog.map(p => [p.id, p.moq])));
-  const [added, setAdded] = useState({});
-
-  const handleAdd = (e, p) => {
-    e.stopPropagation();
-    addToCart({ ...p, moq: p.moq }, qtys[p.id] || p.moq);
-    setAdded(prev => ({ ...prev, [p.id]: true }));
-    setTimeout(() => setAdded(prev => ({ ...prev, [p.id]: false })), 2000);
-  };
-
-  const handleQty = (e, id, qty, moq) => {
-    e.stopPropagation();
-    setQtys(prev => ({ ...prev, [id]: Math.max(moq, qty) }));
+function PromoGallery({ studioRef }) {
+  const scrollToStudio = () => {
+    studioRef?.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (
-    <section className="py-10 sm:py-14 lg:py-16 px-4 sm:px-6 max-w-7xl mx-auto">
+    <section className="py-10 sm:py-14 lg:py-16 px-4 sm:px-6 max-w-6xl mx-auto">
       <div className="text-center mb-8 sm:mb-10">
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-bold uppercase tracking-widest mb-5">
-          <FiCreditCard /> Compra Directa · Stripe
+          <FiCreditCard /> Elige tu modelo · Personaliza abajo
         </div>
         <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black font-outfit tracking-tight text-slate-900 mb-3">
           Nuestros <span className="text-blue-600">Promocionales</span>
         </h2>
         <p className="text-slate-500 max-w-xl mx-auto text-sm sm:text-base">
-          Vasos de temporada listos. Mínimo {fmtU(MIN_QTY)} piezas.<br />
-          Añade al carrito y paga todo junto con tarjeta.
+          Elige el vaso que más te guste y personalízalo abajo con tu logo y color.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
         {promoCatalog.map(p => {
-          const qty = qtys[p.id] || p.moq;
-          const ok  = !!added[p.id];
           return (
-            <motion.div key={p.id} whileHover={{ y: -5 }} transition={{ type: 'spring', stiffness: 300 }}
-              onClick={() => openProductBySlug?.(p.slug)}
-              className="rounded-2xl sm:rounded-3xl border-2 border-slate-200 hover:border-blue-300 overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col cursor-pointer">
-              <div className="relative h-40 sm:h-48 flex items-center justify-center overflow-hidden flex-shrink-0"
-                style={{ background: `linear-gradient(135deg, ${p.accentColor}15, ${p.accentColor}05)` }}>
-                <span className="absolute top-3 left-3 text-2xl sm:text-3xl">{p.emoji}</span>
-                <span className="absolute top-3 right-3 text-[9px] font-black uppercase px-2.5 py-1 rounded-full text-white" style={{ backgroundColor: p.badgeColor }}>{p.badge}</span>
-                <img src="/vaso_transparente.png" alt={p.name} className="h-28 sm:h-36 object-contain relative z-10 drop-shadow-xl" style={{ filter: p.filter }} />
+            <motion.div key={p.id} whileHover={{ y: -6, scale: 1.01 }} transition={{ type: 'spring', stiffness: 300 }}
+              onClick={scrollToStudio}
+              className="w-full max-w-sm rounded-2xl sm:rounded-3xl border-2 border-slate-200 hover:border-blue-400 overflow-hidden shadow-sm hover:shadow-xl transition-all flex flex-col cursor-pointer">
+              <div className="relative h-48 sm:h-56 flex items-center justify-center overflow-hidden flex-shrink-0"
+                style={{ background: `linear-gradient(135deg, ${p.accentColor}18, ${p.accentColor}06)` }}>
+                <span className="absolute top-3 left-3 text-2xl sm:text-3xl z-10 pointer-events-none">{p.emoji}</span>
+                <span className="absolute top-3 right-3 text-[9px] font-black uppercase px-2.5 py-1 rounded-full text-white z-10 pointer-events-none" style={{ backgroundColor: p.badgeColor }}>{p.badge}</span>
+                {p.modelo3D ? (
+                  <div className="absolute inset-0">
+                    <ProductModel3D
+                      modelPath={p.modelo3D}
+                      selectedColor={p.colores?.[0] || '#cccccc'}
+                      height="100%"
+                      disableControls
+                    />
+                  </div>
+                ) : (
+                  <img src={p.image} alt={p.name} className="h-32 sm:h-40 object-contain relative z-10 drop-shadow-xl" style={{ filter: p.filter }} />
+                )}
               </div>
               <div className="p-4 sm:p-5 bg-white flex flex-col flex-1">
-                <h3 className="font-bold text-slate-800 text-sm sm:text-base mb-1">{p.name}</h3>
-                {p.shortDescription ? (
-                  <p className="text-[11px] italic text-slate-400 mb-2 flex-1 line-clamp-2">{p.shortDescription}</p>
-                ) : (
-                  <p className="text-xs text-slate-400 mb-2 flex-1">{p.subtitle}</p>
-                )}
-                <div className="flex justify-between items-center mb-3 sm:mb-4">
-                  <div><p className="text-xs text-slate-500">Precio / pz</p><p className="font-black text-blue-700 text-lg sm:text-xl">${fmtMXN(p.price)}</p></div>
-                  <div className="text-right"><p className="text-xs text-slate-500">Mín {fmtU(p.moq)} pz</p><p className="text-xs font-bold text-slate-600">${fmtMXN(p.moq * p.price * 1.16)} c/IVA</p></div>
+                <h3 className="font-bold text-slate-800 text-sm sm:text-base mb-1 text-center">{p.name}</h3>
+                <p className="text-[11px] italic text-slate-400 mb-3 text-center line-clamp-2">
+                  {p.shortDescription || p.subtitle}
+                </p>
+                <div className="flex justify-between items-center mb-4 bg-blue-50 rounded-xl px-3 py-2">
+                  <div><p className="text-[10px] text-slate-500">Precio / pz</p><p className="font-black text-blue-700 text-lg">${fmtMXN(p.price)}</p></div>
+                  <div className="text-right"><p className="text-[10px] text-slate-500">Mín {fmtU(p.moq)} pz</p><p className="text-xs font-bold text-slate-600">${fmtMXN(p.moq * p.price * 1.16)} c/IVA</p></div>
                 </div>
-                {/* Quantity controls — stop propagation so card click still opens modal */}
-                <div className="flex items-center gap-2 mb-3" onClick={e => e.stopPropagation()}>
-                  <button onClick={e => handleQty(e, p.id, qty - 10, p.moq)}
-                    className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-slate-100 hover:bg-red-50 hover:text-red-500 flex items-center justify-center border border-slate-200 transition-colors">
-                    <FiMinus className="text-sm" />
-                  </button>
-                  <input type="number" min={p.moq} step={10} value={qty}
-                    onChange={e => handleQty(e, p.id, parseInt(e.target.value) || p.moq, p.moq)}
-                    className="flex-1 text-center font-bold text-slate-800 text-sm py-2 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-400 transition-colors" />
-                  <button onClick={e => handleQty(e, p.id, qty + 10, p.moq)}
-                    className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-200 transition-colors hover:bg-blue-100">
-                    <FiPlus className="text-sm" />
-                  </button>
-                </div>
-                <button onClick={e => handleAdd(e, p)}
-                  className={`w-full py-3 sm:py-3.5 rounded-xl sm:rounded-2xl font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-md ${ok ? 'bg-green-600 text-white' : 'bg-blue-600 hover:bg-blue-700 text-white hover:-translate-y-0.5 hover:shadow-lg'}`}>
-                  {ok ? <><FiCheckCircle /> ¡Agregado!</> : <><FiShoppingBag /> Añadir al Carrito</>}
+                <button onClick={scrollToStudio}
+                  className="w-full py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-md hover:shadow-lg hover:-translate-y-0.5">
+                  <Sparkles className="w-4 h-4" /> Personalizar este vaso
                 </button>
               </div>
             </motion.div>
@@ -126,6 +106,9 @@ function Studio3D() {
   const { user }        = useAuth();
   const { submitQuote } = useQuotes();
 
+  const availableModels = useMemo(() => promoCatalog.filter(p => p.modelo3D), []);
+  const [selectedPromo, setSelectedPromo] = useState(availableModels[0] || null);
+
   const [cupColor,   setCupColor]   = useState(INK_COLORS[0].hex);
   const [qty,        setQty]        = useState(MIN_QTY);
   const [logoFile,   setLogoFile]   = useState(null);   // File object
@@ -134,6 +117,11 @@ function Studio3D() {
   const [sendStatus, setSendStatus] = useState('idle'); // idle | sending | done | error
   const [sendError,  setSendError]  = useState('');
   const [resultFolio,setResultFolio]= useState('');
+
+  const handleSelectPromo = (promo) => {
+    setSelectedPromo(promo);
+    removeLogo(); // clear logo when switching models
+  };
 
   const colorName = INK_COLORS.find(c => c.hex === cupColor)?.name || cupColor;
 
@@ -174,7 +162,7 @@ function Studio3D() {
           rfc:      user?.rfc       || '',
         },
         productos: [{
-          nombre:   'Vaso Personalizado',
+          nombre:   `Vaso Personalizado - ${selectedPromo?.name || 'Genérico'}`,
           cantidad: qty,
           color:    `${colorName} (${cupColor})`,
           tipo:     'diseño-personalizado',
@@ -229,7 +217,13 @@ function Studio3D() {
                   <p className="text-slate-400 text-xs font-bold">Cargando modelo 3D...</p>
                 </div>
               }>
-                <VasoViewer3D color={cupColor} logo={logoPreview} />
+                {selectedPromo && (
+                  <VasoViewer3D 
+                    color={cupColor} 
+                    logo={logoPreview} 
+                    modelPath={selectedPromo.modelo3D} 
+                  />
+                )}
               </Suspense>
               <div className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-black/60 border border-white/10 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-[10px] sm:text-xs text-indigo-300 font-bold z-20 whitespace-nowrap">
                 <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse shadow-[0_0_6px_rgba(34,197,94,0.8)]" />
@@ -240,6 +234,25 @@ function Studio3D() {
 
           {/* Controls */}
           <div className="space-y-4 sm:space-y-5">
+
+            {/* Model Selector */}
+            {availableModels.length > 0 && (
+              <div className="rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-white/10 space-y-3 sm:space-y-4"
+                style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01))', boxShadow: '0 0 0 1px rgba(255,255,255,0.06)' }}>
+                <h3 className="text-white font-bold font-outfit flex items-center gap-2 text-sm sm:text-base">
+                  <FiBox className="text-indigo-400" /> Elige tu Vaso
+                </h3>
+                <div className="grid grid-cols-3 gap-2">
+                  {availableModels.map(promo => (
+                    <button key={promo.id} onClick={() => handleSelectPromo(promo)}
+                      className={`flex flex-col items-center justify-center gap-2 p-2 sm:p-3 rounded-xl border transition-all ${selectedPromo?.id === promo.id ? 'border-indigo-400 bg-indigo-500/10 shadow-[0_0_8px_rgba(129,140,248,0.4)]' : 'border-white/10 hover:border-white/30 hover:bg-white/5'}`}>
+                      <img src={promo.image} alt={promo.name} className="h-10 sm:h-12 object-contain mix-blend-screen" onError={(e) => { e.target.onerror=null; e.target.src='/vaso_transparente.png'; }} />
+                      <span className="text-[9px] sm:text-[10px] font-bold text-slate-300 leading-tight text-center">{promo.name}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Color palette */}
             <div className="rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-white/10 space-y-3 sm:space-y-4"
@@ -362,6 +375,7 @@ function Studio3D() {
 // PAGE
 // ─────────────────────────────────────────────────────────────────────────────
 export default function InteractiveDesign({ openProductBySlug }) {
+  const studioRef = useRef(null);
   return (
     <div className="min-h-screen font-inter text-slate-800 bg-white">
       <Navbar />
@@ -370,21 +384,23 @@ export default function InteractiveDesign({ openProductBySlug }) {
         <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black font-outfit text-slate-900">
           Personaliza tu <span className="text-blue-600">Vaso</span>
         </h1>
-        <p className="text-slate-500 mt-2 font-medium text-sm sm:text-base">Compra directo o diseña el tuyo. Mínimo 10 piezas.</p>
+        <p className="text-slate-500 mt-2 font-medium text-sm sm:text-base">Elige un modelo y diseña el tuyo. Mínimo 10 piezas.</p>
       </div>
 
-      <PromoGallery openProductBySlug={openProductBySlug} />
+      <PromoGallery studioRef={studioRef} />
 
       <div className="relative h-12 sm:h-16 bg-white overflow-hidden">
         <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, white, #0f172a)' }} />
         <div className="relative z-10 flex items-center justify-center h-full gap-3 px-4">
           <div className="h-px flex-1 bg-gradient-to-r from-transparent to-slate-400" />
-          <span className="text-white text-[10px] sm:text-xs font-bold uppercase tracking-widest whitespace-nowrap drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)]">O crea el tuyo desde cero</span>
+          <span className="text-white text-[10px] sm:text-xs font-bold uppercase tracking-widest whitespace-nowrap drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)]">Personaliza aquí tu vaso</span>
           <div className="h-px flex-1 bg-gradient-to-l from-transparent to-slate-400" />
         </div>
       </div>
 
-      <Studio3D />
+      <div ref={studioRef}>
+        <Studio3D />
+      </div>
 
       <Footer />
     </div>

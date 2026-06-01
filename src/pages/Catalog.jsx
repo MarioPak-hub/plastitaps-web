@@ -430,6 +430,7 @@ export default function Catalog({ openProductBySlug }) {
                     {/* Image */}
                     <div className="relative bg-white p-6 flex items-center justify-center border-b border-slate-100">
                       <img src={product.image} alt={product.name}
+                        onError={(e) => { e.target.onerror = null; e.target.src = '/vaso_transparente.png'; }}
                         className="h-24 object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-500" />
                       <span className="absolute top-3 right-3 px-2 py-0.5 text-[10px] font-bold uppercase rounded-full bg-slate-100 text-[#0a192f] border border-slate-200 shadow-sm">
                         {product.category}

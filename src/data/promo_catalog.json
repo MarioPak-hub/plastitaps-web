@@ -24,12 +24,8 @@
     "emoji": "🎄",
     "filter": "sepia(0.3) saturate(3) hue-rotate(320deg) brightness(0.8)",
     "image": "/vaso_transparente.png",
-    "colores": [
-      "#ef4444",
-      "#ffffff",
-      "#22c55e",
-      "#f59e0b"
-    ]
+    "modelo3D": "/models/VASOS PARA BEBIDAS COLORES 16 OZ CON TAPA.glb",
+    "colores": ["#ef4444", "#ffffff", "#22c55e", "#f59e0b"]
   },
   {
     "id": "pc2",
@@ -65,7 +61,7 @@
     "name": "Vaso Café 16oz",
     "subtitle": "Take-Away Premium",
     "description": "Vaso take-away 16oz con tapa para café, té o bebidas frías. Presentación corporativa.",
-    "shortDescription": "Vaso corporativo con tapa para bebidas calientes",
+    "shortDescription": "Vaso con tapa para bebidas calientes y frías",
     "fullDescription": {
       "about": "Vaso tipo take-away de 16 oz (473 ml) con tapa hermética, concebido para el servicio profesional de café y bebidas de especialidad. Su estructura de grado industrial asegura el manejo seguro de líquidos calientes mientras proyecta una imagen corporativa impecable.",
       "uses": ["Cafeterías y barras de especialidad", "Servicios de catering corporativo", "Kioscos y food trucks"],
@@ -85,44 +81,6 @@
     "filter": "sepia(0.6) saturate(1.5) brightness(0.85)",
     "image": "/vaso_transparente.png",
     "modelo3D": "/models/Cafe 16oz.glb",
-    "colores": [
-      "#92400e",
-      "#d97706",
-      "#000000",
-      "#ffffff"
-    ]
-  },
-  {
-    "id": "pc4",
-    "slug": "pc4",
-    "name": "Vaso Corporativo",
-    "subtitle": "Línea Negocio",
-    "description": "Vaso transparente policarbonato. La opción clásica y elegante para eventos empresariales.",
-    "shortDescription": "Diseño sobrio y elegante para imagen institucional",
-    "fullDescription": {
-      "about": "El estándar premium para merchandising corporativo. Un vaso de policarbonato de diseño clásico que ofrece la elegancia visual del vidrio con la practicidad irrompible del plástico de ingeniería. Perfecto para alinear la experiencia física con la identidad de marca.",
-      "uses": ["Salas de juntas y conferencias", "Convenciones y exposiciones B2B", "Kits de bienvenida (onboarding)"],
-      "advantages": ["Estética ejecutiva minimalista", "Resistencia extrema en ambientes concurridos", "Mantenimiento sencillo e higiene garantizada"],
-      "applications": "Ideal como dotación estándar en corporativos, hoteles de negocios y agencias, así como artículo promocional de alto valor percibido para clientes clave.",
-      "customization": "Superficie pulida ideal para serigrafía a uno o varios colores, garantizando la fidelidad de logos corporativos.",
-      "material": "Policarbonato (PC) de alto impacto"
-    },
-    "category": "Promocionales",
-    "price": 13.50,
-    "moq": 10,
-    "unit": "pz",
-    "badge": "Negocio",
-    "badgeColor": "#1e3a8a",
-    "accentColor": "#2563eb",
-    "emoji": "🏢",
-    "filter": "none",
-    "image": "/vaso_transparente.png",
-    "colores": [
-      "#1e3a8a",
-      "#2563eb",
-      "#000000",
-      "#ffffff",
-      "#64748b"
-    ]
+    "colores": ["#92400e", "#d97706", "#000000", "#ffffff"]
   }
 ]

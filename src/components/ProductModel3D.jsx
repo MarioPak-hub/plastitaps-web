@@ -86,15 +86,18 @@ function ModelScene({ modelPath, color, controlsRef }) {
 
 const ProductModel3D = React.memo(function ProductModel3D({
   modelPath,
-  selectedColor = '#cccccc'
+  selectedColor = '#cccccc',
+  height = '400px',
+  disableControls = false,
 }) {
   const controlsRef = useRef();
 
   return (
-    <div style={{ width: '100%', height: '400px' }}>
+    <div style={{ width: '100%', height }}>
       <Canvas3DErrorBoundary>
         <Canvas
           camera={{ position: [0, 0.3, 3], fov: 42 }}
+          style={{ pointerEvents: disableControls ? 'none' : 'auto' }}
           gl={{
             toneMapping: THREE.ACESFilmicToneMapping,
             toneMappingExposure: 1.3,
@@ -129,9 +132,11 @@ const ProductModel3D = React.memo(function ProductModel3D({
           <OrbitControls
             ref={controlsRef}
             enablePan={false}
+            enableZoom={!disableControls}
+            enableRotate={!disableControls}
             minDistance={1.8}
             maxDistance={6}
-            enableDamping
+            enableDamping={!disableControls}
             dampingFactor={0.06}
             minPolarAngle={Math.PI / 6}
             maxPolarAngle={Math.PI / 1.7}
