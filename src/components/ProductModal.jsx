@@ -5,22 +5,19 @@ import { useCart } from '../context/CartContext';
 
 const ProductModel3D = React.lazy(() => import('./ProductModel3D'));
 
-const fmt = (n) => n.toLocaleString('es-MX', { minimumFractionDigits: 4, maximumFractionDigits: 4 });
-const fmtMOQ = (n) => n.toLocaleString('es-MX');
-
 export default function ProductModal({ selectedProduct, onClose }) {
-  const [modalQty, setModalQty] = useState('');
   const [modalColor, setModalColor] = useState(null);
-  const { addToCart } = useCart();
+  const { cart, addToCart } = useCart();
 
   useEffect(() => {
     if (selectedProduct) {
-      setModalQty(selectedProduct.moq);
       setModalColor(selectedProduct.colores?.[0] || null);
     }
   }, [selectedProduct]);
 
   if (!selectedProduct) return null;
+
+  const isInQuote = cart.some(i => i.id === selectedProduct.id);
 
   return (
     <AnimatePresence>
@@ -185,70 +182,27 @@ export default function ProductModal({ selectedProduct, onClose }) {
               </p>
             )}
 
-            {/* Datos de Venta */}
-            <div className="mb-6 sm:mb-8 space-y-3">
-              <div className="flex justify-between items-center bg-slate-50 p-3 sm:p-4 rounded-2xl border border-slate-100">
-                <span className="text-xs text-slate-500 font-bold uppercase tracking-wider">Precio Unitario</span>
-                <span className="text-[#0a192f] font-black text-lg sm:text-xl">
-                  ${fmt(selectedProduct.price)} <span className="text-xs font-normal text-slate-500">MXN x {selectedProduct.unit} + IVA</span>
-                </span>
-              </div>
-              <div className="flex justify-between items-center bg-amber-50 p-3 sm:p-4 rounded-2xl border border-amber-100/50">
-                <span className="text-xs text-amber-700 font-bold uppercase tracking-wider flex items-center gap-1">
-                  <FiInfo className="text-sm" /> Min. Venta
-                </span>
-                <span className="text-amber-600 font-black">{fmtMOQ(selectedProduct.moq)} {selectedProduct.unit?.toUpperCase()}</span>
-              </div>
-            </div>
-
-            {/* Controles de Cantidad y Carrito en vivo */}
+            {/* CTA Cotización */}
             <div className="mt-auto">
-              <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">
-                Cantidad Deseada
-              </label>
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-2">
-                <input
-                  type="text"
-                  inputMode="numeric"
-                  value={modalQty}
-                  onChange={(e) => setModalQty(e.target.value.replace(/\D/g, ''))}
-                  onBlur={() => {
-                    const numericVal = parseInt(modalQty, 10);
-                    if (isNaN(numericVal) || numericVal < selectedProduct.moq) {
-                      setModalQty(selectedProduct.moq);
-                    }
-                  }}
-                  className={`w-full sm:w-1/3 bg-white border-2 rounded-xl px-4 py-3 text-lg font-bold text-center focus:outline-none transition-colors ${(parseInt(modalQty, 10) < selectedProduct.moq || modalQty === '') ? 'border-red-500 text-red-600 focus:border-red-600' : 'border-slate-200 text-[#0a192f] focus:border-cyan-500'}`}
-                />
-                <div className="w-full sm:w-2/3 flex flex-col justify-center px-4 sm:px-5 py-2 bg-slate-50 rounded-xl border-2 border-slate-100">
-                  <span className="text-[10px] uppercase tracking-wider font-bold text-slate-400">Total Estimado</span>
-                  <span className="text-xl sm:text-2xl font-black font-outfit text-slate-800">
-                    {(parseInt(modalQty, 10) >= selectedProduct.moq)
-                      ? `$${(selectedProduct.price * parseInt(modalQty, 10)).toLocaleString('es-MX', { minimumFractionDigits: 2 })}`
-                      : '---'}
-                    <span className="text-xs font-normal text-slate-500 ml-1">+ IVA</span>
-                  </span>
-                </div>
-              </div>
-
-              {/* Feedback Visual de Error */}
-              <div className="h-4 w-full mb-3 sm:mb-4">
-                {(parseInt(modalQty, 10) < selectedProduct.moq || modalQty === '') && (
-                  <p className="text-red-500 text-xs font-bold text-center w-full">
-                    La cantidad debe ser igual o superior al mínimo de {fmtMOQ(selectedProduct.moq)} {selectedProduct.unit?.toUpperCase()}
-                  </p>
-                )}
+              <div className="mb-4 sm:mb-5 flex gap-2.5 items-start bg-blue-50 border border-blue-100 rounded-2xl p-3 sm:p-4">
+                <FiInfo className="text-blue-600 text-base shrink-0 mt-0.5" />
+                <p className="text-xs sm:text-sm text-slate-600 font-medium leading-relaxed">
+                  Las cantidades, personalización y especificaciones se definen con un asesor de
+                  Plastitaps para ayudarte de la mejor manera.
+                </p>
               </div>
 
               <button
-                disabled={(parseInt(modalQty, 10) < selectedProduct.moq || modalQty === '')}
+                disabled={isInQuote}
                 onClick={() => {
-                  addToCart(selectedProduct, parseInt(modalQty, 10));
+                  addToCart(selectedProduct);
                   onClose();
                 }}
-                className={`w-full py-3.5 sm:py-4 text-white rounded-xl font-bold text-base sm:text-lg flex items-center justify-center gap-3 transition-all shadow-xl ${(parseInt(modalQty, 10) < selectedProduct.moq || modalQty === '') ? 'bg-slate-400 cursor-not-allowed' : 'bg-[#0a192f] hover:bg-black hover:-translate-y-0.5'}`}
+                className={`w-full py-3.5 sm:py-4 text-white rounded-xl font-bold text-base sm:text-lg flex items-center justify-center gap-3 transition-all shadow-xl ${isInQuote ? 'bg-green-600 cursor-default' : 'bg-[#0a192f] hover:bg-black hover:-translate-y-0.5'}`}
               >
-                <FiPlusCircle className="text-xl opacity-80" /> Agregar al carrito
+                {isInQuote
+                  ? <><FiCheckCircle className="text-xl opacity-90" /> En tu cotización</>
+                  : <><FiPlusCircle className="text-xl opacity-80" /> Agregar a mi cotización</>}
               </button>
             </div>
           </div>

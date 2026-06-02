@@ -6,7 +6,6 @@ import {
   FiAlertCircle, FiLoader, FiCheckCircle, FiBox
 } from 'react-icons/fi';
 import { Sparkles } from 'lucide-react';
-import { loadStripe } from '@stripe/stripe-js';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { INK_COLORS } from '../components/VasoViewer3D';
@@ -16,10 +15,8 @@ import { useAuth } from '../context/AuthContext';
 import { useQuotes } from '../context/QuotesContext';
 
 const VasoViewer3D = lazy(() => import('../components/VasoViewer3D'));
-loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY); // warm up
 
-const fmtMXN = (n) => (n || 0).toLocaleString('es-MX', { minimumFractionDigits: 2 });
-const fmtU   = (n) => (n || 0).toLocaleString('es-MX');
+const fmtU = (n) => (n || 0).toLocaleString('es-MX');
 const MIN_QTY = 10;
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -69,13 +66,9 @@ function PromoGallery({ studioRef }) {
               </div>
               <div className="p-4 sm:p-5 bg-white flex flex-col flex-1">
                 <h3 className="font-bold text-slate-800 text-sm sm:text-base mb-1 text-center">{p.name}</h3>
-                <p className="text-[11px] italic text-slate-400 mb-3 text-center line-clamp-2">
+                <p className="text-[11px] italic text-slate-400 mb-4 text-center line-clamp-2">
                   {p.shortDescription || p.subtitle}
                 </p>
-                <div className="flex justify-between items-center mb-4 bg-blue-50 rounded-xl px-3 py-2">
-                  <div><p className="text-[10px] text-slate-500">Precio / pz</p><p className="font-black text-blue-700 text-lg">${fmtMXN(p.price)}</p></div>
-                  <div className="text-right"><p className="text-[10px] text-slate-500">Mín {fmtU(p.moq)} pz</p><p className="text-xs font-bold text-slate-600">${fmtMXN(p.moq * p.price * 1.16)} c/IVA</p></div>
-                </div>
                 <button onClick={scrollToStudio}
                   className="w-full py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-md hover:shadow-lg hover:-translate-y-0.5">
                   <Sparkles className="w-4 h-4" /> Personalizar este vaso
@@ -96,27 +89,27 @@ function PromoGallery({ studioRef }) {
 function fileToDataUrl(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
-    reader.onload  = () => resolve(reader.result);
+    reader.onload = () => resolve(reader.result);
     reader.onerror = () => reject(reader.error);
     reader.readAsDataURL(file);
   });
 }
 
 function Studio3D() {
-  const { user }        = useAuth();
+  const { user } = useAuth();
   const { submitQuote } = useQuotes();
 
   const availableModels = useMemo(() => promoCatalog.filter(p => p.modelo3D), []);
   const [selectedPromo, setSelectedPromo] = useState(availableModels[0] || null);
 
-  const [cupColor,   setCupColor]   = useState(INK_COLORS[0].hex);
-  const [qty,        setQty]        = useState(MIN_QTY);
-  const [logoFile,   setLogoFile]   = useState(null);   // File object
-  const [logoPreview,setLogoPreview]= useState(null);   // blob URL for VasoViewer3D
-  const [notes,      setNotes]      = useState('');
+  const [cupColor, setCupColor] = useState(INK_COLORS[0].hex);
+  const [qty, setQty] = useState(MIN_QTY);
+  const [logoFile, setLogoFile] = useState(null);   // File object
+  const [logoPreview, setLogoPreview] = useState(null);   // blob URL for VasoViewer3D
+  const [notes, setNotes] = useState('');
   const [sendStatus, setSendStatus] = useState('idle'); // idle | sending | done | error
-  const [sendError,  setSendError]  = useState('');
-  const [resultFolio,setResultFolio]= useState('');
+  const [sendError, setSendError] = useState('');
+  const [resultFolio, setResultFolio] = useState('');
 
   const handleSelectPromo = (promo) => {
     setSelectedPromo(promo);
@@ -145,27 +138,27 @@ function Studio3D() {
     try {
       // 1. Convertir logo (si existe) a base64 — el backend lo guardará en /uploads
       let logoBase64 = null;
-      let logoExt    = null;
+      let logoExt = null;
       if (logoFile) {
         logoBase64 = await fileToDataUrl(logoFile);
-        logoExt    = (logoFile.name.split('.').pop() || 'png').toLowerCase();
+        logoExt = (logoFile.name.split('.').pop() || 'png').toLowerCase();
       }
 
       // 2. Construir payload
       const payload = {
         tipo: 'personalizado',
         cliente: {
-          nombre:   user?.name      || '',
-          email:    user?.email     || '',
-          telefono: user?.telefono  || '',
-          empresa:  user?.empresa   || '',
-          rfc:      user?.rfc       || '',
+          nombre: user?.name || '',
+          email: user?.email || '',
+          telefono: user?.telefono || '',
+          empresa: user?.empresa || '',
+          rfc: user?.rfc || '',
         },
         productos: [{
-          nombre:   `Vaso Personalizado - ${selectedPromo?.name || 'Genérico'}`,
+          nombre: `Vaso Personalizado - ${selectedPromo?.name || 'Genérico'}`,
           cantidad: qty,
-          color:    `${colorName} (${cupColor})`,
-          tipo:     'diseño-personalizado',
+          color: `${colorName} (${cupColor})`,
+          tipo: 'diseño-personalizado',
         }],
         logoBase64,
         logoExt,
@@ -218,10 +211,10 @@ function Studio3D() {
                 </div>
               }>
                 {selectedPromo && (
-                  <VasoViewer3D 
-                    color={cupColor} 
-                    logo={logoPreview} 
-                    modelPath={selectedPromo.modelo3D} 
+                  <VasoViewer3D
+                    color={cupColor}
+                    logo={logoPreview}
+                    modelPath={selectedPromo.modelo3D}
                   />
                 )}
               </Suspense>
@@ -245,8 +238,22 @@ function Studio3D() {
                 <div className="grid grid-cols-3 gap-2">
                   {availableModels.map(promo => (
                     <button key={promo.id} onClick={() => handleSelectPromo(promo)}
-                      className={`flex flex-col items-center justify-center gap-2 p-2 sm:p-3 rounded-xl border transition-all ${selectedPromo?.id === promo.id ? 'border-indigo-400 bg-indigo-500/10 shadow-[0_0_8px_rgba(129,140,248,0.4)]' : 'border-white/10 hover:border-white/30 hover:bg-white/5'}`}>
-                      <img src={promo.image} alt={promo.name} className="h-10 sm:h-12 object-contain mix-blend-screen" onError={(e) => { e.target.onerror=null; e.target.src='/vaso_transparente.png'; }} />
+                      className={`flex flex-col items-center justify-center gap-1 p-1.5 sm:p-2 rounded-xl border transition-all ${selectedPromo?.id === promo.id ? 'border-indigo-400 bg-indigo-500/10 shadow-[0_0_8px_rgba(129,140,248,0.4)]' : 'border-white/10 hover:border-white/30 hover:bg-white/5'}`}>
+                      {/* Mini canvas 3D — pointer-events none para no bloquear el click del botón */}
+                      <div className="w-full rounded-lg overflow-hidden pointer-events-none" style={{ height: 72 }}>
+                        <Suspense fallback={
+                          <div className="w-full h-full flex items-center justify-center">
+                            <div className="w-4 h-4 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin" />
+                          </div>
+                        }>
+                          <ProductModel3D
+                            modelPath={promo.modelo3D}
+                            selectedColor={promo.colores?.[0] || '#cccccc'}
+                            height="72px"
+                            disableControls
+                          />
+                        </Suspense>
+                      </div>
                       <span className="text-[9px] sm:text-[10px] font-bold text-slate-300 leading-tight text-center">{promo.name}</span>
                     </button>
                   ))}
@@ -351,15 +358,14 @@ function Studio3D() {
 
             {/* CTA */}
             <button onClick={handleSend} disabled={sendStatus === 'sending' || sendStatus === 'done'}
-              className={`w-full py-4 sm:py-5 rounded-xl sm:rounded-2xl font-bold text-base sm:text-lg flex items-center justify-center gap-2 sm:gap-3 transition-all ${
-                sendStatus === 'done'    ? 'bg-green-600 text-white cursor-default' :
-                sendStatus === 'sending' ? 'bg-indigo-400 text-white cursor-wait' :
-                'bg-gradient-to-r from-indigo-600 to-fuchsia-600 hover:from-indigo-500 hover:to-fuchsia-500 text-white hover:-translate-y-1'
-              }`}
+              className={`w-full py-4 sm:py-5 rounded-xl sm:rounded-2xl font-bold text-base sm:text-lg flex items-center justify-center gap-2 sm:gap-3 transition-all ${sendStatus === 'done' ? 'bg-green-600 text-white cursor-default' :
+                  sendStatus === 'sending' ? 'bg-indigo-400 text-white cursor-wait' :
+                    'bg-gradient-to-r from-indigo-600 to-fuchsia-600 hover:from-indigo-500 hover:to-fuchsia-500 text-white hover:-translate-y-1'
+                }`}
               style={{ boxShadow: sendStatus === 'idle' ? '0 8px 32px rgba(99,102,241,0.4)' : undefined }}>
               {sendStatus === 'sending' ? <><FiLoader className="animate-spin" /> Procesando...</> :
-               sendStatus === 'done'    ? <><FiCheckCircle /> ¡Solicitud Enviada!</> :
-               <><FiSend /> Cotizar Diseño</>}
+                sendStatus === 'done' ? <><FiCheckCircle /> ¡Solicitud Enviada!</> :
+                  <><FiSend /> Cotizar Diseño</>}
             </button>
             <p className="text-center text-slate-500 text-[10px] sm:text-xs">
               Tu solicitud llega a ventas@plastitaps.com para cotización y validación de arte.

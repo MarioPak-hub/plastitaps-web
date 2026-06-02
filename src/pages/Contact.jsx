@@ -110,7 +110,7 @@ export default function Contact() {
               </div>
               <div className="flex gap-3 items-center">
                 <FiPhone className="text-cyan-500 shrink-0 text-lg" />
-                <a href="tel:3325965925" className="text-slate-300 hover:text-cyan-300 transition-colors" style={{ textDecoration: 'none' }}>3325965925</a>
+                <a href="tel:+5233259625" className="text-slate-300 hover:text-cyan-300 transition-colors" style={{ textDecoration: 'none' }}>+52 33259625</a>
               </div>
               <div className="flex gap-3 items-start">
                 <FiMail className="text-cyan-500 shrink-0 mt-0.5 text-lg" />
@@ -121,10 +121,10 @@ export default function Contact() {
               </div>
             </div>
             <div className="mt-8 relative z-10 pt-6 border-t border-slate-700/50 grid grid-cols-2 gap-3">
-              <a href="tel:3325965925" className="flex items-center justify-center gap-2 w-full bg-cyan-600 hover:bg-cyan-500 text-[#0a192f] font-bold py-3.5 px-4 rounded-xl transition-all shadow-lg hover:shadow-cyan-500/25">
+              <a href="tel:+5233259625" className="flex items-center justify-center gap-2 w-full bg-cyan-600 hover:bg-cyan-500 text-[#0a192f] font-bold py-3.5 px-4 rounded-xl transition-all shadow-lg hover:shadow-cyan-500/25">
                 <FiPhoneCall className="text-lg" /> Llámanos
               </a>
-              <a href="https://wa.me/523325965925?text=Hola%20Plastitaps,%20me%20gustar%C3%ADa%20obtener%20m%C3%A1s%20informaci%C3%B3n." target="_blank" rel="noreferrer"
+              <a href="https://wa.me/5233259625?text=Hola%20Plastitaps,%20me%20gustar%C3%ADa%20obtener%20m%C3%A1s%20informaci%C3%B3n." target="_blank" rel="noreferrer"
                 className="flex items-center justify-center gap-2 w-full bg-[#128C7E] hover:bg-[#075E54] text-white font-bold py-3.5 px-4 rounded-xl transition-all shadow-lg hover:shadow-[#128C7E]/25">
                 <FiMessageCircle className="text-lg" /> WhatsApp
               </a>

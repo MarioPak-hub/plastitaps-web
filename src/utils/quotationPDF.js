@@ -1,16 +1,11 @@
 import { jsPDF } from 'jspdf';
 
 const TERMS = [
-  '1. Precios en MXN sujetos a cambio sin previo aviso.',
-  '2. No incluye envío fuera de la Zona Metropolitana de Guadalajara (ZMG).',
-  '3. 50% de anticipo requerido para iniciar producción.',
-  '4. No manejamos inventarios. Todo es fabricado sobre pedido.',
-  '5. Penalización del 80% del total sobre pedidos cancelados sin autorización previa.',
+  '1. No incluye envío fuera de la Zona Metropolitana de Guadalajara (ZMG).',
+  '2. 50% de anticipo requerido para iniciar producción.',
+  '3. No manejamos inventarios. Todo es fabricado sobre pedido.',
+  '4. Cantidades, personalización y cotización se definen con un asesor de Plastitaps.',
 ];
-
-const fmtMXN = (n) => n.toLocaleString('es-MX', { minimumFractionDigits: 4 });
-const fmtTotal = (n) => n.toLocaleString('es-MX', { minimumFractionDigits: 2 });
-const fmtN = (n) => n.toLocaleString('es-MX');
 
 export function generateQuotationPDF({ cart, user, folio }) {
   const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
@@ -29,7 +24,7 @@ export function generateQuotationPDF({ cart, user, folio }) {
   doc.setFontSize(9);
   doc.setFont('helvetica', 'normal');
   doc.text('Fabricación de Tapas y Envases PET · FSCC 22000', 14, 25);
-  doc.text('ventas@plastitaps.com · Tel: +52 (33) 3575 0197', 14, 31);
+  doc.text('ventas@plastitaps.com · Tel: +52 33259625', 14, 31);
 
   // Folio + Date
   doc.setFontSize(11);
@@ -99,50 +94,33 @@ export function generateQuotationPDF({ cart, user, folio }) {
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(8);
   doc.setTextColor(255, 255, 255);
-  const cols = { producto: 14, categoria: 86, cant: 118, pu: 138, subtotal: 162 };
+  const cols = { producto: 14, categoria: 120 };
   doc.text('PRODUCTO', cols.producto + 2, y + 5.5);
   doc.text('CATEGORÍA', cols.categoria + 2, y + 5.5);
-  doc.text('CANTIDAD', cols.cant + 2, y + 5.5);
-  doc.text('P. UNIT. MXN', cols.pu + 2, y + 5.5);
-  doc.text('SUBTOTAL MXN', cols.subtotal + 2, y + 5.5);
   y += 8;
 
-  let grandTotal = 0;
   cart.forEach((item, i) => {
-    const subtotal = item.quantity * item.price;
-    grandTotal += subtotal;
     doc.setFillColor(i % 2 === 0 ? 248 : 255, i % 2 === 0 ? 250 : 255, i % 2 === 0 ? 252 : 255);
     doc.rect(14, y, W - 28, 9, 'F');
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(7.5);
     doc.setTextColor(30, 41, 59);
-    doc.text(item.name, cols.producto + 2, y + 6, { maxWidth: 68 });
-    doc.text(item.category, cols.categoria + 2, y + 6);
-    doc.text(fmtN(item.quantity) + ' ' + item.unit, cols.cant + 2, y + 6);
-    doc.text('$' + fmtMXN(item.price), cols.pu + 2, y + 6);
-    doc.text('$' + fmtTotal(subtotal), cols.subtotal + 2, y + 6);
+    doc.text(item.name, cols.producto + 2, y + 6, { maxWidth: 100 });
+    doc.text(item.category || '', cols.categoria + 2, y + 6);
     y += 9;
   });
 
-  // Totals
-  doc.setFillColor(241, 245, 249);
+  // Nota de asesoría (en lugar de totales)
+  doc.setFillColor(219, 234, 254); // blue-100
   doc.rect(14, y, W - 28, 10, 'F');
-  y += 7;
+  y += 6.5;
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(9);
-  doc.setTextColor(30, 41, 59);
-  doc.text('SUBTOTAL (sin IVA):', cols.producto + 2, y);
-  doc.text('$' + fmtTotal(grandTotal), cols.subtotal + 2, y);
-  y += 7;
-  doc.setFillColor(30, 64, 175);
-  doc.rect(14, y - 4, W - 28, 10, 'F');
-  doc.setTextColor(255, 255, 255);
-  doc.setFontSize(11);
-  doc.text('TOTAL ESTIMADO + IVA (16%):', cols.producto + 2, y + 3.5);
-  doc.text('$' + fmtTotal(grandTotal * 1.16) + ' MXN', cols.subtotal + 2, y + 3.5);
+  doc.setFontSize(8.5);
+  doc.setTextColor(30, 64, 175);
+  doc.text('Cantidades y cotización a definir con un asesor de Plastitaps.', cols.producto + 2, y);
 
   // ── T&C ────────────────────────────────────────────────────────────────────
-  y += 18;
+  y += 14;
   doc.setFillColor(254, 243, 199); // amber-50
   doc.roundedRect(14, y, W - 28, 40, 3, 3, 'F');
   doc.setFont('helvetica', 'bold');

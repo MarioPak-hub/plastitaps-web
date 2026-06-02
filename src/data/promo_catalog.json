@@ -8,14 +8,22 @@
     "shortDescription": "Edición festiva reutilizable — Ideal para eventos corporativos",
     "fullDescription": {
       "about": "Vaso de policarbonato de edición especial navideña, combinando la durabilidad del grado industrial con un diseño festivo y elegante. Su resistencia a impactos y cambios de temperatura lo hace perfecto para celebraciones y regalos empresariales.",
-      "uses": ["Brindis y eventos corporativos", "Regalos empresariales de fin de año", "Servicio en restaurantes temáticos"],
-      "advantages": ["Alta durabilidad y resistencia", "Apto para lavavajillas industrial", "Reutilizable y ecológico"],
+      "uses": [
+        "Brindis y eventos corporativos",
+        "Regalos empresariales de fin de año",
+        "Servicio en restaurantes temáticos"
+      ],
+      "advantages": [
+        "Alta durabilidad y resistencia",
+        "Apto para lavavajillas industrial",
+        "Reutilizable y ecológico"
+      ],
       "applications": "Excelente opción para activaciones de marca en temporada navideña, cenas de fin de año y merchandising festivo. Soporta bebidas calientes y frías.",
       "customization": "Espacio designado para impresión de logotipo corporativo junto al diseño navideño.",
       "material": "Policarbonato (PC) premium — BPA Free"
     },
     "category": "Promocionales",
-    "price": 14.90,
+    "price": 14.9,
     "moq": 10,
     "unit": "pz",
     "badge": "Temporada",
@@ -25,7 +33,12 @@
     "filter": "sepia(0.3) saturate(3) hue-rotate(320deg) brightness(0.8)",
     "image": "/vaso_transparente.png",
     "modelo3D": "/models/VASOS PARA BEBIDAS COLORES 16 OZ CON TAPA.glb",
-    "colores": ["#ef4444", "#ffffff", "#22c55e", "#f59e0b"]
+    "colores": [
+      "#ef4444",
+      "#ffffff",
+      "#22c55e",
+      "#f59e0b"
+    ]
   },
   {
     "id": "pc2",
@@ -36,14 +49,22 @@
     "shortDescription": "Recuerdo premium personalizable para generaciones",
     "fullDescription": {
       "about": "Diseñado específicamente para eventos de graduación institucional y académica. Este vaso premium ofrece una apariencia sofisticada y una durabilidad que permite conservar el recuerdo a largo plazo, superando a las opciones desechables tradicionales.",
-      "uses": ["Ceremonias de graduación", "Cenas de gala estudiantiles", "Regalos de generación institucionales"],
-      "advantages": ["Apariencia cristalina de alta gama", "Larga vida útil garantizada", "Excelente retención térmica"],
+      "uses": [
+        "Ceremonias de graduación",
+        "Cenas de gala estudiantiles",
+        "Regalos de generación institucionales"
+      ],
+      "advantages": [
+        "Apariencia cristalina de alta gama",
+        "Larga vida útil garantizada",
+        "Excelente retención térmica"
+      ],
       "applications": "El artículo conmemorativo ideal para universidades, colegios e instituciones educativas que buscan ofrecer un recuerdo útil y de alta calidad a sus egresados.",
       "customization": "Superficie optimizada para grabado de logotipos institucionales, años de generación y personalización de nombres.",
       "material": "Policarbonato (PC) de alta claridad"
     },
     "category": "Promocionales",
-    "price": 14.90,
+    "price": 14.9,
     "moq": 10,
     "unit": "pz",
     "badge": "Graduación",
@@ -64,14 +85,22 @@
     "shortDescription": "Vaso con tapa para bebidas calientes y frías",
     "fullDescription": {
       "about": "Vaso tipo take-away de 16 oz (473 ml) con tapa hermética, concebido para el servicio profesional de café y bebidas de especialidad. Su estructura de grado industrial asegura el manejo seguro de líquidos calientes mientras proyecta una imagen corporativa impecable.",
-      "uses": ["Cafeterías y barras de especialidad", "Servicios de catering corporativo", "Kioscos y food trucks"],
-      "advantages": ["Capacidad estándar de barista (16 oz)", "Tapa con ajuste de precisión anti-derrames", "Aislamiento térmico eficiente"],
+      "uses": [
+        "Cafeterías y barras de especialidad",
+        "Servicios de catering corporativo",
+        "Kioscos y food trucks"
+      ],
+      "advantages": [
+        "Capacidad estándar de barista (16 oz)",
+        "Tapa con ajuste de precisión anti-derrames",
+        "Aislamiento térmico eficiente"
+      ],
       "applications": "Una solución integral para negocios de hospitalidad que requieren envases confiables para bebidas on-the-go, manteniendo la temperatura y seguridad del producto.",
       "customization": "Área de impresión 360° perfecta para branding corporativo, promociones o diseños de temporada.",
       "material": "Polipropileno (PP) termorresistente"
     },
     "category": "Promocionales",
-    "price": 9.90,
+    "price": 9.9,
     "moq": 10,
     "unit": "pz",
     "badge": "Café",
@@ -81,6 +110,56 @@
     "filter": "sepia(0.6) saturate(1.5) brightness(0.85)",
     "image": "/vaso_transparente.png",
     "modelo3D": "/models/Cafe 16oz.glb",
-    "colores": ["#92400e", "#d97706", "#000000", "#ffffff"]
+    "colores": [
+      "#92400e",
+      "#d97706",
+      "#000000",
+      "#ffffff"
+    ]
+  },
+  {
+    "id": "pc5",
+    "slug": "pc5",
+    "name": "Termo Kids",
+    "subtitle": "Hidratación Infantil",
+    "description": "Termo infantil con tapa chupón, ideal para niños. Resistente a caídas, sin BPA y con diseño personalizable.",
+    "shortDescription": "Termo con tapa chupón personalizable para niños",
+    "fullDescription": {
+      "about": "Termo Kids es la solución de hidratación diseñada especialmente para el público infantil. Su tapa con mecanismo chupón facilita el uso independiente por parte de los niños, mientras que su construcción en policarbonato de alta resistencia soporta el uso diario y las caídas frecuentes.",
+      "uses": [
+        "Regalos y recuerdos escolares",
+        "Kits de bienvenida para niños",
+        "Eventos y activaciones infantiles",
+        "Merchandising para marcas dirigidas a niños"
+      ],
+      "advantages": [
+        "Tapa chupón segura y fácil de usar",
+        "Libre de BPA — seguro para uso infantil",
+        "Resistente a impactos y caídas",
+        "Superficie ideal para impresión de logotipos"
+      ],
+      "applications": "Perfecto para escuelas, guarderías, campamentos, eventos infantiles y marcas que buscan conectar con el público más joven a través de un producto funcional y personalizable.",
+      "customization": "Disponible en múltiples colores. Superficie de impresión amplia para serigrafía o sublimación con logotipo, nombre o diseño personalizado.",
+      "material": "Policarbonato (PC) BPA Free — resistente a impactos"
+    },
+    "category": "Promocionales",
+    "price": 12.5,
+    "moq": 10,
+    "unit": "pz",
+    "badge": "Infantil",
+    "badgeColor": "#7c3aed",
+    "accentColor": "#8b5cf6",
+    "emoji": "🧒",
+    "filter": "none",
+    "image": "/vaso_transparente.png",
+    "modelo3D": "/models/Termo Kids tapa chupon.glb",
+    "colores": [
+      "#8b5cf6",
+      "#ec4899",
+      "#3b82f6",
+      "#22c55e",
+      "#f59e0b",
+      "#ef4444"
+    ]
   }
 ]

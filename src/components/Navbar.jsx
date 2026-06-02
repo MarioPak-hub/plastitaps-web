@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
-import { ShoppingCart, Menu, X, Hexagon, User, LogOut, ChevronDown } from 'lucide-react';
+import { ShoppingCart, Menu, X, User, LogOut, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
@@ -85,13 +85,12 @@ export default function Navbar() {
       <nav className="fixed w-full z-50 transition-all duration-300 bg-white/90 backdrop-blur-md text-slate-800 border-b border-slate-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 sm:gap-3 group" onClick={(e) => handleNavClick('/', e)}>
-            <div className="bg-blue-600 p-1.5 sm:p-2 rounded-xl group-hover:scale-105 transition-transform shadow-[0_4px_15px_rgba(37,99,235,0.3)]">
-              <Hexagon className="text-white w-5 h-5 sm:w-6 sm:h-6" />
-            </div>
-            <span className="font-outfit font-black text-xl sm:text-2xl tracking-tighter text-slate-800">
-              Plasti<span className="text-blue-600">taps</span>
-            </span>
+          <Link to="/" className="flex items-center group" onClick={(e) => handleNavClick('/', e)}>
+            <img
+              src="/logo_plastitaps.png"
+              alt="Plastitaps"
+              className="h-8 sm:h-10 w-auto object-contain group-hover:opacity-90 transition-opacity"
+            />
           </Link>
 
           {/* Desktop nav links */}
@@ -195,9 +194,7 @@ export default function Navbar() {
             >
               {/* Header */}
               <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100">
-                <span className="font-outfit font-black text-xl text-slate-800">
-                  Plasti<span className="text-blue-600">taps</span>
-                </span>
+                <img src="/logo_plastitaps.png" alt="Plastitaps" className="h-7 w-auto object-contain" />
                 <button 
                   onClick={() => setMobileMenuOpen(false)}
                   className="p-2 rounded-full hover:bg-slate-100 text-slate-500 transition-colors"

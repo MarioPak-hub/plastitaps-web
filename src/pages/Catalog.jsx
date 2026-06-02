@@ -1,6 +1,6 @@
 import React, { useState, useMemo, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiFilter, FiPlusCircle, FiAlertTriangle, FiInfo, FiCheckCircle, FiX, FiBox, FiChevronDown, FiSearch } from 'react-icons/fi';
+import { FiFilter, FiPlusCircle, FiInfo, FiCheckCircle, FiX, FiBox, FiChevronDown, FiSearch } from 'react-icons/fi';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import productsData from '../data/products.json';
@@ -8,20 +8,17 @@ import { useCart } from '../context/CartContext';
 
 const ProductModel3D = React.lazy(() => import('../components/ProductModel3D'));
 
-const fmt = (n) => n.toLocaleString('es-MX', { minimumFractionDigits: 4, maximumFractionDigits: 4 });
-const fmtMOQ = (n) => n.toLocaleString('es-MX');
-
 export default function Catalog({ openProductBySlug }) {
   const [activeCategory, setActiveCategory] = useState('All');
   const [activeTag, setActiveTag] = useState('All');
-  const [quantities, setQuantities] = useState({});
   const [tapasOpen, setTapasOpen] = useState(false);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
   // El modal se maneja globalmente en App.jsx
 
-  const { addToCart, moqError } = useCart();
+  const { cart, addToCart } = useCart();
+  const isInQuote = (id) => cart.some(i => i.id === id);
 
   // Estructura jerárquica fija del menú lateral
   const MENU = [
@@ -110,52 +107,14 @@ export default function Catalog({ openProductBySlug }) {
     return counts;
   }, [activeCategory]);
 
-  // Manejo de Estado de Cantidad por Tarjeta
-  const getQty = (product) => quantities[product.id] ?? product.moq;
-
-  const handleQtyChange = (product, val) => {
-    // Permite cualquier texto mientras se escribe pero extrae dígitos
-    const numericStr = val.toString().replace(/\D/g, '');
-    setQuantities(prev => ({ ...prev, [product.id]: numericStr }));
-  };
-
-  const handleQtyBlur = (product) => {
-    setQuantities(prev => {
-      const current = prev[product.id];
-      const numericVal = parseInt(current, 10);
-      // Restricción inferior estricta solo en onBlur
-      if (isNaN(numericVal) || numericVal < product.moq) {
-        return { ...prev, [product.id]: product.moq };
-      }
-      return { ...prev, [product.id]: numericVal };
-    });
-  };
-
   const handleAdd = (product, e) => {
     e.stopPropagation(); // Evita abrir el modal al añadir desde la tarjeta
-    const qtyStr = getQty(product);
-    const numericVal = parseInt(qtyStr, 10);
-    if (!isNaN(numericVal) && numericVal >= product.moq) {
-      addToCart(product, numericVal);
-    }
+    addToCart(product);
   };
 
   return (
     <div className="min-h-screen bg-slate-50 font-inter text-slate-800">
       <Navbar />
-
-      {/* MOQ error toast */}
-      <AnimatePresence>
-        {moqError && (
-          <motion.div
-            initial={{ opacity: 0, y: -40 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -40 }}
-            className="fixed top-24 left-1/2 -translate-x-1/2 z-[100] bg-red-600 text-white px-6 py-3 rounded-2xl shadow-xl flex items-center gap-3 font-bold text-sm"
-          >
-            <FiAlertTriangle className="text-xl" />
-            Mínimo de Orden: {fmtMOQ(moqError.moq)} {moqError.unit} para {moqError.name}
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       <div className="pt-24 sm:pt-32 pb-8 sm:pb-16 px-4 sm:px-6 max-w-7xl mx-auto">
         <div className="mb-8 sm:mb-12 text-center md:text-left border-b border-slate-200 pb-6 sm:pb-10">
@@ -164,7 +123,7 @@ export default function Catalog({ openProductBySlug }) {
             Catálogo <span className="text-cyan-600">Digital</span>
           </motion.h1>
           <p className="text-slate-600 max-w-2xl text-sm sm:text-base lg:text-lg font-medium">
-            Precios en MXN + IVA · Todo bajo pedido · Producción mínima garantizada por MOQ.
+            Todo bajo pedido · Agrega los productos de tu interés y solicita tu cotización.
           </p>
 
           {/* Search bar */}
@@ -424,7 +383,7 @@ export default function Catalog({ openProductBySlug }) {
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.97 }}
                     transition={{ duration: 0.2, layout: { duration: 0.25, type: 'spring', stiffness: 300, damping: 30 } }}
-                    onClick={() => openProductBySlug(product.slug || String(product.id), Math.max(getQty(product), product.moq))}
+                    onClick={() => openProductBySlug(product.slug || String(product.id))}
                     className="bg-[#fcfdfd] cursor-pointer rounded-3xl border border-slate-200 hover:border-cyan-500 hover:shadow-xl transition-all flex flex-col overflow-hidden group">
 
                     {/* Image */}
@@ -450,46 +409,18 @@ export default function Catalog({ openProductBySlug }) {
                       )}
 
 
-                      {/* Pricing */}
-                      <div className="bg-white rounded-xl p-3 mb-2 border border-slate-200 shadow-sm">
-                        <div className="flex justify-between items-center mb-2">
-                          <span className="text-xs text-slate-500 font-bold uppercase tracking-wider">Precio</span>
-                          <span className="text-[#eba014] font-black font-outfit text-lg">${fmt(product.price)} x{product.unit}</span>
-                        </div>
-                        <div className="flex justify-between items-center mb-1">
-                          <span className="text-xs text-slate-500 font-bold uppercase tracking-wider flex items-center gap-1"><FiInfo className="text-xs" /> Min. Venta</span>
-                          <span className="text-[#eba014] font-bold text-sm bg-[#eba014]/10 px-2 py-0.5 rounded-md">{fmtMOQ(product.moq)} {product.unit.toUpperCase()}</span>
-                        </div>
-                        <div className="flex justify-between items-center mt-2 pt-2 border-t border-slate-100">
-                          <span className="text-[10px] text-slate-400 font-bold">Total estimado aprox.</span>
-                          <span className="text-slate-700 font-bold text-sm">
-                            {parseInt(getQty(product), 10) >= product.moq
-                              ? `$${(product.price * parseInt(getQty(product), 10)).toLocaleString('es-MX', { minimumFractionDigits: 2 })}`
-                              : '---'}
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Qty input + CTA */}
+                      {/* CTA Cotizar */}
                       <div className="flex flex-col mt-auto" onClick={(e) => e.stopPropagation()}>
-                        <div className="flex gap-2">
-                          <input type="text" inputMode="numeric"
-                            value={getQty(product)}
-                            onChange={e => handleQtyChange(product, e.target.value)}
-                            onBlur={() => handleQtyBlur(product)}
-                            className={`w-24 bg-white border rounded-xl px-3 py-2 text-sm font-bold text-center focus:outline-none transition-colors ${parseInt(getQty(product), 10) < product.moq || getQty(product) === '' ? 'border-red-500 text-red-600 focus:border-red-600' : 'border-slate-200 text-slate-700 focus:border-cyan-500'}`} />
-                          <button onClick={(e) => handleAdd(product, e)}
-                            disabled={parseInt(getQty(product), 10) < product.moq || getQty(product) === ''}
-                            className={`flex-1 py-2.5 text-white rounded-xl font-bold flex items-center justify-center gap-2 text-sm transition-all shadow-md ${parseInt(getQty(product), 10) < product.moq || getQty(product) === '' ? 'bg-slate-400 cursor-not-allowed' : 'bg-[#0a192f] hover:bg-black'}`}>
-                            <FiPlusCircle /> Cotizar
-                          </button>
-                        </div>
-                        {(parseInt(getQty(product), 10) < product.moq || getQty(product) === '') && (
-                          <p className="text-red-500 text-[10px] font-bold mt-2 text-center leading-tight">
-                            La cantidad debe ser igual o superior al mínimo de {fmtMOQ(product.moq)} PZ
-                          </p>
-                        )}
-                        <p className="text-[10px] text-slate-400 mt-2 text-center font-semibold uppercase tracking-wider">+ IVA</p>
+                        <button onClick={(e) => handleAdd(product, e)}
+                          disabled={isInQuote(product.id)}
+                          className={`w-full py-2.5 text-white rounded-xl font-bold flex items-center justify-center gap-2 text-sm transition-all shadow-md ${isInQuote(product.id) ? 'bg-green-600 cursor-default' : 'bg-[#0a192f] hover:bg-black'}`}>
+                          {isInQuote(product.id)
+                            ? <><FiCheckCircle /> En tu cotización</>
+                            : <><FiPlusCircle /> Cotizar</>}
+                        </button>
+                        <p className="text-[10px] text-slate-400 mt-2 text-center font-medium leading-tight">
+                          Cantidades y especificaciones se definen con un asesor de Plastitaps.
+                        </p>
                       </div>
                     </div>
                   </motion.div>
@@ -507,9 +438,8 @@ export default function Catalog({ openProductBySlug }) {
           <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm text-slate-600">
             <li className="flex gap-2 items-start"><FiCheckCircle className="text-cyan-500 shrink-0 mt-0.5" /> No se manejan inventarios, todo es sobre pedido.</li>
             <li className="flex gap-2 items-start"><FiCheckCircle className="text-cyan-500 shrink-0 mt-0.5" /> Se requiere 50% de anticipo para iniciar producción.</li>
-            <li className="flex gap-2 items-start"><FiCheckCircle className="text-cyan-500 shrink-0 mt-0.5" /> Precios sujetos a cambio sin previo aviso.</li>
-            <li className="flex gap-2 items-start"><FiCheckCircle className="text-cyan-500 shrink-0 mt-0.5" /> Los precios NO incluyen IVA (+16%).</li>
-            <li className="flex gap-2 items-start md:col-span-2 lg:col-span-1"><FiCheckCircle className="text-cyan-500 shrink-0 mt-0.5" /> Moneda de cotización: Pesos Mexicanos (MXN).</li>
+            <li className="flex gap-2 items-start"><FiCheckCircle className="text-cyan-500 shrink-0 mt-0.5" /> Producción mínima sujeta a especificaciones de cada producto.</li>
+            <li className="flex gap-2 items-start md:col-span-2 lg:col-span-1"><FiCheckCircle className="text-cyan-500 shrink-0 mt-0.5" /> Un asesor de Plastitaps te contactará para afinar tu cotización.</li>
           </ul>
         </div>
       </div>

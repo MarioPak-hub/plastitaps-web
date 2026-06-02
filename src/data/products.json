@@ -3,16 +3,26 @@
     "id": 1,
     "name": "18 Capto Cap",
     "category": "Tapas Diámetro Pequeño",
-    "tags": ["Especialidades"],
+    "tags": [
+      "Especialidades"
+    ],
     "price": 0.2046,
     "moq": 60000,
     "unit": "pz",
-    "description": "Tapa 18 Capto Cap. Precios + IVA",
+    "description": "Tapa 18 Capto Cap.",
     "shortDescription": "Cierre hermético para envases de diámetro reducido",
     "fullDescription": {
       "about": "Tapa Capto Cap de 18mm diseñada para aplicaciones que requieren un sellado compacto y seguro. Fabricada con resinas de grado industrial, ofrece un ajuste preciso y compatibilidad con líneas de envasado automatizadas.",
-      "uses": ["Industria farmacéutica", "Cosméticos", "Muestras y miniaturas"],
-      "advantages": ["Cierre hermético de alta precisión", "Compatible con líneas automatizadas", "Formato ultracompacto"],
+      "uses": [
+        "Industria farmacéutica",
+        "Cosméticos",
+        "Muestras y miniaturas"
+      ],
+      "advantages": [
+        "Cierre hermético de alta precisión",
+        "Compatible con líneas automatizadas",
+        "Formato ultracompacto"
+      ],
       "applications": "Ideal para envases de muestras, frascos de cosméticos y productos farmacéuticos que requieren sellado confiable en diámetros reducidos.",
       "customization": "Disponible en colores corporativos bajo pedido. Opción de impresión personalizada para branding.",
       "material": "Polipropileno de alta densidad (HDPE)"
@@ -24,16 +34,27 @@
     "id": 2,
     "name": "26 Flip Top (Presión)",
     "category": "Tapas Diámetro Pequeño",
-    "tags": ["Presión", "Flip Top"],
+    "tags": [
+      "Presión",
+      "Flip Top"
+    ],
     "price": 0.4192,
     "moq": 91000,
     "unit": "pz",
-    "description": "Tapa 26 Flip Top (Presión). Precios + IVA",
+    "description": "Tapa 26 Flip Top (Presión).",
     "shortDescription": "Apertura rápida con cierre a presión",
     "fullDescription": {
       "about": "Tapa Flip Top de 26mm con mecanismo de presión para apertura y cierre rápido. Diseño funcional que permite dosificación controlada sin necesidad de desenroscar, optimizando la experiencia del usuario final.",
-      "uses": ["Salsas y aderezos", "Productos de limpieza", "Cosméticos líquidos"],
-      "advantages": ["Apertura con una sola mano", "Cierre seguro a presión", "Dosificación controlada"],
+      "uses": [
+        "Salsas y aderezos",
+        "Productos de limpieza",
+        "Cosméticos líquidos"
+      ],
+      "advantages": [
+        "Apertura con una sola mano",
+        "Cierre seguro a presión",
+        "Dosificación controlada"
+      ],
       "applications": "Solución eficiente para líneas de productos que requieren acceso rápido y repetido al contenido, manteniendo el sellado entre usos.",
       "customization": "Personalizable en color y con opción de impresión de marca sobre la superficie.",
       "material": "Polipropileno (PP) grado alimenticio"
@@ -45,16 +66,27 @@
     "id": 3,
     "name": "28 Flip Top (Presión)",
     "category": "Tapas Diámetro Pequeño",
-    "tags": ["Presión", "Flip Top"],
+    "tags": [
+      "Presión",
+      "Flip Top"
+    ],
     "price": 0.4533,
     "moq": 91000,
     "unit": "pz",
-    "description": "Tapa 28 Flip Top (Presión). Precios + IVA",
+    "description": "Tapa 28 Flip Top (Presión).",
     "shortDescription": "Flip Top versátil para envases estándar R-28",
     "fullDescription": {
       "about": "Tapa Flip Top de 28mm con sistema de presión, el diámetro más utilizado en la industria. Compatible con la mayoría de botellas PET estándar del mercado, ofreciendo practicidad y rendimiento en líneas de alta velocidad.",
-      "uses": ["Bebidas", "Salsas", "Productos de cuidado personal"],
-      "advantages": ["Diámetro estándar de alta compatibilidad", "Producción de alto volumen", "Sellado confiable"],
+      "uses": [
+        "Bebidas",
+        "Salsas",
+        "Productos de cuidado personal"
+      ],
+      "advantages": [
+        "Diámetro estándar de alta compatibilidad",
+        "Producción de alto volumen",
+        "Sellado confiable"
+      ],
       "applications": "Diseñada para integrarse en líneas de producción de alto rendimiento. Compatible con botellas PET, HDPE y PP de rosca 28mm.",
       "customization": "Disponible en amplia gama de colores. Posibilidad de co-inyección y acabados mate o brillante.",
       "material": "Polipropileno (PP)"
@@ -66,16 +98,27 @@
     "id": 4,
     "name": "28 Tapa Rosca Dosificadora (Aceite)",
     "category": "Tapas Diámetro Pequeño",
-    "tags": ["Dosificadora", "Aceite"],
+    "tags": [
+      "Dosificadora",
+      "Aceite"
+    ],
     "price": 0.647,
     "moq": 105000,
     "unit": "pz",
-    "description": "Tapa 28 Rosca Dosificadora (Aceite). Precios + IVA",
+    "description": "Tapa 28 Rosca Dosificadora (Aceite).",
     "shortDescription": "Dosificación precisa para aceites y líquidos viscosos",
     "fullDescription": {
       "about": "Tapa dosificadora de 28mm con rosca, diseñada específicamente para la dispensación controlada de aceites comestibles y líquidos viscosos. Su orificio calibrado permite un flujo constante y sin derrames.",
-      "uses": ["Aceites comestibles", "Vinagres", "Líquidos viscosos industriales"],
-      "advantages": ["Flujo controlado sin derrames", "Orificio calibrado de precisión", "Rosca segura anti-goteo"],
+      "uses": [
+        "Aceites comestibles",
+        "Vinagres",
+        "Líquidos viscosos industriales"
+      ],
+      "advantages": [
+        "Flujo controlado sin derrames",
+        "Orificio calibrado de precisión",
+        "Rosca segura anti-goteo"
+      ],
       "applications": "Solución ideal para embotelladoras de aceite, empresas alimenticias y líneas de envasado de productos viscosos que requieren dosificación precisa.",
       "customization": "Ajuste del diámetro del orificio según viscosidad del producto. Colores personalizados disponibles.",
       "material": "Polipropileno (PP) con sello interior"
@@ -87,16 +130,27 @@
     "id": 5,
     "name": "28 Tapa Rosca Deportiva (Chupón)",
     "category": "Tapas Diámetro Pequeño",
-    "tags": ["Deportiva", "Chupón"],
+    "tags": [
+      "Deportiva",
+      "Chupón"
+    ],
     "price": 0.8349,
     "moq": 105000,
     "unit": "pz",
-    "description": "Tapa 28 Rosca Deportiva (Chupón). Precios + IVA",
+    "description": "Tapa 28 Rosca Deportiva (Chupón).",
     "shortDescription": "Diseño pull-push para hidratación activa",
     "fullDescription": {
       "about": "Tapa deportiva de 28mm con sistema de chupón pull-push, diseñada para botellas de hidratación. Permite beber directamente sin desenroscar, con cierre hermético que evita fugas durante el movimiento.",
-      "uses": ["Botellas deportivas", "Hidratación corporativa", "Eventos y gimnasios"],
-      "advantages": ["Sistema pull-push intuitivo", "Cierre hermético anti-fugas", "Ideal para uso en movimiento"],
+      "uses": [
+        "Botellas deportivas",
+        "Hidratación corporativa",
+        "Eventos y gimnasios"
+      ],
+      "advantages": [
+        "Sistema pull-push intuitivo",
+        "Cierre hermético anti-fugas",
+        "Ideal para uso en movimiento"
+      ],
       "applications": "Perfecta para marcas de agua, bebidas deportivas y programas de hidratación corporativa. Compatible con botellas PET estándar R-28.",
       "customization": "Personalizable en colores corporativos. Ideal para branding deportivo y promocionales empresariales.",
       "material": "Polipropileno (PP) + silicón de grado alimenticio"
@@ -108,16 +162,27 @@
     "id": 6,
     "name": "28 Tapa Rosca (Aletas)",
     "category": "Tapas Diámetro Pequeño",
-    "tags": ["Aletas", "Rosca"],
+    "tags": [
+      "Aletas",
+      "Rosca"
+    ],
     "price": 0.36987,
     "moq": 72000,
     "unit": "pz",
-    "description": "Tapa 28 Rosca con Aletas. Precios + IVA",
+    "description": "Tapa 28 Rosca con Aletas.",
     "shortDescription": "Rosca con aletas para apertura ergonómica",
     "fullDescription": {
       "about": "Tapa de rosca 28mm con diseño de aletas laterales que facilitan la apertura y cierre manual. Su ergonomía permite un agarre firme sin necesidad de herramientas, optimizando la experiencia del usuario.",
-      "uses": ["Agua embotellada", "Jugos", "Productos de limpieza"],
-      "advantages": ["Apertura ergonómica sin esfuerzo", "Agarre firme con aletas laterales", "Precio competitivo por volumen"],
+      "uses": [
+        "Agua embotellada",
+        "Jugos",
+        "Productos de limpieza"
+      ],
+      "advantages": [
+        "Apertura ergonómica sin esfuerzo",
+        "Agarre firme con aletas laterales",
+        "Precio competitivo por volumen"
+      ],
       "applications": "Ampliamente utilizada en embotelladoras de agua y jugos. Su diseño con aletas la hace ideal para consumidores que requieren facilidad de apertura.",
       "customization": "Disponible en colores estándar y personalizados. Posibilidad de grabado en relieve.",
       "material": "Polipropileno (PP)"
@@ -129,16 +194,26 @@
     "id": 7,
     "name": "28/410 Flip Top",
     "category": "Tapas Diámetro Pequeño",
-    "tags": ["Flip Top"],
+    "tags": [
+      "Flip Top"
+    ],
     "price": 0.6261,
     "moq": 50000,
     "unit": "pz",
-    "description": "Tapa 28/410 Flip Top. Precios + IVA",
+    "description": "Tapa 28/410 Flip Top.",
     "shortDescription": "Flip Top estándar 28/410 para cosmética e higiene",
     "fullDescription": {
       "about": "Tapa Flip Top en medida 28/410, estándar internacional para la industria cosmética y de higiene personal. Mecanismo de bisagra resistente con apertura suave y cierre audible que garantiza el sellado.",
-      "uses": ["Shampoos y acondicionadores", "Geles y cremas", "Jabones líquidos"],
-      "advantages": ["Estándar internacional 28/410", "Bisagra de larga durabilidad", "Cierre audible de confirmación"],
+      "uses": [
+        "Shampoos y acondicionadores",
+        "Geles y cremas",
+        "Jabones líquidos"
+      ],
+      "advantages": [
+        "Estándar internacional 28/410",
+        "Bisagra de larga durabilidad",
+        "Cierre audible de confirmación"
+      ],
       "applications": "Compatible con las principales líneas de envases cosméticos del mercado. Ideal para productos de cuidado personal, higiene y limpieza.",
       "customization": "Amplia gama de colores disponibles. Acabado mate, brillante o soft-touch bajo pedido.",
       "material": "Polipropileno (PP)"
@@ -146,22 +221,41 @@
     "image": "/productos/Flip_top_R28_410.jpg",
     "slug": "28-410-flip-top",
     "modelo3D": "/models/28 410 Flip.glb",
-    "colores": ["#ffffff", "#000000", "#ef4444", "#3b82f6", "#10b981", "#f59e0b", "#8b5cf6"]
+    "colores": [
+      "#ffffff",
+      "#000000",
+      "#ef4444",
+      "#3b82f6",
+      "#10b981",
+      "#f59e0b",
+      "#8b5cf6"
+    ]
   },
   {
     "id": 8,
     "name": "28 Flip Top Ancha Alta",
     "category": "Tapas Diámetro Pequeño",
-    "tags": ["Flip Top", "Ancha"],
+    "tags": [
+      "Flip Top",
+      "Ancha"
+    ],
     "price": 1.6606,
     "moq": 19200,
     "unit": "pz",
-    "description": "Tapa 28 Flip Top Ancha Alta. Precios + IVA",
+    "description": "Tapa 28 Flip Top Ancha Alta.",
     "shortDescription": "Formato ancho alto para mayor presencia en anaquel",
     "fullDescription": {
       "about": "Tapa Flip Top de 28mm en formato ancho y alto, diseñada para dar mayor presencia visual al producto en anaquel. Su proporción elevada permite una superficie más amplia para branding y diferenciación.",
-      "uses": ["Productos premium", "Cosméticos de alta gama", "Salsas gourmet"],
-      "advantages": ["Mayor superficie de branding", "Presencia premium en anaquel", "Bisagra reforzada"],
+      "uses": [
+        "Productos premium",
+        "Cosméticos de alta gama",
+        "Salsas gourmet"
+      ],
+      "advantages": [
+        "Mayor superficie de branding",
+        "Presencia premium en anaquel",
+        "Bisagra reforzada"
+      ],
       "applications": "Recomendada para marcas que buscan diferenciación visual en punto de venta. Su formato alto comunica calidad y sofisticación.",
       "customization": "Personalizable en color, acabado y con posibilidad de impresión en la superficie superior.",
       "material": "Polipropileno (PP) de alta resistencia"
@@ -173,16 +267,27 @@
     "id": 9,
     "name": "28 Flip Top Ancha Corta",
     "category": "Tapas Diámetro Pequeño",
-    "tags": ["Flip Top", "Ancha"],
+    "tags": [
+      "Flip Top",
+      "Ancha"
+    ],
     "price": 1.48768,
     "moq": 19000,
     "unit": "pz",
-    "description": "Tapa 28 Flip Top Ancha Corta. Precios + IVA",
+    "description": "Tapa 28 Flip Top Ancha Corta.",
     "shortDescription": "Perfil bajo con apertura amplia para dosificación rápida",
     "fullDescription": {
       "about": "Tapa Flip Top de 28mm en formato ancho y corto, que combina un perfil compacto con una apertura generosa. Ideal para productos que requieren dosificación rápida con un diseño limpio y moderno.",
-      "uses": ["Aderezos y salsas", "Miel y jarabes", "Productos de limpieza"],
-      "advantages": ["Perfil compacto y funcional", "Apertura amplia para mayor flujo", "Diseño moderno y limpio"],
+      "uses": [
+        "Aderezos y salsas",
+        "Miel y jarabes",
+        "Productos de limpieza"
+      ],
+      "advantages": [
+        "Perfil compacto y funcional",
+        "Apertura amplia para mayor flujo",
+        "Diseño moderno y limpio"
+      ],
       "applications": "Solución versátil para la industria alimenticia y de limpieza. Su formato permite un vaciado eficiente con control de dosificación.",
       "customization": "Colores corporativos disponibles. Compatible con etiquetado y sleeve.",
       "material": "Polipropileno (PP)"
@@ -194,16 +299,27 @@
     "id": 10,
     "name": "28 Flip Top Chica Alta",
     "category": "Tapas Diámetro Pequeño",
-    "tags": ["Flip Top", "Chica"],
+    "tags": [
+      "Flip Top",
+      "Chica"
+    ],
     "price": 1.3427,
     "moq": 20000,
     "unit": "pz",
-    "description": "Tapa 28 Flip Top Chica Alta. Precios + IVA",
+    "description": "Tapa 28 Flip Top Chica Alta.",
     "shortDescription": "Formato esbelto para dosificación precisa y controlada",
     "fullDescription": {
       "about": "Tapa Flip Top de 28mm en formato chico y alto, con orificio reducido para dosificación precisa. Su diseño esbelto es ideal para productos que requieren aplicación controlada gota a gota.",
-      "uses": ["Salsas picantes", "Aceites esenciales", "Productos de cuidado personal"],
-      "advantages": ["Dosificación precisa gota a gota", "Diseño esbelto y elegante", "Orificio calibrado"],
+      "uses": [
+        "Salsas picantes",
+        "Aceites esenciales",
+        "Productos de cuidado personal"
+      ],
+      "advantages": [
+        "Dosificación precisa gota a gota",
+        "Diseño esbelto y elegante",
+        "Orificio calibrado"
+      ],
       "applications": "Recomendada para productos de aplicación directa donde el control del flujo es crítico. Perfecta para salsas, aceites y cosméticos líquidos.",
       "customization": "Disponible en múltiples colores. Posibilidad de ajustar el diámetro del orificio.",
       "material": "Polipropileno (PP)"
@@ -215,16 +331,26 @@
     "id": 11,
     "name": "Tapa Sport R-28",
     "category": "Tapas Diámetro Pequeño",
-    "tags": ["Sport"],
+    "tags": [
+      "Sport"
+    ],
     "price": 1.1741,
     "moq": 43472,
     "unit": "pz",
-    "description": "Tapa Sport R-28. Precios + IVA",
+    "description": "Tapa Sport R-28.",
     "shortDescription": "Tapa deportiva ergonómica para hidratación activa",
     "fullDescription": {
       "about": "Tapa Sport con rosca R-28, diseñada ergonómicamente para uso deportivo intensivo. Su mecanismo permite beber directamente con una sola mano, con cierre seguro que resiste impactos y movimiento.",
-      "uses": ["Botellas deportivas", "Bebidas funcionales", "Eventos deportivos"],
-      "advantages": ["Ergonomía para uso con una mano", "Resistente a impactos", "Cierre anti-derrame"],
+      "uses": [
+        "Botellas deportivas",
+        "Bebidas funcionales",
+        "Eventos deportivos"
+      ],
+      "advantages": [
+        "Ergonomía para uso con una mano",
+        "Resistente a impactos",
+        "Cierre anti-derrame"
+      ],
       "applications": "Ideal para marcas de bebidas deportivas, programas de hidratación empresarial y botellas promocionales para eventos. Compatible con botellas PET R-28.",
       "customization": "Personalización en colores corporativos. Ideal para promocionales deportivos y marketing de marca.",
       "material": "Polipropileno (PP) de alta resistencia"
@@ -236,16 +362,27 @@
     "id": 12,
     "name": "33 Flip Top (Sin liner)",
     "category": "Tapas Diámetro Medio",
-    "tags": ["Flip Top", "Sin Liner"],
+    "tags": [
+      "Flip Top",
+      "Sin Liner"
+    ],
     "price": 0.6019,
     "moq": 30000,
     "unit": "pz",
-    "description": "Tapa 33 Flip Top (Sin liner). Precios + IVA",
+    "description": "Tapa 33 Flip Top (Sin liner).",
     "shortDescription": "Flip Top económica para productos no carbonatados",
     "fullDescription": {
       "about": "Tapa Flip Top de 33mm sin liner, diseñada para aplicaciones donde no se requiere sello hermético de inducción. Solución económica y funcional para productos de baja presión interna.",
-      "uses": ["Salsas y condimentos", "Miel y jarabes", "Productos de limpieza"],
-      "advantages": ["Costo competitivo sin liner", "Apertura y cierre fluido", "Compatible con botellas R-33"],
+      "uses": [
+        "Salsas y condimentos",
+        "Miel y jarabes",
+        "Productos de limpieza"
+      ],
+      "advantages": [
+        "Costo competitivo sin liner",
+        "Apertura y cierre fluido",
+        "Compatible con botellas R-33"
+      ],
       "applications": "Perfecta para embotelladoras que buscan funcionalidad a precio competitivo en productos no carbonatados ni presurizados.",
       "customization": "Disponible en colores personalizados. Volúmenes industriales con tiempos de entrega optimizados.",
       "material": "Polipropileno (PP)"
@@ -257,16 +394,27 @@
     "id": 13,
     "name": "33 Flip Top (C/ Sensitivo)",
     "category": "Tapas Diámetro Medio",
-    "tags": ["Flip Top", "Sensitivo"],
+    "tags": [
+      "Flip Top",
+      "Sensitivo"
+    ],
     "price": 0.8309,
     "moq": 30000,
     "unit": "pz",
-    "description": "Tapa 33 Flip Top (C/ Sensitivo). Precios + IVA",
+    "description": "Tapa 33 Flip Top (C/ Sensitivo).",
     "shortDescription": "Sello sensitivo para frescura garantizada",
     "fullDescription": {
       "about": "Tapa Flip Top de 33mm con liner sensitivo integrado. El sello de inducción se activa con calor, garantizando hermeticidad total y evidencia de apertura para protección del consumidor.",
-      "uses": ["Alimentos envasados", "Bebidas", "Productos farmacéuticos"],
-      "advantages": ["Sello de inducción por calor", "Evidencia de primera apertura", "Hermeticidad total"],
+      "uses": [
+        "Alimentos envasados",
+        "Bebidas",
+        "Productos farmacéuticos"
+      ],
+      "advantages": [
+        "Sello de inducción por calor",
+        "Evidencia de primera apertura",
+        "Hermeticidad total"
+      ],
       "applications": "Requerida en industrias donde la integridad del producto es crítica. Cumple estándares de seguridad alimentaria y farmacéutica.",
       "customization": "Colores personalizados disponibles. Compatible con selladoras de inducción estándar.",
       "material": "Polipropileno (PP) + liner sensitivo"
@@ -278,16 +426,27 @@
     "id": 14,
     "name": "33 Flip Top (C/ Alupeel Univ.)",
     "category": "Tapas Diámetro Medio",
-    "tags": ["Flip Top", "Alupeel"],
+    "tags": [
+      "Flip Top",
+      "Alupeel"
+    ],
     "price": 0.8285,
     "moq": 30000,
     "unit": "pz",
-    "description": "Tapa 33 Flip Top (C/ Alupeel Univ.). Precios + IVA",
+    "description": "Tapa 33 Flip Top (C/ Alupeel Univ.).",
     "shortDescription": "Sello Alupeel universal con barrera de aluminio",
     "fullDescription": {
       "about": "Tapa Flip Top de 33mm con liner Alupeel universal, que combina la protección de barrera de aluminio con la facilidad de apertura tipo peel-off. Ofrece máxima protección contra contaminación y oxidación.",
-      "uses": ["Productos sensibles a la oxidación", "Bebidas premium", "Industria farmacéutica"],
-      "advantages": ["Barrera de aluminio contra oxidación", "Apertura peel-off fácil", "Compatibilidad universal"],
+      "uses": [
+        "Productos sensibles a la oxidación",
+        "Bebidas premium",
+        "Industria farmacéutica"
+      ],
+      "advantages": [
+        "Barrera de aluminio contra oxidación",
+        "Apertura peel-off fácil",
+        "Compatibilidad universal"
+      ],
       "applications": "Ideal para productos que requieren la máxima barrera de protección. El sistema Alupeel universal es compatible con diversos materiales de envase.",
       "customization": "Disponible en colores corporativos. El liner Alupeel puede incluir impresión personalizada.",
       "material": "Polipropileno (PP) + liner Alupeel aluminio"
@@ -299,16 +458,27 @@
     "id": 15,
     "name": "38 Flip Top Lisa (Sin liner)",
     "category": "Tapas Diámetro Medio",
-    "tags": ["Flip Top", "Sin Liner"],
+    "tags": [
+      "Flip Top",
+      "Sin Liner"
+    ],
     "price": 0.8181,
     "moq": 30000,
     "unit": "pz",
-    "description": "Tapa 38 Flip Top Lisa (Sin liner). Precios + IVA",
+    "description": "Tapa 38 Flip Top Lisa (Sin liner).",
     "shortDescription": "Acabado liso premium para salsas y aderezos",
     "fullDescription": {
       "about": "Tapa Flip Top de 38mm con acabado liso y sin liner. Su superficie pulida ofrece una apariencia premium y profesional. El diámetro de 38mm permite un flujo generoso, ideal para productos viscosos.",
-      "uses": ["Salsas y aderezos", "Miel", "Jarabes y toppings"],
-      "advantages": ["Acabado liso de apariencia premium", "Flujo generoso para productos viscosos", "Precio competitivo sin liner"],
+      "uses": [
+        "Salsas y aderezos",
+        "Miel",
+        "Jarabes y toppings"
+      ],
+      "advantages": [
+        "Acabado liso de apariencia premium",
+        "Flujo generoso para productos viscosos",
+        "Precio competitivo sin liner"
+      ],
       "applications": "Ampliamente utilizada en la industria alimenticia para salsas, aderezos y productos similares que requieren dosificación fluida.",
       "customization": "Personalizable en colores corporativos. Superficie lisa ideal para impresión o etiquetado.",
       "material": "Polipropileno (PP)"
@@ -316,22 +486,41 @@
     "image": "/productos/Flip_top_R38.jpg",
     "slug": "38-flip-top-lisa-sin-liner",
     "modelo3D": "/models/38 Flip Top Lisa (Sin liner).glb",
-    "colores": ["#ffffff", "#000000", "#ef4444", "#3b82f6", "#10b981", "#f59e0b", "#8b5cf6"]
+    "colores": [
+      "#ffffff",
+      "#000000",
+      "#ef4444",
+      "#3b82f6",
+      "#10b981",
+      "#f59e0b",
+      "#8b5cf6"
+    ]
   },
   {
     "id": 16,
     "name": "38 Flip Top Lisa (C/ Sensitivo)",
     "category": "Tapas Diámetro Medio",
-    "tags": ["Flip Top", "Sensitivo"],
+    "tags": [
+      "Flip Top",
+      "Sensitivo"
+    ],
     "price": 1.0868,
     "moq": 30000,
     "unit": "pz",
-    "description": "Tapa 38 Flip Top Lisa (C/ Sensitivo). Precios + IVA",
+    "description": "Tapa 38 Flip Top Lisa (C/ Sensitivo).",
     "shortDescription": "Acabado liso con sello sensitivo integrado",
     "fullDescription": {
       "about": "Tapa Flip Top de 38mm con acabado liso y liner sensitivo. Combina la estética premium de la superficie pulida con la seguridad del sello de inducción para máxima protección del producto.",
-      "uses": ["Alimentos que requieren hermeticidad", "Productos premium", "Exportación"],
-      "advantages": ["Estética premium + seguridad", "Sello de inducción hermético", "Acabado liso de alto impacto visual"],
+      "uses": [
+        "Alimentos que requieren hermeticidad",
+        "Productos premium",
+        "Exportación"
+      ],
+      "advantages": [
+        "Estética premium + seguridad",
+        "Sello de inducción hermético",
+        "Acabado liso de alto impacto visual"
+      ],
       "applications": "Ideal para marcas premium que requieren tanto apariencia como protección. Cumple requisitos de exportación y normativas alimentarias estrictas.",
       "customization": "Colores corporativos disponibles. Compatible con selladoras de inducción industriales.",
       "material": "Polipropileno (PP) + liner sensitivo"
@@ -343,16 +532,27 @@
     "id": 17,
     "name": "38 Flip Top Lisa (C/ Alupeel Univ.)",
     "category": "Tapas Diámetro Medio",
-    "tags": ["Flip Top", "Alupeel"],
+    "tags": [
+      "Flip Top",
+      "Alupeel"
+    ],
     "price": 1.0808,
     "moq": 30000,
     "unit": "pz",
-    "description": "Tapa 38 Flip Top Lisa (C/ Alupeel Univ.). Precios + IVA",
+    "description": "Tapa 38 Flip Top Lisa (C/ Alupeel Univ.).",
     "shortDescription": "Máxima barrera con Alupeel y acabado premium",
     "fullDescription": {
       "about": "Tapa Flip Top de 38mm con acabado liso y liner Alupeel universal. Ofrece la combinación definitiva de protección (barrera de aluminio) con la mejor apariencia visual para productos de alta gama.",
-      "uses": ["Productos de exportación", "Alimentos sensibles", "Cosméticos premium"],
-      "advantages": ["Barrera completa de aluminio", "Estética profesional", "Compatibilidad universal de sellado"],
+      "uses": [
+        "Productos de exportación",
+        "Alimentos sensibles",
+        "Cosméticos premium"
+      ],
+      "advantages": [
+        "Barrera completa de aluminio",
+        "Estética profesional",
+        "Compatibilidad universal de sellado"
+      ],
       "applications": "La opción más completa para marcas que no comprometen ni en protección ni en imagen. Recomendada para productos de exportación y mercados exigentes.",
       "customization": "Amplia gama de colores. Liner personalizable con impresión de marca.",
       "material": "Polipropileno (PP) + liner Alupeel aluminio"
@@ -364,16 +564,26 @@
     "id": 18,
     "name": "38 Tapa Rosca 2 Entradas",
     "category": "Tapas Diámetro Medio",
-    "tags": ["Rosca"],
+    "tags": [
+      "Rosca"
+    ],
     "price": 0.5217,
     "moq": 30000,
     "unit": "pz",
-    "description": "38 Tapa Rosca 2 Entradas. Precios + IVA",
+    "description": "38 Tapa Rosca 2 Entradas.",
     "shortDescription": "Rosca de 2 entradas para cierre rápido industrial",
     "fullDescription": {
       "about": "Tapa de rosca 38mm con sistema de 2 entradas que permite un cierre rápido con solo media vuelta. Diseñada para líneas de producción de alta velocidad donde la eficiencia de tapado es crítica.",
-      "uses": ["Líneas de alta velocidad", "Bebidas", "Productos químicos"],
-      "advantages": ["Cierre con media vuelta", "Optimiza velocidad de producción", "Ajuste seguro y consistente"],
+      "uses": [
+        "Líneas de alta velocidad",
+        "Bebidas",
+        "Productos químicos"
+      ],
+      "advantages": [
+        "Cierre con media vuelta",
+        "Optimiza velocidad de producción",
+        "Ajuste seguro y consistente"
+      ],
       "applications": "Especialmente diseñada para líneas de envasado industrial que requieren máxima velocidad de tapado sin comprometer el sellado.",
       "customization": "Disponible en colores estándar y personalizados. Compatible con tapadoras automáticas de 2 entradas.",
       "material": "Polipropileno (PP)"
@@ -381,22 +591,42 @@
     "image": "/productos/Tapa_R38_2_Entradas_INV.jpg",
     "slug": "38-tapa-rosca-2-entradas",
     "modelo3D": "/models/38 Tapa Rosca 2 Entradas.glb",
-    "colores": ["#ffffff", "#000000", "#ef4444", "#3b82f6", "#10b981", "#f59e0b", "#8b5cf6"]
+    "colores": [
+      "#ffffff",
+      "#000000",
+      "#ef4444",
+      "#3b82f6",
+      "#10b981",
+      "#f59e0b",
+      "#8b5cf6"
+    ]
   },
   {
     "id": 19,
     "name": "38 Tapa Rosca Inv. (Sin Liner)",
     "category": "Tapas Diámetro Medio",
-    "tags": ["Rosca", "Inviolable", "Sin Liner"],
+    "tags": [
+      "Rosca",
+      "Inviolable",
+      "Sin Liner"
+    ],
     "price": 0.48096,
     "moq": 45000,
     "unit": "pz",
-    "description": "38 Tapa Rosca Inv. (Sin Liner). Precios + IVA",
+    "description": "38 Tapa Rosca Inv. (Sin Liner).",
     "shortDescription": "Banda inviolable para seguridad del consumidor",
     "fullDescription": {
       "about": "Tapa de rosca inviolable de 38mm sin liner, con banda de seguridad que se rompe al abrir por primera vez. Proporciona evidencia visual de apertura previa, protegiendo al consumidor y a la marca.",
-      "uses": ["Bebidas no carbonatadas", "Agua embotellada", "Jugos y néctares"],
-      "advantages": ["Evidencia de primera apertura", "Banda de seguridad visible", "Precio competitivo"],
+      "uses": [
+        "Bebidas no carbonatadas",
+        "Agua embotellada",
+        "Jugos y néctares"
+      ],
+      "advantages": [
+        "Evidencia de primera apertura",
+        "Banda de seguridad visible",
+        "Precio competitivo"
+      ],
       "applications": "Estándar de la industria de bebidas para garantizar integridad del producto. La banda inviolable cumple con normativas de seguridad alimentaria nacionales e internacionales.",
       "customization": "Colores personalizados disponibles. Posibilidad de impresión en la parte superior.",
       "material": "Polipropileno (PP)"
@@ -408,16 +638,28 @@
     "id": 20,
     "name": "38 Tapa Rosca Inv. (Con Liner)",
     "category": "Tapas Diámetro Medio",
-    "tags": ["Rosca", "Inviolable", "Con Liner"],
+    "tags": [
+      "Rosca",
+      "Inviolable",
+      "Con Liner"
+    ],
     "price": 0.4684,
     "moq": 45000,
     "unit": "pz",
-    "description": "38 Tapa Rosca Inv. (Con Liner). Precios + IVA",
+    "description": "38 Tapa Rosca Inv. (Con Liner).",
     "shortDescription": "Inviolable con liner para doble protección",
     "fullDescription": {
       "about": "Tapa de rosca inviolable de 38mm con liner integrado, que ofrece doble protección: banda de seguridad visual + sellado hermético interno. La combinación más completa para protección del producto.",
-      "uses": ["Jugos pasteurizados", "Bebidas funcionales", "Productos que requieren hermeticidad"],
-      "advantages": ["Doble sistema de seguridad", "Sellado hermético con liner", "Cumple normativas de exportación"],
+      "uses": [
+        "Jugos pasteurizados",
+        "Bebidas funcionales",
+        "Productos que requieren hermeticidad"
+      ],
+      "advantages": [
+        "Doble sistema de seguridad",
+        "Sellado hermético con liner",
+        "Cumple normativas de exportación"
+      ],
       "applications": "Recomendada para productos que requieren tanto evidencia de apertura como hermeticidad completa. Ideal para jugos, bebidas funcionales y productos de exportación.",
       "customization": "Personalización en colores corporativos. Compatible con diferentes tipos de liner según el producto.",
       "material": "Polipropileno (PP) + liner PE"
@@ -429,16 +671,27 @@
     "id": 21,
     "name": "38 Flip Top Ancha (Aderezos)",
     "category": "Tapas Diámetro Medio",
-    "tags": ["Flip Top", "Aderezos"],
+    "tags": [
+      "Flip Top",
+      "Aderezos"
+    ],
     "price": 1.4231,
     "moq": 43200,
     "unit": "pz",
-    "description": "38 Flip Top Ancha (Aderezos). Precios + IVA",
+    "description": "38 Flip Top Ancha (Aderezos).",
     "shortDescription": "Boca ancha para salsas espesas y aderezos",
     "fullDescription": {
       "about": "Tapa Flip Top de 38mm con boca extra ancha, diseñada específicamente para la dosificación de salsas espesas, aderezos y productos de alta viscosidad. Su orificio amplio permite un flujo generoso sin obstrucciones.",
-      "uses": ["Mayonesas y mostazas", "Aderezos para ensalada", "Salsas BBQ y kétchup"],
-      "advantages": ["Orificio extra ancho anti-obstrucción", "Dosificación generosa", "Diseño especializado para viscosos"],
+      "uses": [
+        "Mayonesas y mostazas",
+        "Aderezos para ensalada",
+        "Salsas BBQ y kétchup"
+      ],
+      "advantages": [
+        "Orificio extra ancho anti-obstrucción",
+        "Dosificación generosa",
+        "Diseño especializado para viscosos"
+      ],
       "applications": "Desarrollada en colaboración con la industria alimenticia para resolver el problema de obstrucción en productos espesos. Ampliamente adoptada por marcas de aderezos y salsas.",
       "customization": "Colores personalizados. Posibilidad de ajustar el diámetro del orificio según viscosidad.",
       "material": "Polipropileno (PP) de alta rigidez"
@@ -450,16 +703,26 @@
     "id": 22,
     "name": "Tapa Especiero R-40",
     "category": "Tapas Diámetro Medio",
-    "tags": ["Especiero"],
+    "tags": [
+      "Especiero"
+    ],
     "price": 0.5113,
     "moq": 55000,
     "unit": "pz",
-    "description": "Tapa Especiero R-40. Precios + IVA",
+    "description": "Tapa Especiero R-40.",
     "shortDescription": "Doble apertura para dosificación de especias y condimentos",
     "fullDescription": {
       "about": "Tapa especiero de rosca R-40 con sistema de doble apertura: orificios pequeños para espolvorear y apertura amplia para cucharear. Diseño funcional que maximiza la versatilidad de uso.",
-      "uses": ["Especias y condimentos", "Sal y pimienta", "Hierbas secas"],
-      "advantages": ["Doble sistema de dosificación", "Orificios calibrados", "Rosca segura R-40"],
+      "uses": [
+        "Especias y condimentos",
+        "Sal y pimienta",
+        "Hierbas secas"
+      ],
+      "advantages": [
+        "Doble sistema de dosificación",
+        "Orificios calibrados",
+        "Rosca segura R-40"
+      ],
       "applications": "Solución completa para la industria de especias y condimentos. Su doble apertura permite adaptarse a diferentes necesidades de dosificación del consumidor.",
       "customization": "Colores personalizados. Configuración de orificios ajustable según el tipo de especia.",
       "material": "Polipropileno (PP)"
@@ -471,16 +734,26 @@
     "id": 23,
     "name": "45 Tapa Rosca",
     "category": "Tapas Diámetro Medio",
-    "tags": ["Rosca"],
+    "tags": [
+      "Rosca"
+    ],
     "price": 0.3906,
     "moq": 64750,
     "unit": "pz",
-    "description": "45 Tapa Rosca. Precios + IVA",
+    "description": "45 Tapa Rosca.",
     "shortDescription": "Rosca industrial para envases de boca media",
     "fullDescription": {
       "about": "Tapa de rosca de 45mm para envases de boca media. Su diseño robusto y rosca profunda garantizan un cierre firme y seguro, ideal para productos que requieren sellado confiable en envases medianos.",
-      "uses": ["Conservas", "Productos químicos", "Alimentos envasados"],
-      "advantages": ["Rosca profunda de cierre firme", "Alta resistencia mecánica", "Precio competitivo en volumen"],
+      "uses": [
+        "Conservas",
+        "Productos químicos",
+        "Alimentos envasados"
+      ],
+      "advantages": [
+        "Rosca profunda de cierre firme",
+        "Alta resistencia mecánica",
+        "Precio competitivo en volumen"
+      ],
       "applications": "Utilizada en diversas industrias donde se requiere un cierre de rosca confiable en diámetro medio. Compatible con frascos de vidrio y plástico con boca 45mm.",
       "customization": "Disponible en colores estándar y personalizados bajo pedido.",
       "material": "Polipropileno (PP)"
@@ -492,16 +765,27 @@
     "id": 24,
     "name": "63 Tapa Rosca Lisa",
     "category": "Tapas Diámetro Medio",
-    "tags": ["Rosca", "Lisa"],
+    "tags": [
+      "Rosca",
+      "Lisa"
+    ],
     "price": 0.68,
     "moq": 51400,
     "unit": "pz",
-    "description": "63 Tapa Rosca Lisa. Precios + IVA",
+    "description": "63 Tapa Rosca Lisa.",
     "shortDescription": "Rosca lisa para tarros y envases de boca ancha",
     "fullDescription": {
       "about": "Tapa de rosca lisa de 63mm con acabado pulido profesional. Diseñada para tarros y envases de boca ancha, ofrece un cierre seguro con una presentación limpia y elegante.",
-      "uses": ["Tarros de alimentos", "Cremas y mantequillas", "Productos artesanales"],
-      "advantages": ["Acabado liso profesional", "Cierre seguro para boca ancha", "Superficie ideal para etiquetado"],
+      "uses": [
+        "Tarros de alimentos",
+        "Cremas y mantequillas",
+        "Productos artesanales"
+      ],
+      "advantages": [
+        "Acabado liso profesional",
+        "Cierre seguro para boca ancha",
+        "Superficie ideal para etiquetado"
+      ],
       "applications": "Ampliamente utilizada en la industria de conservas, productos artesanales y cosméticos. Su superficie lisa permite una excelente adherencia de etiquetas y stickers.",
       "customization": "Personalizable en colores corporativos. Superficie lisa ideal para impresión directa o etiquetado.",
       "material": "Polipropileno (PP)"
@@ -513,16 +797,27 @@
     "id": 25,
     "name": "89 Tapa Rosca Lisa",
     "category": "Tapas Diámetro Grande",
-    "tags": ["Rosca", "Lisa"],
+    "tags": [
+      "Rosca",
+      "Lisa"
+    ],
     "price": 1.3892,
     "moq": 23100,
     "unit": "pz",
-    "description": "89 Tapa Rosca Lisa. Precios + IVA",
+    "description": "89 Tapa Rosca Lisa.",
     "shortDescription": "Gran diámetro para tarros industriales y alimenticios",
     "fullDescription": {
       "about": "Tapa de rosca lisa de 89mm de gran diámetro, diseñada para tarros industriales y envases de boca extra ancha. Su construcción robusta soporta el peso del producto y garantiza un sellado uniforme.",
-      "uses": ["Tarros de 1 kg o más", "Alimentos a granel", "Productos industriales"],
-      "advantages": ["Gran diámetro de 89mm", "Construcción robusta", "Sellado uniforme en boca ancha"],
+      "uses": [
+        "Tarros de 1 kg o más",
+        "Alimentos a granel",
+        "Productos industriales"
+      ],
+      "advantages": [
+        "Gran diámetro de 89mm",
+        "Construcción robusta",
+        "Sellado uniforme en boca ancha"
+      ],
       "applications": "Ideal para envases de gran capacidad en la industria alimenticia e industrial. Compatible con tarros de vidrio y plástico de boca ancha.",
       "customization": "Colores personalizados. Posibilidad de relieve o grabado en la superficie.",
       "material": "Polipropileno (PP) de alta resistencia"
@@ -534,16 +829,26 @@
     "id": 26,
     "name": "96 Tapa Rosca",
     "category": "Tapas Diámetro Grande",
-    "tags": ["Rosca"],
+    "tags": [
+      "Rosca"
+    ],
     "price": 1.5856,
     "moq": 23000,
     "unit": "pz",
-    "description": "96 Tapa Rosca. Precios + IVA",
+    "description": "96 Tapa Rosca.",
     "shortDescription": "Diámetro 96mm para envases de gran volumen",
     "fullDescription": {
       "about": "Tapa de rosca de 96mm para envases de gran volumen. Su diseño de ingeniería asegura un cierre hermético incluso en diámetros grandes, con rosca reforzada para uso industrial intensivo.",
-      "uses": ["Envases industriales de gran volumen", "Contenedores de alimentos", "Productos químicos a granel"],
-      "advantages": ["Rosca reforzada para diámetro grande", "Cierre hermético garantizado", "Resistencia industrial"],
+      "uses": [
+        "Envases industriales de gran volumen",
+        "Contenedores de alimentos",
+        "Productos químicos a granel"
+      ],
+      "advantages": [
+        "Rosca reforzada para diámetro grande",
+        "Cierre hermético garantizado",
+        "Resistencia industrial"
+      ],
       "applications": "Diseñada para las demandas de la industria pesada y alimenticia a granel. Soporta condiciones de almacenamiento prolongado y transporte.",
       "customization": "Colores corporativos disponibles. Diseño adaptable a diferentes alturas de rosca.",
       "material": "Polipropileno (PP) reforzado"
@@ -555,16 +860,27 @@
     "id": 27,
     "name": "100 Tapa Rosca Lisa",
     "category": "Tapas Diámetro Grande",
-    "tags": ["Rosca", "Lisa"],
+    "tags": [
+      "Rosca",
+      "Lisa"
+    ],
     "price": 1.6465,
     "moq": 23000,
     "unit": "pz",
-    "description": "100 Tapa Rosca Lisa. Precios + IVA",
+    "description": "100 Tapa Rosca Lisa.",
     "shortDescription": "Tapa de 100mm para tarros de gran capacidad",
     "fullDescription": {
       "about": "Tapa de rosca lisa de 100mm, una de las medidas más grandes del catálogo. Diseñada para tarros de gran capacidad con acabado liso profesional que comunica calidad y confianza.",
-      "uses": ["Tarros de 2+ litros", "Contenedores industriales", "Almacenamiento a granel"],
-      "advantages": ["Uno de los diámetros más grandes disponibles", "Acabado liso profesional", "Capacidad de carga superior"],
+      "uses": [
+        "Tarros de 2+ litros",
+        "Contenedores industriales",
+        "Almacenamiento a granel"
+      ],
+      "advantages": [
+        "Uno de los diámetros más grandes disponibles",
+        "Acabado liso profesional",
+        "Capacidad de carga superior"
+      ],
       "applications": "Solución para envases de gran formato en industrias alimenticia, química y de almacenamiento. Su gran diámetro facilita el llenado y acceso al contenido.",
       "customization": "Personalizable en colores. Superficie amplia ideal para branding y etiquetado.",
       "material": "Polipropileno (PP) de alta densidad"
@@ -576,16 +892,27 @@
     "id": 28,
     "name": "110 Tapa Rosca Lisa",
     "category": "Tapas Diámetro Grande",
-    "tags": ["Rosca", "Lisa"],
+    "tags": [
+      "Rosca",
+      "Lisa"
+    ],
     "price": 1.8649,
     "moq": 23000,
     "unit": "pz",
-    "description": "110 Tapa Rosca Lisa. Precios + IVA",
+    "description": "110 Tapa Rosca Lisa.",
     "shortDescription": "Máximo diámetro para tarros y galones industriales",
     "fullDescription": {
       "about": "Tapa de rosca lisa de 110mm, el mayor diámetro del catálogo. Diseñada para galones, tarros extra grandes y contenedores industriales de gran volumen. Construcción de máxima resistencia.",
-      "uses": ["Galones industriales", "Tarros de 3+ litros", "Contenedores de materias primas"],
-      "advantages": ["Máximo diámetro del catálogo (110mm)", "Construcción de resistencia industrial", "Acceso completo al contenido"],
+      "uses": [
+        "Galones industriales",
+        "Tarros de 3+ litros",
+        "Contenedores de materias primas"
+      ],
+      "advantages": [
+        "Máximo diámetro del catálogo (110mm)",
+        "Construcción de resistencia industrial",
+        "Acceso completo al contenido"
+      ],
       "applications": "La solución definitiva para envases de gran formato. Utilizada en industrias que manejan productos a granel, galones y contenedores de alta capacidad.",
       "customization": "Colores personalizados bajo pedido. Superficie lisa ideal para estampado o etiquetado.",
       "material": "Polipropileno (PP) reforzado de alta densidad"
@@ -597,16 +924,26 @@
     "id": 29,
     "name": "Asa Six",
     "category": "Accesorios",
-    "tags": ["Asa"],
+    "tags": [
+      "Asa"
+    ],
     "price": 1.0996,
     "moq": 39900,
     "unit": "pz",
-    "description": "Asa Six. Precios + IVA",
+    "description": "Asa Six.",
     "shortDescription": "Portabotellas six-pack resistente y funcional",
     "fullDescription": {
       "about": "Asa portabotellas tipo six-pack, diseñada para facilitar el transporte de conjuntos de botellas. Su diseño ergonómico distribuye el peso de manera uniforme y soporta cargas considerables.",
-      "uses": ["Empaques de six-pack", "Promociones de bebidas", "Distribución al mayoreo"],
-      "advantages": ["Diseño ergonómico de agarre", "Distribución uniforme del peso", "Alta resistencia a la carga"],
+      "uses": [
+        "Empaques de six-pack",
+        "Promociones de bebidas",
+        "Distribución al mayoreo"
+      ],
+      "advantages": [
+        "Diseño ergonómico de agarre",
+        "Distribución uniforme del peso",
+        "Alta resistencia a la carga"
+      ],
       "applications": "Accesorio esencial para embotelladoras y distribuidoras que manejan presentaciones de 6 botellas. Optimiza la logística y mejora la experiencia del consumidor.",
       "customization": "Disponible en colores estándar. Opción de personalización para campañas promocionales.",
       "material": "Polietileno de baja densidad (LDPE)"
@@ -618,16 +955,26 @@
     "id": 30,
     "name": "Asa 1 Lt 1 oreja R-28 (Corazón)",
     "category": "Accesorios",
-    "tags": ["Asa"],
+    "tags": [
+      "Asa"
+    ],
     "price": 0.1962,
     "moq": 108000,
     "unit": "pz",
-    "description": "Asa 1 Lt 1 oreja R-28 (Corazón). Precios + IVA",
+    "description": "Asa 1 Lt 1 oreja R-28 (Corazón).",
     "shortDescription": "Asa compacta de una oreja para botellas de 1 litro",
     "fullDescription": {
       "about": "Asa de una oreja con diseño corazón para botellas de 1 litro con rosca R-28. Su diseño compacto se integra al cuello de la botella sin afectar el apilamiento ni la logística de transporte.",
-      "uses": ["Botellas de agua 1L", "Aceites comestibles", "Limpiadores líquidos"],
-      "advantages": ["Diseño compacto de una sola oreja", "No afecta apilamiento", "Precio ultra competitivo"],
+      "uses": [
+        "Botellas de agua 1L",
+        "Aceites comestibles",
+        "Limpiadores líquidos"
+      ],
+      "advantages": [
+        "Diseño compacto de una sola oreja",
+        "No afecta apilamiento",
+        "Precio ultra competitivo"
+      ],
       "applications": "Accesorio popular para botellas de 1 litro en la industria de agua embotellada y aceites. Su bajo costo lo hace viable para producciones de gran volumen.",
       "customization": "Disponible en colores estándar. Grandes volúmenes con entrega programada.",
       "material": "Polietileno (PE)"
@@ -639,16 +986,26 @@
     "id": 31,
     "name": "Asa 1 Lt 2 orejas R-28",
     "category": "Accesorios",
-    "tags": ["Asa"],
+    "tags": [
+      "Asa"
+    ],
     "price": 0.2358,
     "moq": 108000,
     "unit": "pz",
-    "description": "Asa 1 Lt 2 orejas R-28. Precios + IVA",
+    "description": "Asa 1 Lt 2 orejas R-28.",
     "shortDescription": "Doble oreja para agarre firme y seguro",
     "fullDescription": {
       "about": "Asa de dos orejas para botellas de 1 litro con rosca R-28. El diseño de doble agarre proporciona mayor estabilidad y seguridad al transportar la botella, especialmente con líquidos pesados.",
-      "uses": ["Botellas de agua premium", "Aceites de oliva", "Jugos y néctares"],
-      "advantages": ["Doble punto de agarre", "Mayor estabilidad de transporte", "Distribución equilibrada del peso"],
+      "uses": [
+        "Botellas de agua premium",
+        "Aceites de oliva",
+        "Jugos y néctares"
+      ],
+      "advantages": [
+        "Doble punto de agarre",
+        "Mayor estabilidad de transporte",
+        "Distribución equilibrada del peso"
+      ],
       "applications": "Ideal para botellas de productos premium donde la experiencia del usuario importa. El doble agarre comunica calidad y facilita el uso diario.",
       "customization": "Colores personalizados disponibles. Compatible con diferentes perfiles de cuello R-28.",
       "material": "Polietileno (PE)"
@@ -660,16 +1017,26 @@
     "id": 32,
     "name": "Asa 1 Lt R-38",
     "category": "Accesorios",
-    "tags": ["Asa"],
+    "tags": [
+      "Asa"
+    ],
     "price": 0.6055,
     "moq": 108000,
     "unit": "pz",
-    "description": "Asa 1 Lt R-38. Precios + IVA",
+    "description": "Asa 1 Lt R-38.",
     "shortDescription": "Asa robusta para botellas de boca ancha R-38",
     "fullDescription": {
       "about": "Asa para botellas de 1 litro con rosca R-38, diseñada para envases de boca ancha. Su construcción más robusta soporta el mayor peso asociado con envases de diámetro 38mm.",
-      "uses": ["Botellas de salsas 1L", "Limpiadores industriales", "Químicos de uso general"],
-      "advantages": ["Diseño reforzado para R-38", "Soporte de mayor peso", "Ajuste preciso al cuello"],
+      "uses": [
+        "Botellas de salsas 1L",
+        "Limpiadores industriales",
+        "Químicos de uso general"
+      ],
+      "advantages": [
+        "Diseño reforzado para R-38",
+        "Soporte de mayor peso",
+        "Ajuste preciso al cuello"
+      ],
       "applications": "Accesorio indispensable para botellas de boca ancha R-38 que requieren facilidad de transporte. Utilizada en industrias alimenticia, de limpieza e industrial.",
       "customization": "Disponible en colores estándar y personalizados para branding.",
       "material": "Polietileno (PE) reforzado"
@@ -681,16 +1048,27 @@
     "id": 33,
     "name": "Vaso 9 oz Policarbonato",
     "category": "Vasos",
-    "tags": ["Vaso", "Policarbonato"],
+    "tags": [
+      "Vaso",
+      "Policarbonato"
+    ],
     "price": 10.3062,
     "moq": 8400,
     "unit": "pz",
-    "description": "Vaso 9 oz Policarbonato. Precios + IVA",
+    "description": "Vaso 9 oz Policarbonato.",
     "shortDescription": "Reutilizable y resistente a impactos — 9 oz",
     "fullDescription": {
       "about": "Vaso de policarbonato de 9 oz con transparencia cristalina y resistencia superior a impactos. Diseñado para uso intensivo en establecimientos comerciales, reemplazando vasos desechables con una opción sustentable y duradera.",
-      "uses": ["Restaurantes y bares", "Eventos corporativos", "Cafeterías y hoteles"],
-      "advantages": ["Transparencia tipo cristal", "Resistencia extrema a impactos", "Reutilizable y lavable"],
+      "uses": [
+        "Restaurantes y bares",
+        "Eventos corporativos",
+        "Cafeterías y hoteles"
+      ],
+      "advantages": [
+        "Transparencia tipo cristal",
+        "Resistencia extrema a impactos",
+        "Reutilizable y lavable"
+      ],
       "applications": "La alternativa premium al vidrio y al desechable. Ideal para establecimientos que buscan reducir costos de reemplazo y ofrecer una experiencia premium a sus clientes.",
       "customization": "Personalizable con serigrafía, tampografía o grabado láser. Ideal para branding corporativo y eventos.",
       "material": "Policarbonato (PC) grado alimenticio — BPA Free"
@@ -702,16 +1080,27 @@
     "id": 34,
     "name": "Vaso 12 oz Policarbonato",
     "category": "Vasos",
-    "tags": ["Vaso", "Policarbonato"],
+    "tags": [
+      "Vaso",
+      "Policarbonato"
+    ],
     "price": 11.829,
     "moq": 8160,
     "unit": "pz",
-    "description": "Vaso 12 oz Policarbonato. Precios + IVA",
+    "description": "Vaso 12 oz Policarbonato.",
     "shortDescription": "Capacidad ideal para bebidas y cocteles — 12 oz",
     "fullDescription": {
       "about": "Vaso de policarbonato de 12 oz, la medida más versátil para bebidas, cocteles y servicio de alimentos. Combina la elegancia del cristal con la durabilidad del policarbonato para un rendimiento excepcional.",
-      "uses": ["Bares y restaurantes", "Coctelerías", "Servicio de catering"],
-      "advantages": ["Tamaño versátil de 12 oz", "Aspecto cristalino premium", "Apto para lavavajillas industrial"],
+      "uses": [
+        "Bares y restaurantes",
+        "Coctelerías",
+        "Servicio de catering"
+      ],
+      "advantages": [
+        "Tamaño versátil de 12 oz",
+        "Aspecto cristalino premium",
+        "Apto para lavavajillas industrial"
+      ],
       "applications": "El vaso más solicitado por la industria de hospitalidad. Su capacidad de 12 oz es perfecta para jugos, refrescos, cocteles y bebidas calientes con doble pared opcional.",
       "customization": "Serigrafía a 1-4 colores, tampografía, grabado láser o sublimación. Mínimos accesibles para personalización.",
       "material": "Policarbonato (PC) grado alimenticio — BPA Free"
@@ -723,16 +1112,27 @@
     "id": 35,
     "name": "Vaso 16 oz para Café y Tapa liso",
     "category": "Vasos",
-    "tags": ["Vaso", "Café"],
+    "tags": [
+      "Vaso",
+      "Café"
+    ],
     "price": 6.2623,
     "moq": 10000,
     "unit": "jgos",
-    "description": "Vaso 16 oz para Café y Tapa liso. Escala: $5.7404 > 21k jgos | $5.2186 > 25k jgos. Precios + IVA",
+    "description": "Vaso 16 oz para Café y Tapa liso.",
     "shortDescription": "Vaso take-away con tapa — perfecto para cafeterías",
     "fullDescription": {
       "about": "Juego de vaso 16 oz con tapa para café, en acabado liso. Diseñado para el mercado take-away profesional, ofrece aislamiento térmico y presentación premium que eleva la imagen de cualquier establecimiento.",
-      "uses": ["Cafeterías y coffee shops", "Servicio take-away", "Eventos corporativos"],
-      "advantages": ["Incluye tapa — juego completo", "Acabado liso para impresión", "Precios escalables por volumen"],
+      "uses": [
+        "Cafeterías y coffee shops",
+        "Servicio take-away",
+        "Eventos corporativos"
+      ],
+      "advantages": [
+        "Incluye tapa — juego completo",
+        "Acabado liso para impresión",
+        "Precios escalables por volumen"
+      ],
       "applications": "Solución integral para cafeterías, restaurantes y servicios de catering que buscan una presentación profesional en bebidas calientes y frías para llevar.",
       "customization": "Superficie lisa ideal para serigrafía, sleeve o impresión directa. Personalización desde el MOQ.",
       "material": "Polipropileno (PP) grado alimenticio"
@@ -744,16 +1144,26 @@
     "id": 36,
     "name": "Bote 1 Lt c/tapa cintillo (Pintura)",
     "category": "Vasos",
-    "tags": ["Bote"],
+    "tags": [
+      "Bote"
+    ],
     "price": 5.4389,
     "moq": 7980,
     "unit": "jgos",
-    "description": "Bote 1 Lt c/tapa cintillo (Pintura). Precios + IVA",
+    "description": "Bote 1 Lt c/tapa cintillo (Pintura).",
     "shortDescription": "Envase industrial con cintillo de seguridad — 1 Lt",
     "fullDescription": {
       "about": "Bote de 1 litro con tapa y cintillo de seguridad, diseñado originalmente para la industria de pinturas. Su cierre con cintillo garantiza hermeticidad y evidencia de apertura, protegiendo el contenido.",
-      "uses": ["Pinturas y recubrimientos", "Productos químicos", "Adhesivos y selladores"],
-      "advantages": ["Cintillo de seguridad hermético", "Resistente a químicos", "Apilable para logística eficiente"],
+      "uses": [
+        "Pinturas y recubrimientos",
+        "Productos químicos",
+        "Adhesivos y selladores"
+      ],
+      "advantages": [
+        "Cintillo de seguridad hermético",
+        "Resistente a químicos",
+        "Apilable para logística eficiente"
+      ],
       "applications": "Estándar de la industria de pinturas y productos químicos. Su diseño permite apilamiento seguro y transporte eficiente en grandes volúmenes.",
       "customization": "Colores de tapa personalizados. Compatible con etiquetado y serigrafía en el cuerpo del bote.",
       "material": "Polipropileno (PP) de alta resistencia química"
@@ -765,16 +1175,26 @@
     "id": 37,
     "name": "VASO PASTILLERO O 26X65",
     "category": "Vasos",
-    "tags": ["Farmacéutico"],
+    "tags": [
+      "Farmacéutico"
+    ],
     "price": 34.4886,
     "moq": 50,
     "unit": "pz",
-    "description": "VASO PASTILLERO O 26X65. Precios + IVA",
+    "description": "VASO PASTILLERO O 26X65.",
     "shortDescription": "Envase farmacéutico para cápsulas y tabletas",
     "fullDescription": {
       "about": "Vaso pastillero de dimensiones Ø26×65mm, diseñado para la industria farmacéutica y nutracéutica. Su formato compacto es ideal para el envasado de cápsulas, tabletas y suplementos alimenticios.",
-      "uses": ["Cápsulas farmacéuticas", "Suplementos alimenticios", "Tabletas y comprimidos"],
-      "advantages": ["Formato farmacéutico especializado", "MOQ bajo desde 50 piezas", "Disponibilidad inmediata con stock"],
+      "uses": [
+        "Cápsulas farmacéuticas",
+        "Suplementos alimenticios",
+        "Tabletas y comprimidos"
+      ],
+      "advantages": [
+        "Formato farmacéutico especializado",
+        "MOQ bajo desde 50 piezas",
+        "Disponibilidad inmediata con stock"
+      ],
       "applications": "Solución especializada para laboratorios, farmacias magistrales y marcas de suplementos que requieren envases de grado farmacéutico con entrega rápida.",
       "customization": "Etiquetado personalizado. Compatible con tapas de seguridad child-proof bajo pedido.",
       "material": "PET grado farmacéutico"
@@ -787,16 +1207,26 @@
     "id": 38,
     "name": "VASO TEMPORADA NAVIDAD 16OZ",
     "category": "Vasos",
-    "tags": ["Alimenticio"],
+    "tags": [
+      "Alimenticio"
+    ],
     "price": 8.9475,
     "moq": 20,
     "unit": "pz",
-    "description": "VASO TEMPORADA NAVIDAD 16OZ. Precios + IVA",
+    "description": "VASO TEMPORADA NAVIDAD 16OZ.",
     "shortDescription": "Edición especial navideña — ideal para regalos y eventos",
     "fullDescription": {
       "about": "Vaso de temporada navideña de 16 oz con diseño festivo exclusivo. Fabricado en material reutilizable de alta calidad, es perfecto como regalo corporativo, recuerdo de evento o artículo promocional de temporada.",
-      "uses": ["Regalos corporativos de fin de año", "Eventos navideños", "Promocionales de temporada"],
-      "advantages": ["Diseño festivo exclusivo", "MOQ bajo desde 20 piezas", "Reutilizable y coleccionable"],
+      "uses": [
+        "Regalos corporativos de fin de año",
+        "Eventos navideños",
+        "Promocionales de temporada"
+      ],
+      "advantages": [
+        "Diseño festivo exclusivo",
+        "MOQ bajo desde 20 piezas",
+        "Reutilizable y coleccionable"
+      ],
       "applications": "Producto de alto impacto para la temporada navideña. Ideal para empresas que buscan regalos corporativos con branding, restaurantes con servicio temático y eventos de fin de año.",
       "customization": "Personalizable con logo corporativo sobre diseño navideño. Disponible mientras dure el stock de temporada.",
       "material": "Policarbonato (PC) o PP grado alimenticio"
@@ -809,16 +1239,26 @@
     "id": 39,
     "name": "VASOS PARA BEBIDAS COLORES 16 OZ CON TAPA",
     "category": "Vasos",
-    "tags": ["Alimenticio"],
+    "tags": [
+      "Alimenticio"
+    ],
     "price": 14.8627,
     "moq": 20,
     "unit": "pz",
-    "description": "VASOS PARA BEBIDAS COLORES 16 OZ CON TAPA. Precios + IVA",
+    "description": "VASOS PARA BEBIDAS COLORES 16 OZ CON TAPA.",
     "shortDescription": "Vasos de colores con tapa — presentación vibrante",
     "fullDescription": {
       "about": "Vasos de 16 oz en colores vibrantes con tapa incluida. Diseñados para dar un toque de color y personalidad a cualquier establecimiento o evento. La tapa permite uso como vaso cerrado para llevar.",
-      "uses": ["Cafeterías y juice bars", "Eventos y fiestas", "Merchandising corporativo"],
-      "advantages": ["Colores vibrantes y atractivos", "Incluye tapa", "MOQ bajo desde 20 piezas"],
+      "uses": [
+        "Cafeterías y juice bars",
+        "Eventos y fiestas",
+        "Merchandising corporativo"
+      ],
+      "advantages": [
+        "Colores vibrantes y atractivos",
+        "Incluye tapa",
+        "MOQ bajo desde 20 piezas"
+      ],
       "applications": "Perfectos para establecimientos que buscan diferenciarse con color, eventos temáticos, y como artículos promocionales de alto impacto visual.",
       "customization": "Disponible en múltiples colores. Personalizable con serigrafía, tampografía o viniles.",
       "material": "Polipropileno (PP) grado alimenticio"
@@ -827,22 +1267,40 @@
     "slug": "vasos-para-bebidas-colores-16-oz-con-tapa",
     "stock": 1000,
     "modelo3D": "/models/VASOS PARA BEBIDAS COLORES 16 OZ CON TAPA.glb",
-    "colores": ["#ffffff", "#000000", "#ef4444", "#3b82f6", "#10b981", "#f59e0b", "#8b5cf6"]
+    "colores": [
+      "#ffffff",
+      "#000000",
+      "#ef4444",
+      "#3b82f6",
+      "#10b981",
+      "#f59e0b",
+      "#8b5cf6"
+    ]
   },
   {
     "id": 40,
     "name": "VASO PASTILLERO O 35X52",
     "category": "Vasos",
-    "tags": ["Farmacéutico"],
+    "tags": [
+      "Farmacéutico"
+    ],
     "price": 22.2721,
     "moq": 40,
     "unit": "pz",
-    "description": "VASO PASTILLERO O 35X52. Precios + IVA",
+    "description": "VASO PASTILLERO O 35X52.",
     "shortDescription": "Formato ancho para suplementos y vitaminas",
     "fullDescription": {
       "about": "Vaso pastillero de dimensiones Ø35×52mm con boca más ancha, ideal para cápsulas grandes, vitaminas y suplementos que requieren facilidad de acceso. Su formato compacto optimiza el espacio en anaquel.",
-      "uses": ["Vitaminas y multivitamínicos", "Suplementos deportivos", "Productos nutracéuticos"],
-      "advantages": ["Boca ancha para cápsulas grandes", "Formato compacto para anaquel", "MOQ bajo desde 40 piezas"],
+      "uses": [
+        "Vitaminas y multivitamínicos",
+        "Suplementos deportivos",
+        "Productos nutracéuticos"
+      ],
+      "advantages": [
+        "Boca ancha para cápsulas grandes",
+        "Formato compacto para anaquel",
+        "MOQ bajo desde 40 piezas"
+      ],
       "applications": "Diseñado para la industria nutracéutica y de suplementos. Su boca ancha facilita el llenado manual y el acceso del consumidor.",
       "customization": "Compatible con etiquetado personalizado y tapas de diferentes colores.",
       "material": "PET grado farmacéutico"
@@ -855,16 +1313,26 @@
     "id": 41,
     "name": "VASO PASTILLERO O 26X51",
     "category": "Vasos",
-    "tags": ["Farmacéutico"],
+    "tags": [
+      "Farmacéutico"
+    ],
     "price": 30.3067,
     "moq": 30,
     "unit": "pz",
-    "description": "VASO PASTILLERO O 26X51. Precios + IVA",
+    "description": "VASO PASTILLERO O 26X51.",
     "shortDescription": "Formato intermedio para líneas farmacéuticas",
     "fullDescription": {
       "about": "Vaso pastillero de dimensiones Ø26×51mm, formato intermedio de la línea farmacéutica. Ofrece el equilibrio perfecto entre capacidad y compacidad para presentaciones estándar de medicamentos y suplementos.",
-      "uses": ["Medicamentos", "Suplementos alimenticios", "Productos de herbolaria"],
-      "advantages": ["Formato estándar farmacéutico", "MOQ desde 30 piezas", "Stock disponible para entrega inmediata"],
+      "uses": [
+        "Medicamentos",
+        "Suplementos alimenticios",
+        "Productos de herbolaria"
+      ],
+      "advantages": [
+        "Formato estándar farmacéutico",
+        "MOQ desde 30 piezas",
+        "Stock disponible para entrega inmediata"
+      ],
       "applications": "Solución versátil para laboratorios y marcas de salud que manejan diferentes presentaciones. Compatible con las principales líneas de llenado farmacéutico.",
       "customization": "Etiquetado personalizado. Compatible con tapas estándar y child-proof.",
       "material": "PET grado farmacéutico"
@@ -877,16 +1345,26 @@
     "id": 42,
     "name": "VASO PASTILLERO O 26X41",
     "category": "Vasos",
-    "tags": ["Farmacéutico"],
+    "tags": [
+      "Farmacéutico"
+    ],
     "price": 10.3266,
     "moq": 50,
     "unit": "pz",
-    "description": "VASO PASTILLERO O 26X41. Precios + IVA",
+    "description": "VASO PASTILLERO O 26X41.",
     "shortDescription": "Formato compacto para muestras y presentaciones cortas",
     "fullDescription": {
       "about": "Vaso pastillero de dimensiones Ø26×41mm, el formato más compacto de la línea. Ideal para muestras médicas, presentaciones de pocas unidades y productos de precio premium por pieza.",
-      "uses": ["Muestras médicas", "Presentaciones de 10-20 unidades", "Productos premium"],
-      "advantages": ["El formato más compacto", "Ideal para muestras y pruebas", "Precio accesible por unidad"],
+      "uses": [
+        "Muestras médicas",
+        "Presentaciones de 10-20 unidades",
+        "Productos premium"
+      ],
+      "advantages": [
+        "El formato más compacto",
+        "Ideal para muestras y pruebas",
+        "Precio accesible por unidad"
+      ],
       "applications": "Perfecto para laboratorios que distribuyen muestras, farmacias magistrales con presentaciones personalizadas y marcas de nicho con volúmenes reducidos.",
       "customization": "Etiquetado personalizado. Entrega rápida desde stock disponible.",
       "material": "PET grado farmacéutico"
@@ -899,16 +1377,26 @@
     "id": 43,
     "name": "VASOS PARA CAFÉ 16 OZ CON TAPA",
     "category": "Vasos",
-    "tags": ["Alimenticio"],
+    "tags": [
+      "Alimenticio"
+    ],
     "price": 21.5076,
     "moq": 10,
     "unit": "pz",
-    "description": "VASOS PARA CAFÉ 16 OZ CON TAPA. Precios + IVA",
+    "description": "VASOS PARA CAFÉ 16 OZ CON TAPA.",
     "shortDescription": "Presentación premium para café especialidad",
     "fullDescription": {
       "about": "Vaso para café de 16 oz con tapa incluida, en presentación premium. Diseñado para cafeterías de especialidad y servicios de catering que buscan elevar la experiencia de sus clientes con cada taza servida.",
-      "uses": ["Cafeterías de especialidad", "Servicio de catering premium", "Coffee trucks"],
-      "advantages": ["Presentación premium completa", "MOQ mínimo desde 10 piezas", "Reutilizable y resistente"],
+      "uses": [
+        "Cafeterías de especialidad",
+        "Servicio de catering premium",
+        "Coffee trucks"
+      ],
+      "advantages": [
+        "Presentación premium completa",
+        "MOQ mínimo desde 10 piezas",
+        "Reutilizable y resistente"
+      ],
       "applications": "La opción premium para negocios de café que valoran la presentación. Su diseño profesional y tapa segura lo hacen ideal para servicio en punto de venta y para llevar.",
       "customization": "Personalizable con logo de la cafetería. Disponible desde stock para entregas rápidas.",
       "material": "Polipropileno (PP) grado alimenticio"
@@ -921,16 +1409,26 @@
     "id": 44,
     "name": "VASO COPRO 100ML",
     "category": "Vasos",
-    "tags": ["Farmacéutico"],
+    "tags": [
+      "Farmacéutico"
+    ],
     "price": 21.994,
     "moq": 20,
     "unit": "pz",
-    "description": "VASO COPRO 100ML. Precios + IVA",
+    "description": "VASO COPRO 100ML.",
     "shortDescription": "Vaso coprológico de grado clínico — 100ml",
     "fullDescription": {
       "about": "Vaso coprológico de 100ml de grado clínico, diseñado para recolección de muestras biológicas. Cumple con estándares de higiene y seguridad para uso en laboratorios clínicos y hospitales.",
-      "uses": ["Laboratorios clínicos", "Hospitales y clínicas", "Consultorios médicos"],
-      "advantages": ["Grado clínico certificado", "Tapa hermética para transporte seguro", "MOQ bajo desde 20 piezas"],
+      "uses": [
+        "Laboratorios clínicos",
+        "Hospitales y clínicas",
+        "Consultorios médicos"
+      ],
+      "advantages": [
+        "Grado clínico certificado",
+        "Tapa hermética para transporte seguro",
+        "MOQ bajo desde 20 piezas"
+      ],
       "applications": "Producto esencial para la industria de salud. Utilizado en laboratorios de análisis clínicos, hospitales y consultorios para la recolección y transporte seguro de muestras.",
       "customization": "Etiquetado personalizado con datos del laboratorio. Compatible con sistemas de identificación de muestras.",
       "material": "Polipropileno (PP) grado médico"
@@ -943,16 +1441,26 @@
     "id": 45,
     "name": "VASO 12OZ POLICARBONATO",
     "category": "Vasos",
-    "tags": ["Alimenticio"],
+    "tags": [
+      "Alimenticio"
+    ],
     "price": 25.9196,
     "moq": 50,
     "unit": "pz",
-    "description": "VASO 12OZ POLICARBONATO. Precios + IVA",
+    "description": "VASO 12OZ POLICARBONATO.",
     "shortDescription": "Policarbonato premium — claridad cristalina 12 oz",
     "fullDescription": {
       "about": "Vaso de policarbonato de 12 oz con claridad cristalina excepcional. Presentación premium disponible desde stock para entrega inmediata. Ideal para establecimientos que buscan calidad sin esperar producción industrial.",
-      "uses": ["Restaurantes y hoteles", "Bares y lounges", "Eventos premium"],
-      "advantages": ["Stock disponible para entrega inmediata", "Claridad cristalina premium", "Durabilidad profesional"],
+      "uses": [
+        "Restaurantes y hoteles",
+        "Bares y lounges",
+        "Eventos premium"
+      ],
+      "advantages": [
+        "Stock disponible para entrega inmediata",
+        "Claridad cristalina premium",
+        "Durabilidad profesional"
+      ],
       "applications": "La opción de entrega rápida para establecimientos que necesitan vasos de policarbonato de alta calidad sin cumplir con MOQ industriales.",
       "customization": "Personalizable con serigrafía o grabado. Disponible desde stock con entrega express.",
       "material": "Policarbonato (PC) grado alimenticio — BPA Free"
@@ -965,16 +1473,26 @@
     "id": 46,
     "name": "VASO 02 POLICARBONATO",
     "category": "Vasos",
-    "tags": ["Alimenticio"],
+    "tags": [
+      "Alimenticio"
+    ],
     "price": 14.014,
     "moq": 40,
     "unit": "pz",
-    "description": "VASO 02 POLICARBONATO. Precios + IVA",
+    "description": "VASO 02 POLICARBONATO.",
     "shortDescription": "Formato compacto para shots y degustaciones",
     "fullDescription": {
       "about": "Vaso compacto de policarbonato, formato ideal para shots, degustaciones y porciones pequeñas. Combina la durabilidad del policarbonato con un tamaño perfecto para servicio de muestras y catas.",
-      "uses": ["Degustaciones y catas", "Shots y cortesías", "Eventos y ferias"],
-      "advantages": ["Formato compacto para porciones pequeñas", "Reutilizable y resistente", "Precio accesible"],
+      "uses": [
+        "Degustaciones y catas",
+        "Shots y cortesías",
+        "Eventos y ferias"
+      ],
+      "advantages": [
+        "Formato compacto para porciones pequeñas",
+        "Reutilizable y resistente",
+        "Precio accesible"
+      ],
       "applications": "Ideal para bares, ferias gastronómicas, eventos de degustación y cualquier servicio que requiera porciones controladas en un formato elegante y duradero.",
       "customization": "Personalizable con logo. Entrega desde stock disponible.",
       "material": "Policarbonato (PC) grado alimenticio — BPA Free"
@@ -987,16 +1505,26 @@
     "id": 47,
     "name": "TAPA ROSCA 63MM LISA",
     "category": "Tapas Especializadas",
-    "tags": ["General"],
+    "tags": [
+      "General"
+    ],
     "price": 2.6024,
     "moq": 400,
     "unit": "pz",
-    "description": "TAPA ROSCA 63MM LISA. Precios + IVA",
+    "description": "TAPA ROSCA 63MM LISA.",
     "shortDescription": "Tapa lisa 63mm — stock disponible para entrega inmediata",
     "fullDescription": {
       "about": "Tapa de rosca lisa de 63mm con disponibilidad desde stock. Acabado liso profesional para tarros y envases de boca ancha, con entrega inmediata sin esperar producción industrial.",
-      "uses": ["Tarros de mermelada", "Conservas artesanales", "Productos cosméticos"],
-      "advantages": ["Disponible en stock para entrega rápida", "MOQ bajo desde 400 piezas", "Acabado liso premium"],
+      "uses": [
+        "Tarros de mermelada",
+        "Conservas artesanales",
+        "Productos cosméticos"
+      ],
+      "advantages": [
+        "Disponible en stock para entrega rápida",
+        "MOQ bajo desde 400 piezas",
+        "Acabado liso premium"
+      ],
       "applications": "Solución ideal para productores artesanales, PyMEs y marcas emergentes que necesitan tapas de calidad industrial sin los MOQ elevados de producción.",
       "customization": "Disponible en colores estándar desde stock. Colores personalizados bajo pedido con MOQ especial.",
       "material": "Polipropileno (PP)"
@@ -1005,22 +1533,41 @@
     "slug": "tapa-rosca-63mm-lisa",
     "stock": 1000,
     "modelo3D": "/models/R63.glb",
-    "colores": ["#ffffff", "#000000", "#ef4444", "#3b82f6", "#10b981", "#f59e0b", "#8b5cf6"]
+    "colores": [
+      "#ffffff",
+      "#000000",
+      "#ef4444",
+      "#3b82f6",
+      "#10b981",
+      "#f59e0b",
+      "#8b5cf6"
+    ]
   },
   {
     "id": 48,
     "name": "TAPA ROSCA 38MM INVIOLABLE (Sin Liner)",
     "category": "Tapas Especializadas",
-    "tags": ["Inviolable", "Sin Liner"],
+    "tags": [
+      "Inviolable",
+      "Sin Liner"
+    ],
     "price": 1.2876,
     "moq": 300,
     "unit": "pz",
-    "description": "TAPA ROSCA 38MM INVIOLABLE (Sin Liner). Precios + IVA",
+    "description": "TAPA ROSCA 38MM INVIOLABLE (Sin Liner).",
     "shortDescription": "Inviolable 38mm sin liner — stock disponible",
     "fullDescription": {
       "about": "Tapa de rosca inviolable de 38mm sin liner, desde stock. La banda de seguridad proporciona evidencia visual de primera apertura, cumpliendo normativas de seguridad alimentaria.",
-      "uses": ["Bebidas artesanales", "Salsas gourmet", "Productos de exportación"],
-      "advantages": ["Sin liner — costo competitivo", "Stock para entrega inmediata", "MOQ bajo desde 300 piezas"],
+      "uses": [
+        "Bebidas artesanales",
+        "Salsas gourmet",
+        "Productos de exportación"
+      ],
+      "advantages": [
+        "Sin liner — costo competitivo",
+        "Stock para entrega inmediata",
+        "MOQ bajo desde 300 piezas"
+      ],
       "applications": "Perfecta para productores artesanales y PyMEs que necesitan seguridad inviolable sin comprometerse con MOQ industriales. Ideal para primeras corridas de producción.",
       "customization": "Colores estándar desde stock. Personalización bajo pedido.",
       "material": "Polipropileno (PP)"
@@ -1033,16 +1580,27 @@
     "id": 74,
     "name": "TAPA ROSCA 38MM INVIOLABLE (Con Liner)",
     "category": "Tapas Especializadas",
-    "tags": ["Inviolable", "Con Liner"],
+    "tags": [
+      "Inviolable",
+      "Con Liner"
+    ],
     "price": 1.2876,
     "moq": 300,
     "unit": "pz",
-    "description": "TAPA ROSCA 38MM INVIOLABLE (Con Liner). Precios + IVA",
+    "description": "TAPA ROSCA 38MM INVIOLABLE (Con Liner).",
     "shortDescription": "Inviolable 38mm con liner — sellado hermético",
     "fullDescription": {
       "about": "Tapa de rosca inviolable de 38mm con liner integrado, desde stock. Combina la banda de seguridad inviolable con un sellado hermético interno para doble protección del producto.",
-      "uses": ["Bebidas artesanales", "Salsas gourmet", "Productos de exportación"],
-      "advantages": ["Liner para sellado hermético", "Doble seguridad: banda + liner", "MOQ bajo desde 300 piezas"],
+      "uses": [
+        "Bebidas artesanales",
+        "Salsas gourmet",
+        "Productos de exportación"
+      ],
+      "advantages": [
+        "Liner para sellado hermético",
+        "Doble seguridad: banda + liner",
+        "MOQ bajo desde 300 piezas"
+      ],
       "applications": "Perfecta para productores artesanales y PyMEs que necesitan seguridad inviolable con hermeticidad, sin comprometerse con MOQ industriales.",
       "customization": "Colores estándar desde stock. Personalización bajo pedido.",
       "material": "Polipropileno (PP) + liner PE"
@@ -1055,16 +1613,26 @@
     "id": 49,
     "name": "TAPA ROSCA 28MM INVIOLABLE CON ALETAS",
     "category": "Tapas Especializadas",
-    "tags": ["General"],
+    "tags": [
+      "General"
+    ],
     "price": 3.439,
     "moq": 400,
     "unit": "pz",
-    "description": "TAPA ROSCA 28MM INVIOLABLE CON ALETAS. Precios + IVA",
+    "description": "TAPA ROSCA 28MM INVIOLABLE CON ALETAS.",
     "shortDescription": "Seguridad inviolable + ergonomía de aletas",
     "fullDescription": {
       "about": "Tapa de rosca inviolable de 28mm con aletas ergonómicas. Combina la seguridad de la banda inviolable con la facilidad de apertura que proporcionan las aletas laterales.",
-      "uses": ["Agua embotellada premium", "Jugos artesanales", "Bebidas funcionales"],
-      "advantages": ["Doble función: seguridad + ergonomía", "Apertura fácil con aletas", "Stock disponible"],
+      "uses": [
+        "Agua embotellada premium",
+        "Jugos artesanales",
+        "Bebidas funcionales"
+      ],
+      "advantages": [
+        "Doble función: seguridad + ergonomía",
+        "Apertura fácil con aletas",
+        "Stock disponible"
+      ],
       "applications": "La solución que combina seguridad del consumidor con facilidad de uso. Ideal para marcas que priorizan tanto la protección como la experiencia del usuario.",
       "customization": "Colores desde stock. Personalización por volumen bajo pedido.",
       "material": "Polipropileno (PP)"
@@ -1077,16 +1645,26 @@
     "id": 50,
     "name": "TAPA PARA BOTE 1L CON CINTILLO",
     "category": "Tapas Especializadas",
-    "tags": ["General"],
+    "tags": [
+      "General"
+    ],
     "price": 3.4116,
     "moq": 500,
     "unit": "pz",
-    "description": "TAPA PARA BOTE 1L CON CINTILLO. Precios + IVA",
+    "description": "TAPA PARA BOTE 1L CON CINTILLO.",
     "shortDescription": "Tapa con cintillo de seguridad para botes de 1 litro",
     "fullDescription": {
       "about": "Tapa con cintillo de seguridad diseñada para botes de 1 litro. El cintillo proporciona evidencia de apertura y hermeticidad adicional, ideal para productos que requieren sellado industrial.",
-      "uses": ["Pinturas y esmaltes", "Productos químicos", "Alimentos a granel"],
-      "advantages": ["Cintillo de seguridad integrado", "Hermeticidad industrial", "Compatible con botes estándar 1L"],
+      "uses": [
+        "Pinturas y esmaltes",
+        "Productos químicos",
+        "Alimentos a granel"
+      ],
+      "advantages": [
+        "Cintillo de seguridad integrado",
+        "Hermeticidad industrial",
+        "Compatible con botes estándar 1L"
+      ],
       "applications": "Repuesto o complemento para botes de 1 litro. Disponible desde stock para productores que necesitan tapas de reemplazo o para nuevas líneas de producto.",
       "customization": "Colores estándar disponibles. Personalización bajo pedido especial.",
       "material": "Polipropileno (PP) de alta resistencia"
@@ -1099,16 +1677,26 @@
     "id": 51,
     "name": "TAPA INVIOLABLE ROSCA 33MM",
     "category": "Tapas Especializadas",
-    "tags": ["General"],
+    "tags": [
+      "General"
+    ],
     "price": 3.0348,
     "moq": 400,
     "unit": "pz",
-    "description": "TAPA INVIOLABLE ROSCA 33MM. Precios + IVA",
+    "description": "TAPA INVIOLABLE ROSCA 33MM.",
     "shortDescription": "Inviolable 33mm para salsas y bebidas artesanales",
     "fullDescription": {
       "about": "Tapa inviolable de rosca 33mm disponible desde stock. Proporciona seguridad de primera apertura para botellas y envases con rosca 33mm, un diámetro popular en salsas y bebidas artesanales.",
-      "uses": ["Salsas artesanales", "Bebidas craft", "Productos gourmet"],
-      "advantages": ["Stock para entrega rápida", "Seguridad inviolable", "MOQ bajo desde 400 piezas"],
+      "uses": [
+        "Salsas artesanales",
+        "Bebidas craft",
+        "Productos gourmet"
+      ],
+      "advantages": [
+        "Stock para entrega rápida",
+        "Seguridad inviolable",
+        "MOQ bajo desde 400 piezas"
+      ],
       "applications": "Ideal para productores artesanales de salsas, bebidas y productos gourmet que necesitan seguridad inviolable con disponibilidad inmediata y sin comprometer grandes volúmenes.",
       "customization": "Colores desde stock. Opciones personalizadas bajo pedido.",
       "material": "Polipropileno (PP)"
@@ -1121,16 +1709,26 @@
     "id": 52,
     "name": "TAPA FLIP TOP SPORT ROSCA 38MM ANCHA LISA",
     "category": "Tapas Especializadas",
-    "tags": ["General"],
+    "tags": [
+      "General"
+    ],
     "price": 1.2594,
     "moq": 500,
     "unit": "pz",
-    "description": "TAPA FLIP TOP SPORT ROSCA 38MM ANCHA LISA. Precios + IVA",
+    "description": "TAPA FLIP TOP SPORT ROSCA 38MM ANCHA LISA.",
     "shortDescription": "Deportiva flip top 38mm — ideal para botellas reutilizables",
     "fullDescription": {
       "about": "Tapa Flip Top Sport de 38mm con rosca ancha y acabado liso. Combina la funcionalidad deportiva con el diámetro de 38mm, permitiendo un flujo generoso para hidratación rápida.",
-      "uses": ["Botellas deportivas reutilizables", "Bebidas isotónicas", "Gimnasios y deportes"],
-      "advantages": ["Flujo generoso de 38mm", "Acabado liso sport", "Disponible desde stock"],
+      "uses": [
+        "Botellas deportivas reutilizables",
+        "Bebidas isotónicas",
+        "Gimnasios y deportes"
+      ],
+      "advantages": [
+        "Flujo generoso de 38mm",
+        "Acabado liso sport",
+        "Disponible desde stock"
+      ],
       "applications": "La opción deportiva para botellas de boca ancha 38mm. Ideal para marcas de bebidas deportivas, gimnasios y programas de hidratación corporativa.",
       "customization": "Colores estándar desde stock. Personalización bajo pedido.",
       "material": "Polipropileno (PP)"
@@ -1143,16 +1741,26 @@
     "id": 53,
     "name": "TAPA FLIP TOP ROSCA 33MM",
     "category": "Tapas Especializadas",
-    "tags": ["Orificios 0.125, 0.25, 0.50"],
+    "tags": [
+      "Orificios 0.125, 0.25, 0.50"
+    ],
     "price": 3.2509,
     "moq": 400,
     "unit": "pz",
-    "description": "TAPA FLIP TOP ROSCA 33MM. Precios + IVA",
+    "description": "TAPA FLIP TOP ROSCA 33MM.",
     "shortDescription": "Flip Top con orificios calibrados para dosificación",
     "fullDescription": {
       "about": "Tapa Flip Top de rosca 33mm disponible con orificios de 0.125, 0.25 y 0.50 pulgadas. La opción de orificios calibrados permite ajustar la dosificación según la viscosidad del producto.",
-      "uses": ["Salsas de diferentes viscosidades", "Aderezos líquidos y espesos", "Productos de limpieza"],
-      "advantages": ["3 opciones de orificio calibrado", "Dosificación ajustable", "Stock disponible"],
+      "uses": [
+        "Salsas de diferentes viscosidades",
+        "Aderezos líquidos y espesos",
+        "Productos de limpieza"
+      ],
+      "advantages": [
+        "3 opciones de orificio calibrado",
+        "Dosificación ajustable",
+        "Stock disponible"
+      ],
       "applications": "Solución versátil para productores que manejan diferentes viscosidades. Cada orificio está calibrado para un rango específico de productos.",
       "customization": "Selección de orificio al momento del pedido. Colores estándar desde stock.",
       "material": "Polipropileno (PP)"
@@ -1165,16 +1773,26 @@
     "id": 54,
     "name": "TAPA FLIP TOP ROSCA 28MM",
     "category": "Tapas Especializadas",
-    "tags": ["Presión, Chica Alta, Ancha Lisa"],
+    "tags": [
+      "Presión, Chica Alta, Ancha Lisa"
+    ],
     "price": 2.8112,
     "moq": 100,
     "unit": "pz",
-    "description": "TAPA FLIP TOP ROSCA 28MM. Precios + IVA",
+    "description": "TAPA FLIP TOP ROSCA 28MM.",
     "shortDescription": "Flip Top 28mm en 3 formatos — stock desde 100 piezas",
     "fullDescription": {
       "about": "Tapa Flip Top de rosca 28mm disponible en tres formatos: Presión, Chica Alta y Ancha Lisa. La versatilidad de opciones permite encontrar el formato exacto para cada aplicación.",
-      "uses": ["Botellas PET estándar", "Cosméticos", "Productos de cuidado personal"],
-      "advantages": ["3 formatos disponibles", "MOQ ultra bajo desde 100 piezas", "Entrega inmediata desde stock"],
+      "uses": [
+        "Botellas PET estándar",
+        "Cosméticos",
+        "Productos de cuidado personal"
+      ],
+      "advantages": [
+        "3 formatos disponibles",
+        "MOQ ultra bajo desde 100 piezas",
+        "Entrega inmediata desde stock"
+      ],
       "applications": "La opción más accesible para probar diferentes formatos de Flip Top en rosca 28mm. Ideal para desarrollo de producto, prototipos y producciones iniciales.",
       "customization": "Especificar formato al ordenar. Colores estándar desde stock.",
       "material": "Polipropileno (PP)"
@@ -1187,16 +1805,26 @@
     "id": 55,
     "name": "TAPA FLIP TOP ROSCA 26MM PRESION",
     "category": "Tapas Especializadas",
-    "tags": ["General"],
+    "tags": [
+      "General"
+    ],
     "price": 3.5635,
     "moq": 300,
     "unit": "pz",
-    "description": "TAPA FLIP TOP ROSCA 26MM PRESION. Precios + IVA",
+    "description": "TAPA FLIP TOP ROSCA 26MM PRESION.",
     "shortDescription": "Flip Top compacta de presión para envases pequeños",
     "fullDescription": {
       "about": "Tapa Flip Top de rosca 26mm con mecanismo de presión, disponible desde stock. Formato compacto ideal para frascos y botellas pequeñas que requieren apertura rápida y cierre seguro.",
-      "uses": ["Frascos cosméticos", "Botellas de muestras", "Productos farmacéuticos"],
-      "advantages": ["Formato compacto 26mm", "Mecanismo de presión confiable", "Disponibilidad inmediata"],
+      "uses": [
+        "Frascos cosméticos",
+        "Botellas de muestras",
+        "Productos farmacéuticos"
+      ],
+      "advantages": [
+        "Formato compacto 26mm",
+        "Mecanismo de presión confiable",
+        "Disponibilidad inmediata"
+      ],
       "applications": "Perfecta para envases pequeños de la industria cosmética, farmacéutica y de muestras. Su formato compacto optimiza el espacio de presentación.",
       "customization": "Colores estándar disponibles. Personalización bajo pedido especial.",
       "material": "Polipropileno (PP)"
@@ -1209,16 +1837,26 @@
     "id": 56,
     "name": "TAPA DOSIFICADORA BOCCA",
     "category": "Tapas Especializadas",
-    "tags": ["General"],
+    "tags": [
+      "General"
+    ],
     "price": 3.5251,
     "moq": 400,
     "unit": "pz",
-    "description": "TAPA DOSIFICADORA BOCCA. Precios + IVA",
+    "description": "TAPA DOSIFICADORA BOCCA.",
     "shortDescription": "Dosificadora tipo BOCCA para control preciso de flujo",
     "fullDescription": {
       "about": "Tapa dosificadora tipo BOCCA con diseño especializado para control preciso del flujo de líquidos. Su boquilla calibrada permite una dispensación consistente y sin desperdicios.",
-      "uses": ["Aceites especiales", "Salsas líquidas", "Vinagres y aderezos"],
-      "advantages": ["Boquilla calibrada de precisión", "Dispensación sin desperdicios", "Diseño BOCCA especializado"],
+      "uses": [
+        "Aceites especiales",
+        "Salsas líquidas",
+        "Vinagres y aderezos"
+      ],
+      "advantages": [
+        "Boquilla calibrada de precisión",
+        "Dispensación sin desperdicios",
+        "Diseño BOCCA especializado"
+      ],
       "applications": "Solución profesional para productos que requieren dosificación controlada. Ampliamente utilizada en la industria alimenticia para aceites, salsas y aderezos premium.",
       "customization": "Colores disponibles desde stock. Diámetro de boquilla ajustable bajo pedido.",
       "material": "Polipropileno (PP)"
@@ -1231,16 +1869,26 @@
     "id": 57,
     "name": "TAPA DEPORTIVA ROSCA 28MM CHUPON",
     "category": "Tapas Especializadas",
-    "tags": ["General"],
+    "tags": [
+      "General"
+    ],
     "price": 2.2425,
     "moq": 300,
     "unit": "pz",
-    "description": "TAPA DEPORTIVA ROSCA 28MM CHUPON. Precios + IVA",
+    "description": "TAPA DEPORTIVA ROSCA 28MM CHUPON.",
     "shortDescription": "Chupón deportivo pull-push — stock disponible",
     "fullDescription": {
       "about": "Tapa deportiva de rosca 28mm con chupón pull-push disponible desde stock. Permite beber directamente sin desenroscar, con cierre hermético que evita fugas durante el movimiento.",
-      "uses": ["Botellas para gimnasio", "Hidratación corporativa", "Eventos deportivos"],
-      "advantages": ["Pull-push intuitivo", "Anti-derrame garantizado", "MOQ bajo desde 300 piezas"],
+      "uses": [
+        "Botellas para gimnasio",
+        "Hidratación corporativa",
+        "Eventos deportivos"
+      ],
+      "advantages": [
+        "Pull-push intuitivo",
+        "Anti-derrame garantizado",
+        "MOQ bajo desde 300 piezas"
+      ],
       "applications": "Accesible desde stock para marcas que necesitan tapas deportivas sin esperar producción industrial. Ideal para lotes pequeños, prototipos y primeras corridas.",
       "customization": "Colores estándar desde stock. Personalización bajo pedido con MOQ especial.",
       "material": "Polipropileno (PP) + silicón grado alimenticio"
@@ -1253,16 +1901,26 @@
     "id": 58,
     "name": "FRASCO PARA CAPSULAS",
     "category": "Tarros y Envases",
-    "tags": ["45ML, 20ML"],
+    "tags": [
+      "45ML, 20ML"
+    ],
     "price": 11.8247,
     "moq": 10,
     "unit": "pz",
-    "description": "FRASCO PARA CAPSULAS. Precios + IVA",
+    "description": "FRASCO PARA CAPSULAS.",
     "shortDescription": "Frasco farmacéutico para cápsulas — 45ml y 20ml",
     "fullDescription": {
       "about": "Frasco para cápsulas disponible en presentaciones de 45ml y 20ml. Diseñado para la industria farmacéutica y nutracéutica, ofrece protección contra humedad y luz para preservar la integridad del producto.",
-      "uses": ["Cápsulas y tabletas", "Suplementos alimenticios", "Productos de herbolaria"],
-      "advantages": ["Dos presentaciones: 45ml y 20ml", "MOQ mínimo desde 10 piezas", "Protección contra humedad"],
+      "uses": [
+        "Cápsulas y tabletas",
+        "Suplementos alimenticios",
+        "Productos de herbolaria"
+      ],
+      "advantages": [
+        "Dos presentaciones: 45ml y 20ml",
+        "MOQ mínimo desde 10 piezas",
+        "Protección contra humedad"
+      ],
       "applications": "Solución completa para laboratorios, farmacias magistrales y marcas de salud que necesitan envases farmacéuticos de calidad con mínimos ultra bajos.",
       "customization": "Compatible con etiquetado personalizado y diferentes tipos de tapa.",
       "material": "PET grado farmacéutico"
@@ -1275,16 +1933,26 @@
     "id": 59,
     "name": "BOTE 1L LISO ASA 1 OREJA 150X150 1 LITRO",
     "category": "Tarros y Envases",
-    "tags": ["General"],
+    "tags": [
+      "General"
+    ],
     "price": 18.0332,
     "moq": 10,
     "unit": "pz",
-    "description": "BOTE 1L LISO ASA 1 OREJA 150X150 1 LITRO. Precios + IVA",
+    "description": "BOTE 1L LISO ASA 1 OREJA 150X150 1 LITRO.",
     "shortDescription": "Bote industrial 1L con asa — listo para personalizar",
     "fullDescription": {
       "about": "Bote de 1 litro con acabado liso y asa de 1 oreja, dimensiones 150×150mm. Su diseño con asa facilita el manejo y transporte, mientras que la superficie lisa permite una excelente personalización.",
-      "uses": ["Pinturas y recubrimientos", "Productos químicos", "Alimentos a granel"],
-      "advantages": ["Asa integrada para fácil manejo", "Superficie lisa para etiquetado", "MOQ bajo desde 10 piezas"],
+      "uses": [
+        "Pinturas y recubrimientos",
+        "Productos químicos",
+        "Alimentos a granel"
+      ],
+      "advantages": [
+        "Asa integrada para fácil manejo",
+        "Superficie lisa para etiquetado",
+        "MOQ bajo desde 10 piezas"
+      ],
       "applications": "Envase industrial versátil para múltiples industrias. Su asa ergonómica y superficie personalizable lo hacen ideal para marcas propias y productos artesanales.",
       "customization": "Superficie lisa ideal para serigrafía, etiquetado o sleeve. Tapas de diferentes colores disponibles.",
       "material": "Polipropileno (PP) de grado industrial"
@@ -1297,16 +1965,26 @@
     "id": 60,
     "name": "ESPECIERO R38",
     "category": "Tarros y Envases",
-    "tags": ["General"],
+    "tags": [
+      "General"
+    ],
     "price": 33.0789,
     "moq": 10,
     "unit": "pz",
-    "description": "ESPECIERO R38. Precios + IVA",
+    "description": "ESPECIERO R38.",
     "shortDescription": "Especiero premium con rosca R-38 para condimentos",
     "fullDescription": {
       "about": "Especiero con rosca R-38, diseñado para la presentación y dosificación de especias y condimentos. Su formato profesional eleva la imagen de cualquier línea de productos gourmet.",
-      "uses": ["Especias gourmet", "Condimentos artesanales", "Mezclas de sazonadores"],
-      "advantages": ["Presentación profesional gourmet", "Rosca R-38 estándar", "MOQ bajo desde 10 piezas"],
+      "uses": [
+        "Especias gourmet",
+        "Condimentos artesanales",
+        "Mezclas de sazonadores"
+      ],
+      "advantages": [
+        "Presentación profesional gourmet",
+        "Rosca R-38 estándar",
+        "MOQ bajo desde 10 piezas"
+      ],
       "applications": "Ideal para marcas de especias artesanales, tiendas gourmet y productores que buscan una presentación premium para sus condimentos.",
       "customization": "Compatible con tapas especieras de diferentes configuraciones de orificio. Etiquetado personalizado.",
       "material": "PET cristalino de alta claridad"
@@ -1317,46 +1995,66 @@
   },
   {
     "id": 61,
-    "name": "TARRO CILÍNDRICO R110",
+    "name": "TARRO CILINDRICO R110",
     "category": "Tarros y Envases",
-    "tags": ["3750ML, 1750ML, 1KG TCM"],
+    "tags": [
+      "3750ML, 1750ML, 1KG TCM"
+    ],
     "price": 21.0286,
     "moq": 10,
     "unit": "pz",
-    "description": "TARRO CILÍNDRICO R110 (La tapa se vende por separado). Precios + IVA",
+    "description": "TARRO CILINDRICO R110 (La tapa se vende por separado).",
     "shortDescription": "Gran capacidad hasta 3750ml — tapa vendida por separado",
     "fullDescription": {
       "about": "Tarro cilíndrico con boca R-110, disponible en capacidades de 3750ml, 1750ml y 1kg TCM. Su formato de gran volumen es ideal para almacenamiento y presentación de productos a granel. La tapa se adquiere por separado.",
-      "uses": ["Alimentos a granel", "Productos industriales", "Almacenamiento y organización"],
-      "advantages": ["Múltiples capacidades disponibles", "Gran boca R-110 para fácil llenado", "MOQ mínimo desde 10 piezas"],
+      "uses": [
+        "Alimentos a granel",
+        "Productos industriales",
+        "Almacenamiento y organización"
+      ],
+      "advantages": [
+        "Múltiples capacidades disponibles",
+        "Gran boca R-110 para fácil llenado",
+        "MOQ mínimo desde 10 piezas"
+      ],
       "applications": "Solución de almacenamiento de gran formato para industrias alimenticia, química y de organización. Su boca R-110 permite un llenado rápido y acceso completo al contenido.",
       "customization": "Compatible con tapa R-110 (vendida por separado). Etiquetado y serigrafía disponibles.",
       "material": "PET de alta resistencia"
     },
-    "image": "/productos/TARRO CILÍNDRICO R63.jpg",
+    "image": "/productos/TARRO CILINDRICO R63.jpg",
     "slug": "tarro-cil-ndrico-r110",
     "stock": 1000,
-    "modelo3D": "/models/TARRO GALON CILÍNDRICO R110 3750 ml.glb"
+    "modelo3D": "/models/TARRO GALON CILINDRICO R110 3750 ml.glb"
   },
   {
     "id": 62,
-    "name": "TARRO CILÍNDRICO R63",
+    "name": "TARRO CILINDRICO R63",
     "category": "Tarros y Envases",
-    "tags": ["1000ML, 750ML, 500GR, 400ML, 250ML"],
+    "tags": [
+      "1000ML, 750ML, 500GR, 400ML, 250ML"
+    ],
     "price": 22.4966,
     "moq": 50,
     "unit": "pz",
-    "description": "TARRO CILÍNDRICO R63. Precios + IVA",
+    "description": "TARRO CILINDRICO R63.",
     "shortDescription": "5 capacidades disponibles — de 250ml a 1000ml",
     "fullDescription": {
       "about": "Tarro cilíndrico con boca R-63, disponible en 5 capacidades: 1000ml, 750ml, 500gr, 400ml y 250ml. La línea más versátil de tarros para cubrir múltiples necesidades de envasado.",
-      "uses": ["Conservas y mermeladas", "Miel artesanal", "Cremas y mantequillas de nuez"],
-      "advantages": ["5 capacidades en un solo formato", "Boca R-63 de fácil acceso", "Versatilidad para múltiples productos"],
+      "uses": [
+        "Conservas y mermeladas",
+        "Miel artesanal",
+        "Cremas y mantequillas de nuez"
+      ],
+      "advantages": [
+        "5 capacidades en un solo formato",
+        "Boca R-63 de fácil acceso",
+        "Versatilidad para múltiples productos"
+      ],
       "applications": "La línea de tarros más versátil del catálogo. Ideal para productores artesanales y industriales que manejan diferentes presentaciones de un mismo producto.",
       "customization": "Compatible con tapa R-63. Disponible para etiquetado, sleeve y serigrafía.",
       "material": "PET cristalino de alta claridad"
     },
-    "image": "/productos/TARRO CILÍNDRICO R63.jpg",
+    "image": "/productos/TARRO CILINDRICO R63.jpg",
     "slug": "tarro-cil-ndrico-r63",
     "stock": 1000
   },
@@ -1364,16 +2062,26 @@
     "id": 63,
     "name": "TARRO R89",
     "category": "Tarros y Envases",
-    "tags": ["700ML, 500ML"],
+    "tags": [
+      "700ML, 500ML"
+    ],
     "price": 13.1808,
     "moq": 50,
     "unit": "pz",
-    "description": "TARRO R89. Precios + IVA",
+    "description": "TARRO R89.",
     "shortDescription": "Boca extra ancha R-89 para productos sólidos y viscosos",
     "fullDescription": {
       "about": "Tarro con boca extra ancha R-89, disponible en 700ml y 500ml. Su gran apertura facilita el llenado de productos sólidos, viscosos o de gran tamaño que no caben por bocas convencionales.",
-      "uses": ["Dulces y confitería", "Productos en polvo", "Conservas de frutas enteras"],
-      "advantages": ["Boca extra ancha R-89", "Llenado fácil de sólidos", "2 capacidades disponibles"],
+      "uses": [
+        "Dulces y confitería",
+        "Productos en polvo",
+        "Conservas de frutas enteras"
+      ],
+      "advantages": [
+        "Boca extra ancha R-89",
+        "Llenado fácil de sólidos",
+        "2 capacidades disponibles"
+      ],
       "applications": "Perfecto para productos que requieren una boca amplia: dulces, frutas en conserva, productos en polvo y cualquier contenido que necesite acceso directo.",
       "customization": "Compatible con tapa R-89. Personalización de etiquetado disponible.",
       "material": "PET de alta resistencia"
@@ -1386,16 +2094,26 @@
     "id": 64,
     "name": "ESPECIERO 120ML R38",
     "category": "Tarros y Envases",
-    "tags": ["Cristal y Blanco"],
+    "tags": [
+      "Cristal y Blanco"
+    ],
     "price": 23.0685,
     "moq": 10,
     "unit": "pz",
-    "description": "ESPECIERO 120ML R38. Precios + IVA",
+    "description": "ESPECIERO 120ML R38.",
     "shortDescription": "120ml en acabado cristal o blanco — presentación gourmet",
     "fullDescription": {
       "about": "Especiero de 120ml con rosca R-38, disponible en acabados cristal transparente y blanco opaco. Su capacidad de 120ml es el formato estándar para especias y condimentos de presentación gourmet.",
-      "uses": ["Especias premium", "Sales gourmet", "Mezclas de condimentos"],
-      "advantages": ["Dos acabados: cristal y blanco", "Capacidad estándar de 120ml", "MOQ bajo desde 10 piezas"],
+      "uses": [
+        "Especias premium",
+        "Sales gourmet",
+        "Mezclas de condimentos"
+      ],
+      "advantages": [
+        "Dos acabados: cristal y blanco",
+        "Capacidad estándar de 120ml",
+        "MOQ bajo desde 10 piezas"
+      ],
       "applications": "El formato preferido para marcas de especias gourmet. Su doble opción de acabado permite diferenciar líneas de productos o crear colecciones visuales atractivas.",
       "customization": "Etiquetado personalizado. Compatible con tapas especieras de diferentes orificios.",
       "material": "PET grado alimenticio"
@@ -1408,16 +2126,26 @@
     "id": 65,
     "name": "ESPECIERO 110ML R38",
     "category": "Tarros y Envases",
-    "tags": ["General"],
+    "tags": [
+      "General"
+    ],
     "price": 31.7442,
     "moq": 50,
     "unit": "pz",
-    "description": "ESPECIERO 110ML R38. Precios + IVA",
+    "description": "ESPECIERO 110ML R38.",
     "shortDescription": "Formato 110ml compacto para líneas de condimentos",
     "fullDescription": {
       "about": "Especiero de 110ml con rosca R-38, formato ligeramente más compacto que ofrece una presentación elegante y diferenciada para líneas de condimentos y especias.",
-      "uses": ["Condimentos artesanales", "Hierbas secas", "Sazonadores especiales"],
-      "advantages": ["Formato compacto diferenciado", "Presentación elegante", "Compatible con tapas R-38"],
+      "uses": [
+        "Condimentos artesanales",
+        "Hierbas secas",
+        "Sazonadores especiales"
+      ],
+      "advantages": [
+        "Formato compacto diferenciado",
+        "Presentación elegante",
+        "Compatible con tapas R-38"
+      ],
       "applications": "Alternativa compacta para marcas que buscan diferenciación en anaquel. Su formato de 110ml es ideal para presentaciones iniciales y porciones individuales de especias premium.",
       "customization": "Etiquetado y personalización disponibles. Compatible con toda la línea de tapas R-38.",
       "material": "PET grado alimenticio"
@@ -1430,16 +2158,26 @@
     "id": 66,
     "name": "BOTELLA SHAMPOO",
     "category": "Botellas",
-    "tags": ["1500ML, 900ML, 480ML"],
+    "tags": [
+      "1500ML, 900ML, 480ML"
+    ],
     "price": 15.4019,
     "moq": 30,
     "unit": "pz",
-    "description": "BOTELLA SHAMPOO. Precios + IVA",
+    "description": "BOTELLA SHAMPOO.",
     "shortDescription": "3 capacidades para líneas de cuidado personal",
     "fullDescription": {
       "about": "Botella diseñada para shampoo y productos de cuidado personal, disponible en 1500ml, 900ml y 480ml. Su forma ergonómica facilita el agarre en ambientes húmedos y su diseño profesional eleva la imagen de cualquier marca.",
-      "uses": ["Shampoos y acondicionadores", "Jabones líquidos", "Cremas y lociones"],
-      "advantages": ["3 capacidades para una línea completa", "Diseño ergonómico antideslizante", "Superficie amplia para etiquetado"],
+      "uses": [
+        "Shampoos y acondicionadores",
+        "Jabones líquidos",
+        "Cremas y lociones"
+      ],
+      "advantages": [
+        "3 capacidades para una línea completa",
+        "Diseño ergonómico antideslizante",
+        "Superficie amplia para etiquetado"
+      ],
       "applications": "Solución integral para marcas de cuidado personal. Las tres capacidades permiten crear una línea coherente con presentación uniforme en anaquel.",
       "customization": "Superficie diseñada para etiquetado de alta calidad, sleeve y serigrafía. Compatible con tapas flip top y pump.",
       "material": "PET de alta claridad"
@@ -1452,16 +2190,26 @@
     "id": 67,
     "name": "BOTELLA SALSERA",
     "category": "Botellas",
-    "tags": ["1500ML, 1000ML, 500ML, 200ML"],
+    "tags": [
+      "1500ML, 1000ML, 500ML, 200ML"
+    ],
     "price": 25.6741,
     "moq": 40,
     "unit": "pz",
-    "description": "BOTELLA SALSERA 200ML. Precios + IVA",
+    "description": "BOTELLA SALSERA 200ML.",
     "shortDescription": "4 presentaciones para salsas y aderezos",
     "fullDescription": {
       "about": "Botella salsera disponible en 4 capacidades: 1500ml, 1000ml, 500ml y 200ml. Su forma característica tipo squeeze permite una dosificación natural e intuitiva, diseñada para la industria alimenticia.",
-      "uses": ["Salsas y kétchup", "Mostaza y mayonesa", "Aderezos y vinagretas"],
-      "advantages": ["4 capacidades para toda la línea", "Diseño squeeze para dosificación natural", "Forma icónica reconocible"],
+      "uses": [
+        "Salsas y kétchup",
+        "Mostaza y mayonesa",
+        "Aderezos y vinagretas"
+      ],
+      "advantages": [
+        "4 capacidades para toda la línea",
+        "Diseño squeeze para dosificación natural",
+        "Forma icónica reconocible"
+      ],
       "applications": "La botella salsera más completa del catálogo. Permite crear líneas completas de productos con presentación uniforme, desde el formato familiar hasta la porción individual.",
       "customization": "Compatible con tapas flip top de diferentes orificios. Superficie para etiquetado o sleeve completo.",
       "material": "PET flexible de grado alimenticio"
@@ -1475,16 +2223,26 @@
     "id": 68,
     "name": "BOTELLA BOSTON",
     "category": "Botellas",
-    "tags": ["750ML, 500ML, 250ML, 220ML"],
+    "tags": [
+      "750ML, 500ML, 250ML, 220ML"
+    ],
     "price": 31.6594,
     "moq": 10,
     "unit": "pz",
-    "description": "BOTELLA BOSTON. Precios + IVA",
+    "description": "BOTELLA BOSTON.",
     "shortDescription": "Diseño clásico Boston para cosméticos e industria química",
     "fullDescription": {
       "about": "Botella tipo Boston, el estándar de la industria cosmética y química. Disponible en 750ml, 500ml, 250ml y 220ml. Su forma cilíndrica clásica y cuello estrecho son ideales para productos de aplicación controlada.",
-      "uses": ["Cosméticos y fragancias", "Productos químicos de laboratorio", "Aceites esenciales"],
-      "advantages": ["Diseño Boston clásico reconocible", "4 capacidades disponibles", "Cuello estrecho para dosificación"],
+      "uses": [
+        "Cosméticos y fragancias",
+        "Productos químicos de laboratorio",
+        "Aceites esenciales"
+      ],
+      "advantages": [
+        "Diseño Boston clásico reconocible",
+        "4 capacidades disponibles",
+        "Cuello estrecho para dosificación"
+      ],
       "applications": "El formato preferido por la industria cosmética y farmacéutica. Su forma clásica comunica profesionalismo y es compatible con dispensadores, atomizadores y goteros.",
       "customization": "Compatible con múltiples tipos de tapa: spray, gotero, pump, flip top. Etiquetado y serigrafía disponibles.",
       "material": "PET de alta claridad"
@@ -1497,16 +2255,26 @@
     "id": 69,
     "name": "BOTELLA SQ R33",
     "category": "Botellas",
-    "tags": ["900ML, 500ML, 250ML, 170ML"],
+    "tags": [
+      "900ML, 500ML, 250ML, 170ML"
+    ],
     "price": 14.8298,
     "moq": 20,
     "unit": "pz",
-    "description": "BOTELLA SQ R33. Precios + IVA",
+    "description": "BOTELLA SQ R33.",
     "shortDescription": "Formato cuadrado moderno para máximo uso de espacio",
     "fullDescription": {
       "about": "Botella de formato cuadrado (SQ) con rosca R-33, disponible en 900ml, 500ml, 250ml y 170ml. Su diseño cuadrado maximiza el uso del espacio en anaquel y durante el transporte.",
-      "uses": ["Salsas gourmet", "Aceites de cocina", "Productos de limpieza premium"],
-      "advantages": ["Formato cuadrado que optimiza espacio", "4 capacidades disponibles", "Apariencia moderna y diferenciada"],
+      "uses": [
+        "Salsas gourmet",
+        "Aceites de cocina",
+        "Productos de limpieza premium"
+      ],
+      "advantages": [
+        "Formato cuadrado que optimiza espacio",
+        "4 capacidades disponibles",
+        "Apariencia moderna y diferenciada"
+      ],
       "applications": "Para marcas que buscan diferenciación visual en anaquel. El formato cuadrado no solo optimiza logística sino que comunica modernidad y sofisticación.",
       "customization": "4 caras planas ideales para etiquetado. Compatible con toda la línea de tapas R-33.",
       "material": "PET de alta claridad"
@@ -1519,16 +2287,26 @@
     "id": 70,
     "name": "BOTELLA RP R28",
     "category": "Botellas",
-    "tags": ["1500ML, 1000ML, 600ML, 500ML"],
+    "tags": [
+      "1500ML, 1000ML, 600ML, 500ML"
+    ],
     "price": 29.1688,
     "moq": 20,
     "unit": "pz",
-    "description": "BOTELLA RP R28. Precios + IVA",
+    "description": "BOTELLA RP R28.",
     "shortDescription": "Botella multiusos R-28 — de 500ml a 1.5 litros",
     "fullDescription": {
       "about": "Botella RP con rosca R-28 estándar, disponible en 4 capacidades: 1500ml, 1000ml, 600ml y 500ml. Compatible con la más amplia variedad de tapas del mercado gracias a su rosca R-28 universal.",
-      "uses": ["Agua embotellada", "Jugos y bebidas", "Productos de limpieza"],
-      "advantages": ["Rosca R-28 de máxima compatibilidad", "4 capacidades para toda la línea", "Versatilidad de aplicaciones"],
+      "uses": [
+        "Agua embotellada",
+        "Jugos y bebidas",
+        "Productos de limpieza"
+      ],
+      "advantages": [
+        "Rosca R-28 de máxima compatibilidad",
+        "4 capacidades para toda la línea",
+        "Versatilidad de aplicaciones"
+      ],
       "applications": "La botella más versátil del catálogo. Su rosca R-28 estándar la hace compatible con todas las tapas de diámetro 28mm, desde flip top hasta deportivas.",
       "customization": "Compatible con toda la línea de tapas R-28 del catálogo. Superficie para etiquetado y personalización.",
       "material": "PET de alta calidad"
@@ -1542,16 +2320,26 @@
     "id": 71,
     "name": "BOTELLA GENÉRICA R24",
     "category": "Botellas",
-    "tags": ["240ML, 60ml"],
+    "tags": [
+      "240ML, 60ml"
+    ],
     "price": 29.7374,
     "moq": 10,
     "unit": "pz",
-    "description": "BOTELLA GENÉRICA R24. Precios + IVA",
+    "description": "BOTELLA GENÉRICA R24.",
     "shortDescription": "Formato compacto R-24 para cosméticos y muestras",
     "fullDescription": {
       "about": "Botella genérica con rosca R-24, disponible en 240ml y 60ml. Formato compacto y versátil para la industria cosmética, farmacéutica y de muestras. Su diseño neutro permite adaptarse a cualquier marca.",
-      "uses": ["Cosméticos y lociones", "Muestras y amenities", "Productos farmacéuticos"],
-      "advantages": ["Diseño neutro adaptable a cualquier marca", "2 capacidades: 240ml y 60ml", "MOQ bajo desde 10 piezas"],
+      "uses": [
+        "Cosméticos y lociones",
+        "Muestras y amenities",
+        "Productos farmacéuticos"
+      ],
+      "advantages": [
+        "Diseño neutro adaptable a cualquier marca",
+        "2 capacidades: 240ml y 60ml",
+        "MOQ bajo desde 10 piezas"
+      ],
       "applications": "La botella más versátil para desarrollo de marca. Su diseño genérico permite personalización total a través de etiquetado, sleeve o serigrafía.",
       "customization": "Superficie completa para personalización. Compatible con tapas R-24, sprays y goteros.",
       "material": "PET de alta claridad"
@@ -1564,16 +2352,26 @@
     "id": 72,
     "name": "BOTELLA OVAL R24",
     "category": "Botellas",
-    "tags": ["250ML, 125ML"],
+    "tags": [
+      "250ML, 125ML"
+    ],
     "price": 14.9822,
     "moq": 10,
     "unit": "pz",
-    "description": "BOTELLA OVAL R24. Precios + IVA",
+    "description": "BOTELLA OVAL R24.",
     "shortDescription": "Diseño oval ergonómico para cosmética premium",
     "fullDescription": {
       "about": "Botella de diseño oval con rosca R-24, disponible en 250ml y 125ml. Su forma oval ergonómica se adapta a la mano del usuario y ofrece una apariencia sofisticada que comunica calidad premium.",
-      "uses": ["Cremas y lociones corporales", "Shampoos premium", "Aceites para masaje"],
-      "advantages": ["Diseño oval ergonómico", "Apariencia premium sofisticada", "2 capacidades disponibles"],
+      "uses": [
+        "Cremas y lociones corporales",
+        "Shampoos premium",
+        "Aceites para masaje"
+      ],
+      "advantages": [
+        "Diseño oval ergonómico",
+        "Apariencia premium sofisticada",
+        "2 capacidades disponibles"
+      ],
       "applications": "La opción premium para marcas de cosméticos y cuidado personal. Su forma oval diferenciada destaca en anaquel y proporciona una experiencia de uso superior.",
       "customization": "Superficie oval ideal para etiquetado curvo o sleeve. Compatible con tapas R-24 y dispensadores.",
       "material": "PET de alta claridad"
@@ -1586,16 +2384,26 @@
     "id": 73,
     "name": "BOTELLA 50ML CUADRADA R18",
     "category": "Botellas",
-    "tags": ["General"],
+    "tags": [
+      "General"
+    ],
     "price": 28.7925,
     "moq": 10,
     "unit": "pz",
-    "description": "BOTELLA 50ML CUADRADA R18. Precios + IVA",
+    "description": "BOTELLA 50ML CUADRADA R18.",
     "shortDescription": "Miniatura cuadrada para fragancias y muestras",
     "fullDescription": {
       "about": "Botella cuadrada de 50ml con rosca R-18, el formato más compacto del catálogo. Diseñada para fragancias, muestras, aceites esenciales y productos de alta concentración que requieren envases pequeños y elegantes.",
-      "uses": ["Fragancias y perfumes", "Aceites esenciales", "Muestras y travel size"],
-      "advantages": ["Formato miniatura elegante", "Diseño cuadrado sofisticado", "MOQ ultra bajo desde 10 piezas"],
+      "uses": [
+        "Fragancias y perfumes",
+        "Aceites esenciales",
+        "Muestras y travel size"
+      ],
+      "advantages": [
+        "Formato miniatura elegante",
+        "Diseño cuadrado sofisticado",
+        "MOQ ultra bajo desde 10 piezas"
+      ],
       "applications": "Ideal para marcas de nicho, líneas de fragancias artesanales, kits de muestras y productos de viaje. Su formato cuadrado maximiza el espacio y comunica exclusividad.",
       "customization": "Compatible con tapas R-18, sprays miniatura y goteros. Superficie para etiquetado de precisión.",
       "material": "PET de alta claridad"
@@ -1608,16 +2416,27 @@
     "id": 75,
     "name": "TAPA FLIP TOP 38MM ANCHA",
     "category": "Tapas Especializadas",
-    "tags": ["Flip Top", "Ancha"],
+    "tags": [
+      "Flip Top",
+      "Ancha"
+    ],
     "price": 1.4231,
     "moq": 500,
     "unit": "pz",
-    "description": "TAPA FLIP TOP 38MM ANCHA. Precios + IVA",
+    "description": "TAPA FLIP TOP 38MM ANCHA.",
     "shortDescription": "Flip Top de boca ancha 38mm — stock disponible",
     "fullDescription": {
       "about": "Tapa Flip Top de 38mm con boca ancha (estilo flapper), disponible desde stock. Su orificio amplio permite un flujo generoso, ideal para la dosificación de salsas espesas, aderezos y productos viscosos.",
-      "uses": ["Salsas y aderezos espesos", "Miel y jarabes", "Productos de limpieza"],
-      "advantages": ["Boca ancha para mayor flujo", "Disponible desde stock", "MOQ bajo desde 500 piezas"],
+      "uses": [
+        "Salsas y aderezos espesos",
+        "Miel y jarabes",
+        "Productos de limpieza"
+      ],
+      "advantages": [
+        "Boca ancha para mayor flujo",
+        "Disponible desde stock",
+        "MOQ bajo desde 500 piezas"
+      ],
       "applications": "Ideal para productores artesanales y PyMEs que requieren una tapa flip top de boca ancha 38mm sin comprometerse con MOQ industriales.",
       "customization": "Colores estándar desde stock. Personalización bajo pedido.",
       "material": "Polipropileno (PP)"

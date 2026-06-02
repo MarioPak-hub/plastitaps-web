@@ -50,9 +50,9 @@ function ProductCard({ product, onClick }) {
         <p className="text-sm font-semibold text-slate-800 truncate leading-tight">
           {product.name}
         </p>
-        {product.price && (
-          <p className="text-xs text-blue-600 font-medium">
-            {product.price} MXN + IVA
+        {product.category && (
+          <p className="text-xs text-blue-600 font-medium truncate">
+            {product.category}
           </p>
         )}
       </div>
@@ -278,7 +278,7 @@ export default function FloatingChatbot({ onProductClick }) {
             {/* Footer disclaimer */}
             <div className="bg-slate-50 border-t border-slate-100 px-4 py-1.5 flex-shrink-0">
               <p className="text-center text-[10px] text-slate-400">
-                Precios + IVA · Haz clic en un producto para verlo en el catálogo
+                Haz clic en un producto para verlo en el catálogo
               </p>
             </div>
           </motion.div>

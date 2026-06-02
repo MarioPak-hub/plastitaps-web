@@ -21,9 +21,7 @@ export default function Footer() {
     <footer className="bg-slate-50 text-slate-600 py-16 border-t border-slate-200">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
         <div className="col-span-1 sm:col-span-2">
-          <h2 className="font-outfit font-black text-3xl text-slate-800 mb-4 tracking-tight">
-            Plasti<span className="text-blue-600">taps</span>
-          </h2>
+          <img src="/logo_plastitaps.png" alt="Plastitaps" className="h-10 w-auto object-contain mb-4" />
           <p className="font-inter text-sm mb-6 max-w-sm leading-relaxed text-slate-500">
             Empresa mexicana fabricante de envases PET y tapas plásticas con calidad internacional. Especializados en los segmentos alimenticio, cosmético y farmacéutico con certificación ISO 9001-2015.
           </p>
@@ -51,8 +49,8 @@ export default function Footer() {
           {/* Teléfono con funcionalidad tel */}
           <p className="text-sm mb-4">
             <span className="font-semibold">Tel: </span>
-            <a href="tel:+523335750197" className="hover:text-blue-600 transition-colors">
-              +52 (33) 3575 0197
+            <a href="tel:+5233259625" className="hover:text-blue-600 transition-colors">
+              +52 33259625
             </a>
           </p>
           {/* Botón "Solicitar ayuda" redirige a Contacto con scroll */}

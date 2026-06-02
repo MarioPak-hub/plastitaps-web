@@ -116,14 +116,14 @@ function RealCupModel({ color, logo, modelPath }) {
 
       const drawW = img.naturalWidth * scale;
       const drawH = img.naturalHeight * scale;
-      
+
       ctx.save();
       // Trasladamos el contexto al centro del recuadro
       ctx.translate(printX + printW / 2, printY + printH / 2);
-      
+
       // Rotamos -90 grados (o 90 grados) para compensar la orientación UV nativa del GLB
       ctx.rotate(-Math.PI / 2);
-      
+
       // Dibujamos la imagen centrada respecto al nuevo origen (el centro)
       ctx.drawImage(img, -drawW / 2, -drawH / 2, drawW, drawH);
       ctx.restore();

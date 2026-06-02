@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, EffectFade, Pagination, Navigation } from 'swiper/modules';
-import { FiCheckCircle, FiShield, FiPackage, FiSettings, FiDroplet, FiStar, FiX, FiExternalLink, FiArrowRight } from 'react-icons/fi';
+import { FiCheckCircle, FiShield, FiX, FiExternalLink, FiArrowRight } from 'react-icons/fi';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 import 'swiper/css/pagination';
@@ -10,7 +10,7 @@ import 'swiper/css/navigation';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import ProductShowcase3D from '../components/ProductShowcase3D';
+import ScrollShowcase3D from '../components/ScrollShowcase3D';
 
 /* ─── Datos para los modales de galería ─── */
 const COLLAGE_CARDS = [
@@ -279,37 +279,8 @@ export default function Home({ openProductBySlug }) {
         </Swiper>
       </section>
 
-      {/* Nuestras Categorías */}
-      <section className="py-16 sm:py-20 lg:py-24 px-4 sm:px-6 max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-black font-outfit text-slate-800 mb-4 tracking-tight">Nuestras Soluciones</h2>
-          <div className="w-24 h-1.5 bg-blue-600 mx-auto rounded-full mb-6" />
-          <p className="text-slate-500 font-medium text-lg max-w-2xl mx-auto">
-            Descubra nuestro amplio catálogo diseñado para superar los requerimientos más estrictos del envasado profesional.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-          {[
-            { icon: FiPackage, name: "Envases PET", desc: "Cristalinos y resistentes para múltiples industrias." },
-            { icon: FiSettings, name: "Tapas y Cierres", desc: "Flip-tops, disc-tops y seguridad inviolable." },
-            { icon: FiDroplet, name: "Dispensadores", desc: "Atomizadores y bombas de alta precisión." },
-            { icon: FiStar, name: "Promocionales", desc: "Vasos y artículos personalizables corporativos." }
-          ].map((cat, i) => (
-            <motion.div
-              key={i}
-              whileHover={{ y: -10 }}
-              className="bg-white p-4 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(37,99,235,0.12)] border border-slate-100 transition-all text-center flex flex-col items-center group cursor-pointer"
-            >
-              <div className="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bg-blue-50 text-blue-600 rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4 lg:mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
-                <cat.icon className="text-4xl" />
-              </div>
-              <h3 className="text-sm sm:text-base lg:text-xl font-bold font-outfit text-slate-800 mb-1 sm:mb-3">{cat.name}</h3>
-              <p className="text-slate-500 text-[11px] sm:text-xs lg:text-sm hidden sm:block">{cat.desc}</p>
-            </motion.div>
-          ))}
-        </div>
-      </section>
+      {/* ── Nuestras Soluciones — Scroll 3D ── */}
+      <ScrollShowcase3D />
 
       {/* ── Galería de Productos ── */}
       <section className="py-20 sm:py-24 bg-white overflow-hidden">
@@ -456,7 +427,6 @@ export default function Home({ openProductBySlug }) {
         </div>
       </section>
 
-      <ProductShowcase3D onProductClick={openProductBySlug} />
 
       {/* Banda de Certificaciones */}
       <section className="bg-slate-900 border-t border-slate-800">

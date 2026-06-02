@@ -14,8 +14,8 @@ function ModelScene({ modelPath, color, controlsRef }) {
   const { scene } = useGLTF(modelPath);
   if (!scene) return null;
 
-  const groupRef   = useRef();
-  const centered   = useRef(false);
+  const groupRef = useRef();
+  const centered = useRef(false);
   const clonedScene = useMemo(() => scene.clone(true), [scene]);
 
   const colorObj = useMemo(() => {
@@ -34,9 +34,9 @@ function ModelScene({ modelPath, color, controlsRef }) {
 
           // Mejorar propiedades PBR para reflejos más realistas
           if (m.isMeshStandardMaterial || m.isMeshPhysicalMaterial) {
-            m.roughness        = Math.min(m.roughness ?? 0.45, 0.55);
-            m.metalness        = Math.max(m.metalness ?? 0.05, 0.05);
-            m.envMapIntensity  = 2.0;
+            m.roughness = Math.min(m.roughness ?? 0.45, 0.55);
+            m.metalness = Math.max(m.metalness ?? 0.05, 0.05);
+            m.envMapIntensity = 2.0;
           }
           m.needsUpdate = true;
           child.material = m;
@@ -51,13 +51,13 @@ function ModelScene({ modelPath, color, controlsRef }) {
     centered.current = true;
 
     groupRef.current.updateWorldMatrix(true, true);
-    const box    = new THREE.Box3().setFromObject(groupRef.current);
-    const size   = new THREE.Vector3();
+    const box = new THREE.Box3().setFromObject(groupRef.current);
+    const size = new THREE.Vector3();
     const center = new THREE.Vector3();
     box.getSize(size);
     box.getCenter(center);
 
-    const maxDim  = Math.max(size.x, size.y, size.z);
+    const maxDim = Math.max(size.x, size.y, size.z);
     const newScale = maxDim > 0 ? 1.5 / maxDim : 1;
     groupRef.current.scale.setScalar(newScale);
 
@@ -106,11 +106,11 @@ const ProductModel3D = React.memo(function ProductModel3D({
         >
           {/* Iluminación base */}
           <ambientLight intensity={0.2} />
-          <directionalLight position={[4, 8, 4]}  intensity={1.0} castShadow />
+          <directionalLight position={[4, 8, 4]} intensity={1.0} castShadow />
           <directionalLight position={[-3, 3, -2]} intensity={0.4} color="#c7d9ff" />
 
-          {/* Environment HDR — reflejos realistas tipo estudio */}
-          <Environment preset="studio" />
+          {/* Environment HDR — reflejos realistas tipo estudio (archivo local) */}
+          <Environment files="/studio_small_03_1k.hdr" />
 
           <Suspense fallback={null}>
             <ModelScene

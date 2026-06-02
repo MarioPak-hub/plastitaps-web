@@ -9,23 +9,18 @@ import { useAuth } from '../context/AuthContext';
 import { useQuotes } from '../context/QuotesContext';
 import { generateQuotationPDF } from '../utils/quotationPDF';
 
-const fmtMXN = (n) => (n || 0).toLocaleString('es-MX', { minimumFractionDigits: 2 });
-const fmtU   = (n) => (n || 0).toLocaleString('es-MX');
-const fmtP   = (n) => (n || 0).toLocaleString('es-MX', { minimumFractionDigits: 4 });
-
 const TERMS = [
-  '1. Precios en MXN sujetos a cambio sin previo aviso.',
-  '2. No incluye envío fuera de la ZMG.',
-  '3. 50% de anticipo requerido para iniciar producción.',
-  '4. No se manejan inventarios. Todo es sobre pedido.',
-  '5. Penalización del 80% en cancelaciones no autorizadas.',
+  '1. No incluye envío fuera de la ZMG.',
+  '2. 50% de anticipo requerido para iniciar producción.',
+  '3. No se manejan inventarios. Todo es sobre pedido.',
+  '4. Cantidades y especificaciones se definen con un asesor de Plastitaps.',
 ];
 
 // Folio local solo para el PDF — el folio oficial viene del servidor
 const localFolio = () => `PLT-${Date.now().toString(36).toUpperCase()}`;
 
 export default function Checkout() {
-  const { cart, clearCart, totalPrice } = useCart();
+  const { cart, clearCart } = useCart();
   const { user }        = useAuth();
   const { submitOrder } = useQuotes();
   const navigate        = useNavigate();
@@ -34,8 +29,6 @@ export default function Checkout() {
   const [sendStatus, setSendStatus] = useState('idle'); // idle | sending | done | error
   const [sendError,  setSendError]  = useState('');
   const [resultFolio, setResultFolio] = useState('');
-
-  const totalIVA = totalPrice * 1.16;
 
   const handleDownloadPDF = () => {
     const doc = generateQuotationPDF({ cart, user, folio: pdfFolio });
@@ -58,12 +51,7 @@ export default function Checkout() {
           id:       item.id,
           name:     item.name,
           category: item.category,
-          quantity: item.quantity,
-          unit:     item.unit,
-          price:    item.price,
         })),
-        totalPrice,
-        totalIVA,
       };
 
       const data = await submitOrder(payload, user?.email);
@@ -96,7 +84,7 @@ export default function Checkout() {
 
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 text-blue-700 bg-blue-100 px-5 py-2 rounded-full font-bold uppercase tracking-wider text-xs border border-blue-200 mb-5">
-            <FiFileText /> Cotización Industrial
+            <FiFileText /> Solicitud de Cotización
           </div>
           <h1 className="text-4xl md:text-5xl font-black font-outfit tracking-tight text-slate-900">
             Resumen de Cotización
@@ -121,29 +109,25 @@ export default function Checkout() {
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
             className="xl:col-span-2 bg-white border border-slate-200 rounded-[2rem] overflow-hidden shadow-sm">
             <div className="px-6 sm:px-8 py-5 border-b border-slate-100 flex justify-between items-center">
-              <h3 className="font-bold text-slate-800 font-outfit text-lg">Detalle de Productos</h3>
-              <span className="text-xs text-slate-400 font-medium">{cart.length} línea(s)</span>
+              <h3 className="font-bold text-slate-800 font-outfit text-lg">Productos de Interés</h3>
+              <span className="text-xs text-slate-400 font-medium">{cart.length} producto(s)</span>
             </div>
             <div className="divide-y divide-slate-100">
               {cart.map(item => (
-                <div key={item.id} className="px-6 sm:px-8 py-5 flex justify-between items-center gap-4 hover:bg-slate-50 transition-colors">
+                <div key={item.id} className="px-6 sm:px-8 py-5 flex items-center gap-4 hover:bg-slate-50 transition-colors">
+                  <FiCheckCircle className="text-blue-500 shrink-0" />
                   <div className="flex-1 min-w-0">
                     <p className="font-bold text-slate-800 truncate">{item.name}</p>
-                    <p className="text-xs text-slate-400 mt-0.5">{item.category} · MOQ: {fmtU(item.moq)} {item.unit}</p>
-                  </div>
-                  <div className="text-right flex-shrink-0">
-                    <p className="text-sm font-medium text-slate-600">{fmtU(item.quantity)} {item.unit} × ${fmtP(item.price)}</p>
-                    <p className="font-black text-blue-700 font-outfit">${fmtMXN(item.quantity * item.price)}</p>
+                    {item.category && <p className="text-xs text-slate-400 mt-0.5">{item.category}</p>}
                   </div>
                 </div>
               ))}
             </div>
             <div className="px-6 sm:px-8 py-5 bg-blue-700 flex justify-between items-center">
-              <div>
-                <p className="text-blue-200 text-sm">Subtotal sin IVA: <span className="font-bold text-white">${fmtMXN(totalPrice)}</span></p>
-                <p className="text-white font-black text-xl font-outfit mt-1">Total + IVA 16%: ${fmtMXN(totalIVA)} MXN</p>
-              </div>
-              <FiShield className="text-blue-300 text-4xl" />
+              <p className="text-white font-medium text-sm">
+                Un asesor de Plastitaps te contactará para definir cantidades, personalización y cotización.
+              </p>
+              <FiShield className="text-blue-300 text-4xl shrink-0 ml-3" />
             </div>
           </motion.div>
 

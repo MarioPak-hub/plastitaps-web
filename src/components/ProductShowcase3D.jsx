@@ -112,8 +112,8 @@ function ModelCard({ model, index, onProductClick }) {
               <directionalLight position={[4, 8, 4]}  intensity={1.2} castShadow />
               <directionalLight position={[-4, 3, -2]} intensity={0.5} color="#c7d9ff" />
 
-              {/* Environment HDR — da reflejos realistas */}
-              <Environment preset="studio" />
+              {/* Environment HDR — da reflejos realistas (archivo local) */}
+              <Environment files="/studio_small_03_1k.hdr" />
 
               <Suspense fallback={null}>
                 <ModelScene modelPath={model.path} />
