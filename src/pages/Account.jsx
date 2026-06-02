@@ -39,7 +39,6 @@ function getCliente(q) {
     nombre:   q.clienteNombre,
     empresa:  q.clienteEmpresa,
     telefono: q.clienteTelefono,
-    rfc:      q.clienteRfc,
   };
 }
 
@@ -147,7 +146,6 @@ export default function Account() {
       direccion: user.direccion || '',
       telefono:  user.telefono  || '',
       empresa:   user.empresa   || '',
-      rfc:       user.rfc       || '',
     });
     setEditing(true);
   };
@@ -157,7 +155,6 @@ export default function Account() {
       direccion: editFields.direccion.trim(),
       telefono:  editFields.telefono.trim(),
       empresa:   editFields.empresa.trim(),
-      rfc:       (editFields.rfc || '').toUpperCase().trim(),
     });
     setEditing(false);
   };
@@ -237,7 +234,6 @@ export default function Account() {
               </div>
               <div className="text-sm text-slate-600 space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-100">
                 <div className="flex justify-between items-center"><span className="text-slate-400">Empresa:</span><span className="font-bold text-slate-800 truncate ml-2">{user.empresa || '—'}</span></div>
-                <div className="flex justify-between items-center"><span className="text-slate-400">RFC:</span><span className="font-bold text-slate-800">{user.rfc || '—'}</span></div>
                 <div className="flex justify-between items-center"><span className="text-slate-400">Nivel:</span><span className="font-bold text-green-600">B2B Prime</span></div>
               </div>
             </div>
@@ -260,7 +256,6 @@ export default function Account() {
                 <div className="space-y-3">
                   {[
                     { key: 'empresa', label: 'Razón Social', type: 'input', placeholder: 'Empresa S.A. de C.V.' },
-                    { key: 'rfc',     label: 'RFC',          type: 'input', placeholder: 'ABC123456T12', maxLen: 13, upper: true },
                     { key: 'telefono',label: 'Teléfono',     type: 'input', placeholder: '33...' },
                     { key: 'direccion',label: 'Dirección',   type: 'textarea', placeholder: 'Parque Industrial...' },
                   ].map(f => (
@@ -295,7 +290,6 @@ export default function Account() {
                 <div className="text-sm text-slate-600 space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-100">
                   {[
                     { icon: FiBriefcase, label: 'Empresa', value: user.empresa },
-                    { icon: FiShield,    label: 'RFC',     value: user.rfc },
                     { icon: FiPhone,     label: 'Teléfono',value: user.telefono },
                     { icon: FiMapPin,    label: 'Dirección',value: user.direccion },
                   ].map(({ icon: Icon, label, value }, idx, arr) => (

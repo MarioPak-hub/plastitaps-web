@@ -71,8 +71,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   const completeProfile = (corporateData) => {
-    // Force RFC to uppercase as a last line of defense
-    if (corporateData.rfc) corporateData.rfc = corporateData.rfc.toUpperCase();
     const updatedUser = { ...user, ...corporateData, profileComplete: true };
     setUser(updatedUser);
     localStorage.setItem(USER_PROFILE_KEY, JSON.stringify(updatedUser));

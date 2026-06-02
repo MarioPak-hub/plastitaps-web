@@ -152,7 +152,6 @@ function Studio3D() {
           email: user?.email || '',
           telefono: user?.telefono || '',
           empresa: user?.empresa || '',
-          rfc: user?.rfc || '',
         },
         productos: [{
           nombre: `Vaso Personalizado - ${selectedPromo?.name || 'Genérico'}`,

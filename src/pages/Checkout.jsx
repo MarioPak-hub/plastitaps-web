@@ -45,7 +45,6 @@ export default function Checkout() {
           email:    user?.email     || '',
           telefono: user?.telefono  || '',
           empresa:  user?.empresa   || '',
-          rfc:      user?.rfc       || '',
         },
         productos: cart.map(item => ({
           id:       item.id,
@@ -61,7 +60,14 @@ export default function Checkout() {
       setSendStatus('done');
       setTimeout(() => navigate('/perfil'), 4000);
     } catch (err) {
-      setSendError(err.message || 'Error de conexión. Intenta de nuevo.');
+      // Mensajes técnicos de servidor → mensaje amigable para el usuario
+      const raw = err.message || '';
+      const friendly = raw.includes('fetch') || raw.includes('network') || raw.includes('Failed')
+        ? 'No se pudo conectar al servidor. Verifica tu conexión e intenta de nuevo.'
+        : raw.includes('pattern') || raw.includes('string') || raw.includes('Invalid')
+          ? 'Hay un error en los datos de tu perfil. Actualiza tu información en la página de cuenta.'
+          : raw || 'Error al enviar. Intenta de nuevo.';
+      setSendError(friendly);
       setSendStatus('error');
     }
   };
@@ -142,7 +148,6 @@ export default function Checkout() {
               </h4>
               <div className="space-y-2 text-sm text-slate-600">
                 <div className="flex justify-between"><span className="text-slate-400">Empresa</span><span className="font-bold truncate ml-2">{user?.empresa || '—'}</span></div>
-                <div className="flex justify-between"><span className="text-slate-400">RFC</span><span className="font-bold">{user?.rfc || '—'}</span></div>
                 <div className="flex justify-between"><span className="text-slate-400">Email</span><span className="font-bold truncate ml-2">{user?.email}</span></div>
               </div>
             </div>

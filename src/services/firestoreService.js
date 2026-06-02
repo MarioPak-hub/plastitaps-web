@@ -24,7 +24,6 @@ function flattenRecord(record, clienteEmailOverride) {
     clienteNombre:   c.nombre   || '',
     clienteEmpresa:  c.empresa  || '',
     clienteTelefono: c.telefono || '',
-    clienteRfc:      c.rfc      || '',
     productos:       record.productos || [],
     subtotal:        record.subtotal ?? null,
     totalIVA:        record.totalIVA ?? null,
