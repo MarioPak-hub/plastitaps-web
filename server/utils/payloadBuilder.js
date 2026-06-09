@@ -15,8 +15,6 @@ export function buildQuotePayload({ folio, tipo = 'personalizado', cliente, prod
     logoUrl:      logoUrl      || null,
     pdfUrl:       pdfUrl       || null,
     observaciones: observaciones || '',
-    syncedToBind: false,
-    bindFolioId:  null,
   };
 }
 
@@ -39,7 +37,5 @@ export function buildCheckoutPayload({ folio, cliente, productos, totalPrice, to
     logoUrl:       null,
     pdfUrl:        null,
     observaciones: '',
-    syncedToBind:  false,
-    bindFolioId:   null,
   };
 }

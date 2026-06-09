@@ -4,7 +4,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import { db } from '../firebase';
 import {
-  collection, doc, setDoc, getDoc, deleteDoc,
+  collection, doc, setDoc, getDoc,
   query, where, orderBy, getDocs, updateDoc, serverTimestamp,
 } from 'firebase/firestore';
 
@@ -30,8 +30,6 @@ function flattenRecord(record, clienteEmailOverride) {
     logoUrl:         record.logoUrl ?? null,
     pdfUrl:          record.pdfUrl  ?? null,
     observaciones:   record.observaciones || '',
-    syncedToBind:    !!record.syncedToBind,
-    bindFolioId:     record.bindFolioId || null,
   };
 }
 
@@ -89,24 +87,13 @@ export async function getSolicitud(folio) {
   };
 }
 
-// ── Actualizar estado (polling tras webhook de Bind) ─────────────────────────
+// ── Actualizar estado ────────────────────────────────────────────────────────
 export async function updateEstado(folio, estado) {
   if (!folio || !estado) return;
   const ref = doc(db, COL, folio);
   await updateDoc(ref, {
     estado,
     updatedAt: serverTimestamp(),
-  });
-}
-
-// ── Marcar sincronización con Bind ───────────────────────────────────────────
-export async function markSyncedToBind(folio, bindFolioId) {
-  if (!folio) return;
-  const ref = doc(db, COL, folio);
-  await updateDoc(ref, {
-    syncedToBind: true,
-    bindFolioId:  bindFolioId || null,
-    updatedAt:    serverTimestamp(),
   });
 }
 
@@ -123,12 +110,3 @@ export async function cancelarSolicitud(folio) {
   });
 }
 
-// ── Eliminar solicitud ──────────────────────────────────────────────────────
-// Borra el documento de Firestore. Lo dispara el polling cuando detecta que
-// Bind eliminó la solicitud en el backend (GET devuelve deleted:true). El
-// cliente NO inicia borrados — solo puede cancelar.
-export async function eliminarSolicitud(folio) {
-  if (!folio) return;
-  const ref = doc(db, COL, folio);
-  await deleteDoc(ref);
-}

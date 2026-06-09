@@ -4,7 +4,7 @@
 // Carga el .env contiguo (server/.env) por ruta absoluta, sin importar desde qué
 // directorio se arranque el proceso. Así `npm run server` (cwd = raíz del repo) y
 // `node index.js` (cwd = server/) ven las mismas variables de backend:
-// BIND_API_URL, BIND_API_KEY, BIND_INCOMING_KEY, OPENAI_API_KEY, SMTP_*.
+// OPENAI_API_KEY, SMTP_*, CONTACT_TO.
 //
 // Va en su propio módulo (no inline en index.js) porque ESM evalúa los `import`
 // en orden de aparición antes de ejecutar cualquier sentencia: módulos como

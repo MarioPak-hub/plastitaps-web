@@ -29,8 +29,6 @@ const TIPO_LABEL = {
   pedido:        'Pedido',
 };
 
-const POLL_INTERVAL_MS = 10000; // 10 segundos — cambios de estado de Bind se reflejan rápido en el expediente
-
 // ── Helper: arma el objeto cliente para mostrar ─────────────────────────────
 function getCliente(q) {
   // Firestore: campos planos / API: anidados en `cliente`
@@ -61,12 +59,11 @@ function SkeletonCard() {
 export default function Account() {
   const navigate = useNavigate();
   const { user, logout, updateProfile } = useAuth();
-  const { quotes, loading, error, loadFromFirestore, syncEstadoFromServer, cancelQuote } = useQuotes();
+  const { quotes, loading, error, loadFromFirestore, cancelQuote } = useQuotes();
 
   const [editing,    setEditing]    = useState(false);
   const [editFields, setEditFields] = useState({});
   const [refreshing, setRefreshing] = useState(false);
-  const pollRef = useRef(null);
 
   // ── Estado de cancelación ──────────────────────────────────────────────────
   // confirmingCancel: el quote pendiente de confirmar (o null si modal cerrado)
@@ -76,56 +73,10 @@ export default function Account() {
   const [cancellingFolio,  setCancellingFolio]  = useState(null);
   const [cancelErrors,     setCancelErrors]     = useState({});
 
-  // ── Refs para evitar stale closure dentro del setInterval ──────────────────
-  // El useEffect de polling solo corre cuando cambia user?.email, así que la
-  // función `tick` captura `quotes` y `syncEstadoFromServer` del momento del
-  // mount. Sin estos refs, el polling solo veía los folios que estaban en el
-  // localStorage cache al cargar la página — cualquier solicitud nueva creada
-  // en la misma sesión jamás se polleaba.
-  const quotesRef               = useRef(quotes);
-  const syncEstadoFromServerRef = useRef(syncEstadoFromServer);
-
-  // Actualizar refs en cada render para que el tick siempre lea los valores
-  // más recientes sin necesidad de reiniciar el setInterval.
-  useEffect(() => {
-    quotesRef.current               = quotes;
-    syncEstadoFromServerRef.current = syncEstadoFromServer;
-  });
-
-  // ── Cargar historial al montar + polling cada 10s ──────────────────────────
+  // ── Cargar historial al montar ──────────────────────────────────────────────
   useEffect(() => {
     if (!user?.email) return;
-
-    let cancelled = false;
-
-    // Carga inicial
     loadFromFirestore(user.email);
-
-    // Polling: revisa el backend en busca de cambios de estado y sincroniza Firestore
-    const tick = async () => {
-      if (cancelled) return;
-      // Para cada solicitud local, preguntar al backend si cambió el estado.
-      // Leemos `quotes` desde el ref para incluir solicitudes recién creadas.
-      // Excluimos canceladas — no tiene sentido pollearlas.
-      const localQuotes = quotesRef.current.filter(q =>
-        q.clienteEmail === user.email && q.estado !== 'cancelada'
-      );
-      await Promise.all(localQuotes.map(q => {
-        // Routing de polling:
-        //   tipo "personalizado"        → /api/quotes/:folio    (quotesStore)
-        //   tipo "cotizacion" | "pedido" → /api/checkout/:folio  (ordersStore)
-        const tipo = q.tipo === 'personalizado' ? 'quote' : 'order';
-        return syncEstadoFromServerRef.current(q.folio, tipo);
-      }));
-      // Recarga el snapshot desde Firestore
-      await loadFromFirestore(user.email);
-    };
-
-    pollRef.current = setInterval(tick, POLL_INTERVAL_MS);
-    return () => {
-      cancelled = true;
-      if (pollRef.current) clearInterval(pollRef.current);
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.email]);
 
@@ -376,15 +327,6 @@ export default function Account() {
                             <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide ${estado.color}`}>
                               {estado.label}
                             </span>
-                            {q.syncedToBind ? (
-                              <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-green-100 text-green-700 flex items-center gap-1">
-                                <FiCheck className="text-xs" /> Recibido por ventas
-                              </span>
-                            ) : (
-                              <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-slate-100 text-slate-500">
-                                Pendiente sync
-                              </span>
-                            )}
                           </div>
                         </div>
 
@@ -417,12 +359,6 @@ export default function Account() {
                             className="inline-flex items-center gap-1 text-[10px] text-blue-600 font-bold hover:underline mt-2">
                             Ver logo adjunto →
                           </a>
-                        )}
-
-                        {q.bindFolioId && (
-                          <p className="text-[10px] text-slate-400 mt-2 font-mono">
-                            ID Bind: <span className="font-bold text-slate-600">{q.bindFolioId}</span>
-                          </p>
                         )}
 
                         {/* Botón Cancelar — solo si estado === 'nueva' */}
