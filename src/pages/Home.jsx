@@ -80,7 +80,7 @@ const COLLAGE_CARDS = [
 const CERT_DATA = [
   {
     id: 'iso',
-    img: '/iso_gold.png',
+    img: '/iso_gold.webp',
     label: 'ISO 9001:2015',
     sub: 'Gestión de Calidad',
     badgeColor: 'bg-yellow-600',
@@ -439,7 +439,7 @@ export default function Home({ openProductBySlug }) {
 
             <div className="flex flex-wrap items-center justify-center gap-6">
               {[
-                { img: '/iso_blue.png', hoverImg: '/iso_gold.png', hasHover: true,  certIdx: 0 },
+                { img: '/iso_blue.webp', hoverImg: '/iso_gold.webp', hasHover: true,  certIdx: 0 },
                 { img: '/ema_logo.png', hoverImg: null,            hasHover: false, certIdx: 1 },
                 { img: '/iaf_logo.png', hoverImg: null,            hasHover: false, certIdx: 2 },
               ].map((cert, i) => {

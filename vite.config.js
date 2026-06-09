@@ -18,4 +18,26 @@ export default defineConfig({
       },
     },
   },
+  build: {
+    // Increase inline asset threshold (assets < 4KB get inlined as base64)
+    assetsInlineLimit: 4096,
+    // Split chunks for better caching
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('three') || id.includes('@react-three')) return 'three-vendor';
+            if (id.includes('firebase')) return 'firebase-vendor';
+            if (id.includes('framer-motion') || id.includes('animejs')) return 'animation-vendor';
+            if (id.includes('swiper') || id.includes('lucide-react') || id.includes('react-icons')) return 'ui-vendor';
+            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) return 'react-vendor';
+          }
+        },
+      },
+    },
+    // Enable CSS minification
+    cssMinify: true,
+    // Report compressed file sizes
+    reportCompressedSize: true,
+  },
 })
