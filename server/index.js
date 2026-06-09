@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import './loadEnv.js'; // PRIMERO: carga server/.env por ruta absoluta (ver loadEnv.js)
 import express from 'express';
 import cors    from 'cors';
 import path    from 'node:path';
