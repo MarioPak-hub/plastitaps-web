@@ -1,0 +1,28 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# SPA routing para React Router en hosting cPanel (Apache).
+# Vite copia este archivo dentro de dist/ al hac`npm run build`, así que termina
+# en public_html junto al index.html.
+# ─────────────────────────────────────────────────────────────────────────────
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Si el archivo o carpeta existe de verdad (assets, imágenes), servirlo tal cual
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Cualquier otra ruta del cliente → index.html (React Router se encarga)
+  RewriteRule . /index.html [L]
+</IfModule>
+
+# Cache largo para assets versionados (llevan hash en el nombre)
+<IfModule mod_headers.c>
+  <FilesMatch "\.(js|css|woff2?|png|jpe?g|webp|svg|gif|ico)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  # El HTML nunca se cachea (para que tome nuevas versiones)
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+  </FilesMatch>
+</IfModule>
