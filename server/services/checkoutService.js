@@ -39,8 +39,12 @@ export function updateEstado(folio, estado) {
 }
 
 export async function sendOrderEmail(payload) {
-  const fmtMXN = (n) => (n || 0).toLocaleString('es-MX', { minimumFractionDigits: 2 });
-  const fmtP   = (n) => (n || 0).toLocaleString('es-MX', { minimumFractionDigits: 4 });
+  // Vuln-fix 3: coerción explícita a Number antes de formatear.
+  // Si p.price llega como string (p.ej. un payload malicioso), (n || 0) es truthy
+  // y String.prototype.toLocaleString() devolvería el string sin cambios, inyectando
+  // HTML arbitrario en el correo. Number() fuerza NaN → 0 para cualquier no-numérico.
+  const fmtMXN = (n) => (Number(n) || 0).toLocaleString('es-MX', { minimumFractionDigits: 2 });
+  const fmtP   = (n) => (Number(n) || 0).toLocaleString('es-MX', { minimumFractionDigits: 4 });
 
   const rows = (payload.productos || []).map(p =>
     `<tr>

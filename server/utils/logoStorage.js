@@ -7,15 +7,20 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname  = path.dirname(fileURLToPath(import.meta.url));
-const UPLOADS    = path.join(__dirname, '..', 'uploads');
+const UPLOADS    = path.resolve(path.join(__dirname, '..', 'uploads'));
+
+// SVG excluido: los navegadores ejecutan scripts en SVGs servidos directamente,
+// lo que abre un vector de XSS almacenado contra cualquiera que visite la URL.
 const MIME_TO_EXT = {
-  'image/png':     'png',
-  'image/jpeg':    'jpg',
-  'image/jpg':     'jpg',
-  'image/svg+xml': 'svg',
-  'image/webp':    'webp',
-  'image/gif':     'gif',
+  'image/png':  'png',
+  'image/jpeg': 'jpg',
+  'image/jpg':  'jpg',
+  'image/webp': 'webp',
+  'image/gif':  'gif',
 };
+
+// Extensiones permitidas (allowlist). Debe estar en sincronía con MIME_TO_EXT.
+const ALLOWED_EXTENSIONS = new Set(['png', 'jpg', 'webp', 'gif']);
 
 function ensureUploadsDir() {
   if (!fs.existsSync(UPLOADS)) fs.mkdirSync(UPLOADS, { recursive: true });
@@ -38,11 +43,12 @@ function parseDataUrl(dataUrl, fallbackExt) {
     };
   }
 
-  // Plain base64 — usar ext del cliente o fallback
+  // Plain base64 — usar ext del cliente solo si está en la allowlist
   try {
+    const ext = ALLOWED_EXTENSIONS.has(fallbackExt) ? fallbackExt : 'png';
     return {
       buffer: Buffer.from(dataUrl, 'base64'),
-      ext:    fallbackExt || 'png',
+      ext,
     };
   } catch {
     return null;
@@ -65,8 +71,19 @@ export function saveLogoBase64(folio, logoBase64, logoExt) {
   try {
     ensureUploadsDir();
     const safeFolio = String(folio).replace(/[^A-Z0-9_-]/gi, '');
-    const filename  = `${safeFolio}.${parsed.ext}`;
-    const filepath  = path.join(UPLOADS, filename);
+
+    // Vuln-fix 1: doble barrera contra path traversal.
+    // (a) La extensión ya viene validada por ALLOWED_EXTENSIONS en parseDataUrl.
+    // (b) Resolvemos el path final y verificamos que quede dentro de UPLOADS.
+    const safeExt  = ALLOWED_EXTENSIONS.has(parsed.ext) ? parsed.ext : 'png';
+    const filename = `${safeFolio}.${safeExt}`;
+    const filepath = path.resolve(path.join(UPLOADS, filename));
+
+    if (!filepath.startsWith(UPLOADS + path.sep) && filepath !== UPLOADS) {
+      console.error('[logoStorage] path traversal bloqueado para folio', folio);
+      return null;
+    }
+
     fs.writeFileSync(filepath, parsed.buffer);
     return `/uploads/${filename}`;
   } catch (err) {

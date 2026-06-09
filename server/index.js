@@ -24,7 +24,17 @@ app.use(cors({
 app.use(express.json({ limit: '5mb' }));
 
 // ── Estáticos: logos guardados en /server/uploads/ ───────────────────────────
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// Vuln-fix 2: headers de seguridad para evitar XSS vía archivos subidos.
+//   - Content-Disposition: attachment → el navegador descarga en vez de renderizar.
+//   - X-Content-Type-Options: nosniff → previene MIME sniffing.
+//   - Content-Security-Policy: script-src 'none' → bloquea ejecución de scripts
+//     aunque el cliente ignore Content-Disposition (p. ej. iframes sin sandbox).
+app.use('/uploads', (req, res, next) => {
+  res.setHeader('Content-Disposition', 'attachment');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('Content-Security-Policy', "default-src 'none'; script-src 'none'");
+  next();
+}, express.static(path.join(__dirname, 'uploads')));
 
 // ── Rutas ─────────────────────────────────────────────────────────────────────
 app.use('/api/chat',     chatRouter);

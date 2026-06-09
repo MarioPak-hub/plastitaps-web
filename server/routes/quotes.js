@@ -32,9 +32,16 @@ router.post('/', quoteLimiter, async (req, res) => {
 
     const folio = generateFolio();
 
-    // Si llega base64, lo guardamos en /server/uploads/ y usamos esa ruta como logoUrl
+    // Si llega base64, lo guardamos en /server/uploads/ y usamos esa ruta como logoUrl.
     const savedLogoUrl = logoBase64
       ? saveLogoBase64(folio, logoBase64, logoExt)
+      : null;
+
+    // Vuln-fix 5: solo aceptar logoUrl con esquema http(s) o ruta interna /uploads/.
+    // Rechazamos javascript:, data:, vbscript: y cualquier otro esquema peligroso.
+    const rawLogoUrl  = savedLogoUrl || logoUrl || null;
+    const safeLogoUrl = rawLogoUrl && /^(https?:\/\/|\/uploads\/)/.test(rawLogoUrl)
+      ? rawLogoUrl
       : null;
 
     const payload = buildQuotePayload({
@@ -42,7 +49,7 @@ router.post('/', quoteLimiter, async (req, res) => {
       tipo,
       cliente,
       productos,
-      logoUrl: savedLogoUrl || logoUrl || null,
+      logoUrl: safeLogoUrl,
       pdfUrl,
       observaciones,
     });
@@ -51,7 +58,11 @@ router.post('/', quoteLimiter, async (req, res) => {
 
     notifyVentas(payload).catch(err => console.error('[quotes] email:', err.message));
 
-    res.json({ success: true, folio, record: payload });
+    // El cancelToken se devuelve al cliente para autenticar futuras cancelaciones.
+    // El record que va a Firestore (guardado en el frontend) NO debe incluirlo en
+    // campos visibles — el frontend lo guarda aparte (ej. localStorage) y lo envía
+    // en el header X-Cancel-Token al cancelar.
+    res.json({ success: true, folio, cancelToken: payload.cancelToken, record: payload });
   } catch (err) {
     console.error('[quotes] error:', err);
     res.status(500).json({ success: false, error: 'Error al registrar la cotización.' });
@@ -59,10 +70,12 @@ router.post('/', quoteLimiter, async (req, res) => {
 });
 
 // ── PATCH /api/quotes/:folio/cancel — cancelación iniciada por el cliente ───
-// El cliente solo puede cancelar si la solicitud sigue en estado 'nueva'.
-// Actualiza el estado a 'cancelada' en el store donde viva.
+// Vuln-fix 4: requiere X-Cancel-Token (el token secreto generado al crear el
+// folio y devuelto solo en la respuesta del POST). Sin él cualquier atacante
+// podría cancelar pedidos ajenos adivinando/enumerando el folio.
 router.patch('/:folio/cancel', (req, res) => {
-  const folio = req.params.folio;
+  const folio       = req.params.folio;
+  const clientToken = req.headers['x-cancel-token'];
 
   const recordInQuotes   = getQuoteByFolio(folio);
   const recordInCheckout = getOrderByFolio(folio);
@@ -71,6 +84,12 @@ router.patch('/:folio/cancel', (req, res) => {
   if (!record) {
     return res.status(404).json({ success: false, error: 'Folio no encontrado.' });
   }
+
+  // Verificar token antes de revelar el estado del folio (evita oracle de enumeración)
+  if (!clientToken || clientToken !== record.cancelToken) {
+    return res.status(403).json({ success: false, error: 'No autorizado.' });
+  }
+
   if (record.estado !== 'nueva') {
     return res.status(409).json({
       success: false,

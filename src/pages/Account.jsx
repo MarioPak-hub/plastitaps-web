@@ -40,6 +40,13 @@ function getCliente(q) {
   };
 }
 
+// Vuln-fix 5: solo permite URLs con esquema http(s) o rutas internas /uploads/.
+// Evita que un logoUrl malicioso (javascript:, data:, etc.) se renderice como href.
+function safeHref(url) {
+  if (!url) return null;
+  return /^(https?:\/\/|\/uploads\/)/.test(url) ? url : null;
+}
+
 // ── Skeleton para el loading inicial ────────────────────────────────────────
 function SkeletonCard() {
   return (
@@ -354,8 +361,8 @@ export default function Account() {
                           </p>
                         )}
 
-                        {q.logoUrl && (
-                          <a href={q.logoUrl} target="_blank" rel="noreferrer"
+                        {safeHref(q.logoUrl) && (
+                          <a href={safeHref(q.logoUrl)} target="_blank" rel="noreferrer"
                             className="inline-flex items-center gap-1 text-[10px] text-blue-600 font-bold hover:underline mt-2">
                             Ver logo adjunto →
                           </a>

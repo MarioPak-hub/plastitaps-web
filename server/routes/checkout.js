@@ -32,7 +32,7 @@ router.post('/send', checkoutLimiter, async (req, res) => {
 
     await sendOrderEmail(payload);
 
-    res.json({ success: true, folio, record: payload });
+    res.json({ success: true, folio, cancelToken: payload.cancelToken, record: payload });
   } catch (err) {
     console.error('[checkout] error:', err);
     res.status(500).json({ success: false, error: 'Error al procesar el pedido. Intenta de nuevo.' });
@@ -40,9 +40,10 @@ router.post('/send', checkoutLimiter, async (req, res) => {
 });
 
 // ── PATCH /api/checkout/:folio/cancel — cancelación iniciada por el cliente ─
-// El cliente solo puede cancelar si la solicitud sigue en estado 'nueva'.
+// Vuln-fix 4: requiere X-Cancel-Token igual al generado al crear el pedido.
 router.patch('/:folio/cancel', (req, res) => {
-  const folio = req.params.folio;
+  const folio       = req.params.folio;
+  const clientToken = req.headers['x-cancel-token'];
 
   const recordInCheckout = getOrderByFolio(folio);
   const recordInQuotes   = getQuoteByFolio(folio);
@@ -51,6 +52,11 @@ router.patch('/:folio/cancel', (req, res) => {
   if (!record) {
     return res.status(404).json({ success: false, error: 'Folio no encontrado.' });
   }
+
+  if (!clientToken || clientToken !== record.cancelToken) {
+    return res.status(403).json({ success: false, error: 'No autorizado.' });
+  }
+
   if (record.estado !== 'nueva') {
     return res.status(409).json({
       success: false,

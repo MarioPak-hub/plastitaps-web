@@ -92,6 +92,11 @@ export function QuotesProvider({ children }) {
 
     addQuote(data.record);
     persistToFirestore(data.record, clienteEmail || payload?.cliente?.email);
+    // Vuln-fix 4: guardar el cancelToken en localStorage (nunca en Firestore)
+    // para enviarlo como X-Cancel-Token al hacer PATCH /cancel.
+    if (data.cancelToken && data.folio) {
+      try { localStorage.setItem(`plt-cancel-${data.folio}`, data.cancelToken); } catch {}
+    }
 
     return data;
   }, [addQuote]);
@@ -111,6 +116,9 @@ export function QuotesProvider({ children }) {
 
     addQuote(data.record);
     persistToFirestore(data.record, clienteEmail || payload?.cliente?.email);
+    if (data.cancelToken && data.folio) {
+      try { localStorage.setItem(`plt-cancel-${data.folio}`, data.cancelToken); } catch {}
+    }
 
     return data;
   }, [addQuote]);
@@ -136,9 +144,13 @@ export function QuotesProvider({ children }) {
     updateQuote(folio, { estado: 'cancelada' });
 
     try {
-      // Routing por tipo.
-      const path = current.tipo === 'personalizado' ? 'quotes' : 'checkout';
-      const res  = await apiFetch(`/api/${path}/${folio}/cancel`, { method: 'PATCH' });
+      const path        = current.tipo === 'personalizado' ? 'quotes' : 'checkout';
+      // Vuln-fix 4: leer el cancelToken del localStorage y enviarlo en el header.
+      const cancelToken = (() => { try { return localStorage.getItem(`plt-cancel-${folio}`) || ''; } catch { return ''; } })();
+      const res = await apiFetch(`/api/${path}/${folio}/cancel`, {
+        method:  'PATCH',
+        headers: { 'X-Cancel-Token': cancelToken },
+      });
       const data = await res.json().catch(() => ({}));
 
       if (!res.ok || !data?.success) {
