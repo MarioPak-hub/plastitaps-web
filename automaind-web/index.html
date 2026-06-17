@@ -62,19 +62,40 @@
   .page.active{ display:block; animation:pageIn .32s ease both; }
   @keyframes pageIn{ from{ opacity:0; transform:translateY(8px) } to{ opacity:1; transform:none } }
 
-  /* Reveal on scroll */
-  .reveal{ opacity:0; transform:translateY(28px); transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+  /* Reveal on scroll with stagger */
+  .reveal{
+    opacity:0; transform:translateY(28px);
+    transition:opacity .75s cubic-bezier(.2,.7,.2,1), transform .75s cubic-bezier(.2,.7,.2,1);
+    will-change:opacity,transform;
+  }
   .reveal.in{ opacity:1; transform:none; }
+  .reveal:nth-child(2){ transition-delay:.08s; }
+  .reveal:nth-child(3){ transition-delay:.16s; }
+  .reveal:nth-child(4){ transition-delay:.24s; }
+  .reveal:nth-child(n+5){ transition-delay:.32s; }
 
   /* Botones */
   .btn-accent{
     background:linear-gradient(120deg,#f47920,#ef6c0b);
     color:#fff; font-weight:700;
     box-shadow:0 10px 30px -10px rgba(239,108,11,.55);
-    transition:transform .25s, box-shadow .25s, filter .25s;
+    transition:transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s, filter .25s;
     display:inline-flex; align-items:center;
+    position:relative; overflow:hidden;
   }
-  .btn-accent:hover{ transform:translateY(-2px); box-shadow:0 16px 40px -10px rgba(239,108,11,.7); filter:brightness(1.04); }
+  .btn-accent::before{
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(120deg, rgba(255,255,255,.2), transparent);
+    opacity:0; transition:opacity .3s;
+    pointer-events:none;
+  }
+  .btn-accent:hover::before{ opacity:1; }
+  .btn-accent:hover{
+    transform:translateY(-3px);
+    box-shadow:0 16px 48px -12px rgba(239,108,11,.75);
+    filter:brightness(1.06);
+  }
+  .btn-accent:active{ transform:translateY(-1px); }
 
   /* Tarjeta clara */
   .card{
@@ -82,8 +103,20 @@
     border:1px solid rgba(15,23,42,.08);
     box-shadow:0 1px 2px rgba(15,23,42,.04), 0 12px 28px -20px rgba(15,23,42,.25);
     transition:transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s, border-color .35s;
+    position:relative;
   }
-  .card:hover{ transform:translateY(-5px); border-color:rgba(239,108,11,.4); box-shadow:0 1px 2px rgba(15,23,42,.04), 0 26px 50px -26px rgba(239,108,11,.35); }
+  .card:hover{
+    transform:translateY(-6px) scale(1.01);
+    border-color:rgba(239,108,11,.4);
+    box-shadow:0 1px 2px rgba(15,23,42,.04), 0 28px 56px -28px rgba(239,108,11,.4);
+  }
+  .card::after{
+    content:""; position:absolute; inset:0; border-radius:inherit;
+    opacity:0; transition:opacity .35s;
+    background:radial-gradient(600px at var(--mouse-x,50%) var(--mouse-y,50%), rgba(239,108,11,.05), transparent 80%);
+    pointer-events:none;
+  }
+  .card:hover::after{ opacity:1; }
 
   /* Inputs */
   .field{
@@ -201,12 +234,55 @@
   .modal-close:hover{ background:#e2e8f0; color:#0f172a; }
   .modal-bullet{ display:flex; align-items:flex-start; gap:.6rem; color:#475569; font-size:.9rem; line-height:1.5; }
   .modal-bullet::before{ content:""; width:6px; height:6px; border-radius:99px; background:var(--accent); flex-shrink:0; margin-top:.45em; }
+
+  /* ===== CUSTOM CURSOR ===== */
+  .cursor{
+    position:fixed; top:0; left:0;
+    pointer-events:none; z-index:9999;
+    display:none;
+    mix-blend-mode:difference;
+    opacity:0;
+    transition:opacity .25s ease-out;
+  }
+  .cursor.is-ready{ opacity:1; }
+  @media (hover:hover) and (pointer:fine){ .cursor{ display:block; } }
+  .cursor-dot, .cursor-ring{
+    position:fixed; top:0; left:0; pointer-events:none; will-change:transform;
+  }
+  .cursor-dot{
+    width:5px; height:5px; margin:-2.5px;
+    background:var(--accent); border-radius:50%;
+  }
+  .cursor-ring{
+    width:32px; height:32px; margin:-16px;
+    border:1.5px solid var(--accent); border-radius:50%;
+    transition:width .35s ease-out, height .35s ease-out, margin .35s ease-out;
+  }
+  .cursor.is-interactive .cursor-ring{
+    width:48px; height:48px; margin:-24px;
+    box-shadow:0 0 16px rgba(239,108,11,.35);
+  }
+  .has-cursor, .has-cursor a, .has-cursor button{ cursor:none; }
+
+  /* Enhanced reveal animation */
+  .reveal{ opacity:0; transform:translateY(28px); transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); will-change:opacity,transform; }
+  .reveal.in{ opacity:1; transform:none; }
+
+  /* Premium micro-interactions */
+  .btn-accent, .card, a[data-cursor]{ --cursor-hover:1; }
+  a[href]{ position:relative; }
 </style>
 </head>
 
 <body>
 <div class="light-grid"></div>
 <div id="scrollbar"></div>
+
+<!-- =================== CUSTOM CURSOR =================== -->
+<div class="cursor" data-cursor-root>
+  <span class="cursor-dot"></span>
+  <span class="cursor-ring"></span>
+</div>
 
 <!-- =================== LOADER =================== -->
 <div id="loader">
@@ -234,8 +310,8 @@
 <header id="nav" class="fixed top-0 inset-x-0 z-40">
   <nav class="max-w-7xl mx-auto px-5 sm:px-8 h-20 flex items-center justify-between">
     <a href="#inicio" data-page="inicio" class="flex items-center shrink-0">
-      <img src="assets/logo.png"      alt="AUTOMAIND" class="logo-light h-8 sm:h-9 w-auto" />
-      <img src="assets/logo-dark.png" alt="AUTOMAIND" class="logo-dark  h-8 sm:h-9 w-auto" />
+      <img src="assets/logo.png?v=20260617"      alt="AUTOMAIND" class="logo-light h-8 sm:h-9 w-auto" />
+      <img src="assets/logo-dark.png?v=20260617" alt="AUTOMAIND" class="logo-dark  h-8 sm:h-9 w-auto" />
     </a>
     <div class="hidden md:flex items-center gap-7 text-sm">
       <a href="#inicio"    data-page="inicio"    class="navlink nav-active">Inicio</a>
@@ -929,6 +1005,45 @@ function createViewer(canvas, opts = {}){
   };
 }
 
+/* ===== CUSTOM CURSOR ===== */
+function initCursor(){
+  const root = document.querySelector("[data-cursor-root]");
+  if(!root || !matchMedia("(hover:hover) and (pointer:fine)").matches) return;
+  document.documentElement.classList.add("has-cursor");
+  const ring = root.querySelector(".cursor-ring");
+  const dot = root.querySelector(".cursor-dot");
+  let tx = 0, ty = 0, rx = 0, ry = 0, firstMove = false;
+
+  window.addEventListener("mousemove", (e) => {
+    tx = e.clientX; ty = e.clientY;
+    if(dot) dot.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
+    if(!firstMove){
+      firstMove = true;
+      rx = tx; ry = ty;
+      if(ring) ring.style.transform = `translate3d(${rx}px, ${ry}px, 0)`;
+      root.classList.add("is-ready");
+    }
+  }, { passive:true });
+
+  function tick(){
+    rx += (tx - rx) * 0.18;
+    ry += (ty - ry) * 0.18;
+    if(ring) ring.style.transform = `translate3d(${rx}px, ${ry}px, 0)`;
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  const HOVERABLES = "[data-cursor], .card, .btn-accent, a[href^='#'], button";
+  document.addEventListener("mouseover", e => {
+    if(e.target.closest(HOVERABLES)) root.classList.add("is-interactive");
+  });
+  document.addEventListener("mouseout", e => {
+    if(e.target.closest(HOVERABLES) && !e.relatedTarget?.closest?.(HOVERABLES))
+      root.classList.remove("is-interactive");
+  });
+}
+initCursor();
+
 /* ===== HERO (máquina protagonista) ===== */
 const loaderEl   = document.getElementById('loader');
 const loaderFill = document.getElementById('loaderFill');
@@ -937,7 +1052,7 @@ const loaderPct  = document.getElementById('loaderPct');
 (async function initHero(){
   const v = createViewer(document.getElementById('heroCanvas'), { orbit:false, parallax:true, dist:6.6, spin:0.28 });
   try{
-    const mdl = await loadGLB('models/model-c.glb', e => {
+    const mdl = await loadGLB('models/model-c.glb?v=20260617', e => {
       if(e.lengthComputable){
         const p = Math.round(e.loaded / e.total * 100);
         loaderFill.style.width = p + '%';
@@ -956,9 +1071,9 @@ const loaderPct  = document.getElementById('loaderPct');
 
 /* ===== SHOWCASE 3D (se inicializa al entrar a la pestaña Equipos) ===== */
 const showDefs = [
-  { url:'models/model-c.glb', radius:1.6, initRot:{x:0, y:0, z:0} },
-  { url:'models/model-b.glb', radius:1.7, initRot:{x:0, y:0, z:0} },
-  { url:'models/model-a.glb', radius:1.7, initRot:{x:Math.PI/2, y:0, z:0} },
+  { url:'models/model-c.glb?v=20260617', radius:1.6, initRot:{x:0, y:0, z:0} },
+  { url:'models/model-b.glb?v=20260617', radius:1.7, initRot:{x:0, y:0, z:0} },
+  { url:'models/model-a.glb?v=20260617', radius:1.7, initRot:{x:Math.PI/2, y:0, z:0} },
 ];
 let showInit = false;
 let showViewerRef = null;
@@ -1114,7 +1229,7 @@ function renderCapGrid(){
   if(!grid) return;
   grid.innerHTML = CAPS.map((c, i) => `
     <button class="card group relative rounded-2xl overflow-hidden h-72 reveal open-cap text-left" data-idx="${i}">
-      <img src="${c.img}" alt="${c.title}" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+      <img src="${c.img}?v=20260617" alt="${c.title}" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
       <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent"></div>
       <div class="absolute inset-x-0 bottom-0 p-6">
         <span class="text-accent2 text-xs font-mono">${c.num}</span>
