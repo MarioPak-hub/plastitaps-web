@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AUTOMAIND · Innovación en Automatización Industrial</title>
+<meta name="description" content="AUTOMAIND — Automatización y Mantenimiento Industrial de Occidente. Diseño, fabricación y automatización de maquinaria para todas las industrias." />
+
+<!-- TAILWIND (CDN) -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: { accent: '#ef6c0b', accent2: '#f59425' },
+        fontFamily: {
+          display: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
+          sans:    ['"Inter"', 'system-ui', 'sans-serif'],
+        },
+      },
+    },
+  };
+</script>
+
+<!-- FONTS -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+<!-- THREE.JS (CDN, módulo estándar) -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+
+<style>
+  :root{ --accent:#ef6c0b; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:#f5f6f8;
+    color:#1c2430;
+    font-family:'Inter',system-ui,sans-serif;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{ background:var(--accent); color:#fff; }
+
+  .font-display{ font-family:'Space Grotesk',system-ui,sans-serif; }
+  .kicker{ letter-spacing:.3em; text-transform:uppercase; font-size:.72rem; font-weight:600; }
+  .accent-text{
+    background:linear-gradient(120deg,#f0871f,#e85d04);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .hairline{ height:1px; background:linear-gradient(90deg,transparent,rgba(15,23,42,.12),transparent); }
+
+  /* ===== PÁGINAS SPA ===== */
+  .page{ display:none; }
+  .page.active{ display:block; animation:pageIn .32s ease both; }
+  @keyframes pageIn{ from{ opacity:0; transform:translateY(8px) } to{ opacity:1; transform:none } }
+
+  /* Reveal on scroll */
+  .reveal{ opacity:0; transform:translateY(28px); transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in{ opacity:1; transform:none; }
+
+  /* Botones */
+  .btn-accent{
+    background:linear-gradient(120deg,#f47920,#ef6c0b);
+    color:#fff; font-weight:700;
+    box-shadow:0 10px 30px -10px rgba(239,108,11,.55);
+    transition:transform .25s, box-shadow .25s, filter .25s;
+    display:inline-flex; align-items:center;
+  }
+  .btn-accent:hover{ transform:translateY(-2px); box-shadow:0 16px 40px -10px rgba(239,108,11,.7); filter:brightness(1.04); }
+
+  /* Tarjeta clara */
+  .card{
+    background:#fff;
+    border:1px solid rgba(15,23,42,.08);
+    box-shadow:0 1px 2px rgba(15,23,42,.04), 0 12px 28px -20px rgba(15,23,42,.25);
+    transition:transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s, border-color .35s;
+  }
+  .card:hover{ transform:translateY(-5px); border-color:rgba(239,108,11,.4); box-shadow:0 1px 2px rgba(15,23,42,.04), 0 26px 50px -26px rgba(239,108,11,.35); }
+
+  /* Inputs */
+  .field{
+    background:#fff; border:1px solid #e2e8f0; color:#1e293b; border-radius:.85rem;
+    transition:.2s; width:100%;
+  }
+  .field:focus{ outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(239,108,11,.15); }
+  .field::placeholder{ color:#94a3b8; }
+
+  /* Secciones oscuras */
+  .stage{
+    position:relative; color:#e7ecf3;
+    background:radial-gradient(120% 90% at 72% 8%, rgba(239,108,11,.12), transparent 55%), #0a0d12;
+  }
+  .stage-grid{
+    position:absolute; inset:0; pointer-events:none; opacity:.6;
+    background-image:
+      linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size:60px 60px;
+    -webkit-mask-image:radial-gradient(circle at 60% 30%, #000 0%, transparent 80%);
+            mask-image:radial-gradient(circle at 60% 30%, #000 0%, transparent 80%);
+  }
+
+  .light-grid{
+    position:fixed; inset:0; z-index:-1; pointer-events:none; opacity:.45;
+    background-image:
+      linear-gradient(rgba(15,23,42,.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(15,23,42,.04) 1px, transparent 1px);
+    background-size:72px 72px;
+    -webkit-mask-image:radial-gradient(circle at 50% 0%, #000 0%, transparent 70%);
+            mask-image:radial-gradient(circle at 50% 0%, #000 0%, transparent 70%);
+  }
+
+  /* ===== NAV ===== */
+  #nav{ transition:background .3s, box-shadow .3s, border-color .3s; border-bottom:1px solid transparent; }
+  #nav .navlink{ color:rgba(255,255,255,.8); position:relative; transition:color .25s; }
+  #nav .navlink:hover{ color:#fff; }
+  #nav .navlink::after{ content:""; position:absolute; left:0; bottom:-4px; height:1.5px; width:0; background:var(--accent); transition:width .3s; }
+  #nav .navlink:hover::after, #nav .navlink.nav-active::after{ width:100%; }
+  #nav .navlink.nav-active{ color:#fff; }
+  #nav .logo-dark{ display:none; }
+  #nav.scrolled{ background:rgba(245,246,248,.92); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border-bottom-color:rgba(15,23,42,.08); box-shadow:0 1px 24px rgba(15,23,42,.06); }
+  #nav.scrolled .logo-light{ display:none; }
+  #nav.scrolled .logo-dark{ display:block; }
+  #nav.scrolled .navlink{ color:#475569; }
+  #nav.scrolled .navlink:hover{ color:#0f172a; }
+  #nav.scrolled .navlink.nav-active{ color:var(--accent); }
+  #nav.scrolled .navlink.nav-active::after{ background:var(--accent); }
+  /* hamburger bars */
+  .hb{ display:block; width:22px; height:2px; background:currentColor; border-radius:2px; transition:.25s; }
+
+  /* ===== MODEL TABS ===== */
+  .model-tab{
+    border:1px solid rgba(255,255,255,.18); color:rgba(255,255,255,.65);
+    padding:.5rem 1.05rem; border-radius:99px; font-size:.84rem; font-weight:600; transition:.2s; cursor:pointer;
+  }
+  .model-tab:hover{ color:#fff; border-color:rgba(255,255,255,.4); }
+  .model-tab.active{ background:linear-gradient(120deg,#f47920,#ef6c0b); border-color:transparent; color:#fff; box-shadow:0 8px 24px -8px rgba(239,108,11,.6); }
+
+  /* Loader */
+  #loader{ position:fixed; inset:0; z-index:60; background:#0a0d12; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.5rem; transition:opacity .8s ease; }
+  #loader.hide{ opacity:0; pointer-events:none; }
+  .loader-bar{ width:min(320px,70vw); height:3px; background:rgba(255,255,255,.12); border-radius:99px; overflow:hidden; }
+  .loader-fill{ height:100%; width:0%; background:linear-gradient(90deg,#f47920,#ef6c0b); transition:width .25s; }
+
+  #scrollbar{ position:fixed; top:0; left:0; height:2px; width:0%; z-index:50; background:linear-gradient(90deg,#f47920,#ef6c0b); box-shadow:0 0 12px rgba(239,108,11,.6); }
+
+  .scroll-cue{ width:24px; height:40px; border:1.5px solid rgba(255,255,255,.25); border-radius:14px; position:relative; }
+  .scroll-cue::after{ content:""; position:absolute; left:50%; top:7px; width:4px; height:8px; border-radius:99px; background:var(--accent); transform:translateX(-50%); animation:cue 1.6s infinite; }
+  @keyframes cue{ 0%{ opacity:0; transform:translate(-50%,0) } 40%{ opacity:1 } 100%{ opacity:0; transform:translate(-50%,14px) } }
+
+  .marquee{ display:flex; gap:3rem; white-space:nowrap; animation:marq 28s linear infinite; }
+  @keyframes marq{ to{ transform:translateX(-50%); } }
+  .marquee span{ color:#94a3b8; font-weight:600; letter-spacing:.18em; text-transform:uppercase; }
+
+  .map-pin{ filter:drop-shadow(0 0 10px rgba(239,108,11,.8)); }
+  .pin-pulse{ transform-origin:center; animation:pinp 2.2s ease-out infinite; }
+  @keyframes pinp{ 0%{ r:6; opacity:.7 } 100%{ r:34; opacity:0 } }
+
+  /* ===== CAROUSEL ===== */
+  .car-slide{
+    position:absolute; inset:0;
+    opacity:0; transition:opacity .75s ease;
+    pointer-events:none;
+  }
+  .car-slide.active{ opacity:1; pointer-events:auto; }
+  .car-dot{
+    width:8px; height:8px; border-radius:99px;
+    background:rgba(255,255,255,.35); border:none; cursor:pointer; transition:.25s; padding:0;
+  }
+  .car-dot.active{ background:#fff; width:20px; }
+
+  /* ===== MODAL ===== */
+  #modal{
+    position:fixed; inset:0; z-index:70;
+    background:rgba(5,8,14,.72); backdrop-filter:blur(8px);
+    display:none; place-items:center; padding:1rem;
+  }
+  #modal.open{ display:grid; }
+  .modal-box{
+    background:#fff; border-radius:1.75rem;
+    max-width:600px; width:100%; max-height:88vh; overflow-y:auto;
+    padding:2.5rem; position:relative;
+    animation:mboxIn .3s cubic-bezier(.2,.7,.2,1);
+    scrollbar-width:thin; scrollbar-color:rgba(15,23,42,.15) transparent;
+  }
+  @keyframes mboxIn{ from{ opacity:0; transform:scale(.93) translateY(14px) } to{ opacity:1; transform:none } }
+  .modal-close{
+    position:absolute; top:1.25rem; right:1.25rem;
+    width:36px; height:36px; border-radius:99px;
+    background:#f1f5f9; border:none; cursor:pointer;
+    display:grid; place-items:center; font-size:.95rem; color:#64748b; transition:.2s;
+  }
+  .modal-close:hover{ background:#e2e8f0; color:#0f172a; }
+  .modal-bullet{ display:flex; align-items:flex-start; gap:.6rem; color:#475569; font-size:.9rem; line-height:1.5; }
+  .modal-bullet::before{ content:""; width:6px; height:6px; border-radius:99px; background:var(--accent); flex-shrink:0; margin-top:.45em; }
+</style>
+</head>
+
+<body>
+<div class="light-grid"></div>
+<div id="scrollbar"></div>
+
+<!-- =================== LOADER =================== -->
+<div id="loader">
+  <img src="assets/logo.png" alt="AUTOMAIND" class="h-14 w-auto" />
+  <div class="loader-bar"><div class="loader-fill" id="loaderFill"></div></div>
+  <div class="kicker text-white/50" id="loaderPct">Cargando experiencia · 0%</div>
+</div>
+
+<!-- =================== MODAL =================== -->
+<div id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-box">
+    <button class="modal-close" id="modalClose" aria-label="Cerrar">✕</button>
+    <div class="text-accent mb-4 mt-1" id="modalIcon"></div>
+    <p class="kicker text-slate-400 mb-2" id="modalNum"></p>
+    <h2 class="font-display font-bold text-2xl text-slate-900 mb-3 leading-tight" id="modalTitle"></h2>
+    <p class="text-slate-600 leading-relaxed mb-6" id="modalDetail"></p>
+    <div class="space-y-2.5 mb-7" id="modalBullets"></div>
+    <a href="#contacto" id="modalCta" class="btn-accent px-7 py-3 rounded-full text-sm gap-2">
+      Cotizar este servicio →
+    </a>
+  </div>
+</div>
+
+<!-- =================== NAV =================== -->
+<header id="nav" class="fixed top-0 inset-x-0 z-40">
+  <nav class="max-w-7xl mx-auto px-5 sm:px-8 h-20 flex items-center justify-between">
+    <a href="#inicio" data-page="inicio" class="flex items-center shrink-0">
+      <img src="assets/logo.png"      alt="AUTOMAIND" class="logo-light h-8 sm:h-9 w-auto" />
+      <img src="assets/logo-dark.png" alt="AUTOMAIND" class="logo-dark  h-8 sm:h-9 w-auto" />
+    </a>
+    <div class="hidden md:flex items-center gap-7 text-sm">
+      <a href="#inicio"    data-page="inicio"    class="navlink nav-active">Inicio</a>
+      <a href="#nosotros"  data-page="nosotros"  class="navlink">Nosotros</a>
+      <a href="#servicios" data-page="servicios" class="navlink">Servicios</a>
+      <a href="#equipos"   data-page="equipos"   class="navlink">Equipos 3D</a>
+      <a href="#proyectos" data-page="proyectos" class="navlink">Proyectos</a>
+      <a href="#contacto"  data-page="contacto"  class="navlink">Contacto</a>
+      <a href="#ubicacion" data-page="ubicacion" class="navlink">Ubicación</a>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href="#contacto" data-page="contacto" class="btn-accent text-sm px-5 py-2.5 rounded-full hidden sm:inline-flex gap-0">Cotizar proyecto</a>
+      <button id="menuBtn" class="md:hidden flex flex-col gap-[5px] p-2 text-white" aria-label="Menú" aria-expanded="false">
+        <span class="hb"></span><span class="hb"></span><span class="hb"></span>
+      </button>
+    </div>
+  </nav>
+  <!-- Menú mobile -->
+  <div id="mobileMenu" class="md:hidden hidden bg-white/98 border-t border-slate-100 shadow-xl">
+    <div class="flex flex-col px-6 py-3">
+      <a href="#inicio"    data-page="inicio"    class="mobile-lnk py-3.5 font-medium text-slate-700 border-b border-slate-100 last:border-0">Inicio</a>
+      <a href="#nosotros"  data-page="nosotros"  class="mobile-lnk py-3.5 font-medium text-slate-700 border-b border-slate-100 last:border-0">Nosotros</a>
+      <a href="#servicios" data-page="servicios" class="mobile-lnk py-3.5 font-medium text-slate-700 border-b border-slate-100 last:border-0">Servicios</a>
+      <a href="#equipos"   data-page="equipos"   class="mobile-lnk py-3.5 font-medium text-slate-700 border-b border-slate-100 last:border-0">Equipos 3D</a>
+      <a href="#proyectos" data-page="proyectos" class="mobile-lnk py-3.5 font-medium text-slate-700 border-b border-slate-100 last:border-0">Proyectos</a>
+      <a href="#contacto"  data-page="contacto"  class="mobile-lnk py-3.5 font-medium text-slate-700 border-b border-slate-100 last:border-0">Contacto</a>
+      <a href="#ubicacion" data-page="ubicacion" class="mobile-lnk py-3.5 font-medium text-slate-700">Ubicación</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- =================== PAGE: INICIO =================== -->
+<div id="page-inicio" class="page active">
+
+  <!-- HERO (oscuro, protagonista 3D) -->
+  <section class="stage min-h-screen flex items-center overflow-hidden">
+    <div class="stage-grid"></div>
+    <canvas id="heroCanvas" class="absolute inset-0 w-full h-full" style="pointer-events:none"></canvas>
+    <div class="absolute inset-0 pointer-events-none" style="background:linear-gradient(90deg,#0a0d12 0%,rgba(10,13,18,.7) 32%,rgba(10,13,18,0) 68%)"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 w-full pt-28 pb-20">
+      <div class="max-w-2xl reveal">
+        <p class="kicker text-white/45 mb-6">Automatización · Fabricación · Mantenimiento Industrial</p>
+        <h1 class="font-display font-bold text-white leading-[0.98] tracking-tight text-[clamp(2.6rem,7vw,5.6rem)]">
+          Innovación en<br><span class="accent-text">Automatización</span><br>Industrial.
+        </h1>
+        <p class="mt-7 text-lg sm:text-xl text-white/70 max-w-xl leading-relaxed">
+          Compañía mexicana dedicada al diseño, fabricación y automatización de maquinaria para todas las industrias, ofreciendo soluciones de vanguardia.
+        </p>
+        <div class="mt-9 flex flex-wrap gap-4">
+          <a href="#contacto" data-page="contacto" class="btn-accent px-7 py-3.5 rounded-full text-sm gap-0">Cotizar proyecto →</a>
+          <a href="#equipos"  data-page="equipos"  class="px-7 py-3.5 rounded-full text-sm border border-white/25 text-white hover:border-accent hover:text-accent transition">Ver equipos en 3D</a>
+        </div>
+        <p class="mt-10 text-xs text-white/35 tracking-wide uppercase">Automatización y Mantenimiento Industrial de Occidente · S.A. de C.V.</p>
+      </div>
+    </div>
+
+    <div class="absolute left-1/2 -translate-x-1/2 bottom-8 z-10 flex flex-col items-center gap-3 text-white/40">
+      <div class="scroll-cue"></div>
+      <span class="text-[.65rem] tracking-[.3em] uppercase">Scroll</span>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="py-6 overflow-hidden border-y border-slate-200 bg-white">
+    <div class="marquee">
+      <span>Moldes de inyección</span><span>•</span><span>Herramentales</span><span>•</span>
+      <span>Pallets especializados</span><span>•</span><span>Impresión 3D</span><span>•</span>
+      <span>Maquinados de precisión</span><span>•</span><span>Maniobras</span><span>•</span>
+      <span>Obra eléctrica</span><span>•</span>
+      <span>Moldes de inyección</span><span>•</span><span>Herramentales</span><span>•</span>
+      <span>Pallets especializados</span><span>•</span><span>Impresión 3D</span><span>•</span>
+      <span>Maquinados de precisión</span><span>•</span><span>Maniobras</span><span>•</span>
+      <span>Obra eléctrica</span><span>•</span>
+    </div>
+  </div>
+
+  <!-- CAROUSEL -->
+  <section class="py-16 sm:py-20">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8">
+      <div class="max-w-xl mb-10 reveal">
+        <p class="kicker text-slate-400 mb-4">Nuestro trabajo</p>
+        <h2 class="font-display font-bold text-slate-900 text-[clamp(1.9rem,4vw,3rem)] leading-tight">
+          Capacidades e industrias <span class="accent-text">que atendemos</span>.
+        </h2>
+      </div>
+
+      <div id="carousel" class="relative rounded-3xl overflow-hidden reveal" style="height:clamp(260px,50vh,520px);background:#0a0d12;">
+        <!-- Slides -->
+        <div class="car-slide active">
+          <img src="assets/cap-automatizacion.jpg" alt="" class="w-full h-full object-cover opacity-70" loading="eager" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent"></div>
+          <div class="absolute inset-x-0 bottom-0 p-7 sm:p-10">
+            <span class="kicker text-accent2 text-[.68rem]">01 · Capacidades</span>
+            <h3 class="font-display font-bold text-white text-2xl sm:text-3xl mt-2 mb-2">Automatización Industrial</h3>
+            <p class="text-white/75 text-sm sm:text-base max-w-lg leading-relaxed">Celdas robotizadas, líneas de producción y sistemas de control diseñados y fabricados a la medida de cada cliente.</p>
+          </div>
+        </div>
+        <div class="car-slide">
+          <img src="assets/cap-electrico.jpg" alt="" class="w-full h-full object-cover opacity-70" loading="lazy" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent"></div>
+          <div class="absolute inset-x-0 bottom-0 p-7 sm:p-10">
+            <span class="kicker text-accent2 text-[.68rem]">02 · Capacidades</span>
+            <h3 class="font-display font-bold text-white text-2xl sm:text-3xl mt-2 mb-2">Diseño Eléctrico</h3>
+            <p class="text-white/75 text-sm sm:text-base max-w-lg leading-relaxed">Tableros de control, obra eléctrica en media y baja tensión, y mantenimiento a subestaciones eléctricas.</p>
+          </div>
+        </div>
+        <div class="car-slide">
+          <img src="assets/cap-industrial.jpg" alt="" class="w-full h-full object-cover opacity-70" loading="lazy" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent"></div>
+          <div class="absolute inset-x-0 bottom-0 p-7 sm:p-10">
+            <span class="kicker text-accent2 text-[.68rem]">03 · Capacidades</span>
+            <h3 class="font-display font-bold text-white text-2xl sm:text-3xl mt-2 mb-2">Diseño Industrial</h3>
+            <p class="text-white/75 text-sm sm:text-base max-w-lg leading-relaxed">Ingeniería y diseño mecánico con herramientas CAD/CAM de última generación, del concepto al plano de producción.</p>
+          </div>
+        </div>
+        <div class="car-slide">
+          <img src="assets/cap-maquinados.jpg" alt="" class="w-full h-full object-cover opacity-70" loading="lazy" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent"></div>
+          <div class="absolute inset-x-0 bottom-0 p-7 sm:p-10">
+            <span class="kicker text-accent2 text-[.68rem]">04 · Capacidades</span>
+            <h3 class="font-display font-bold text-white text-2xl sm:text-3xl mt-2 mb-2">Maquinados de Precisión</h3>
+            <p class="text-white/75 text-sm sm:text-base max-w-lg leading-relaxed">CNC de 3 y 4 ejes con precisión de ±0.005 mm. Fresado, torneado, rectificado y EDM para piezas críticas.</p>
+          </div>
+        </div>
+        <div class="car-slide">
+          <img src="assets/ind-metalmecanica.jpg" alt="" class="w-full h-full object-cover opacity-70" loading="lazy" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent"></div>
+          <div class="absolute inset-x-0 bottom-0 p-7 sm:p-10">
+            <span class="kicker text-accent2 text-[.68rem]">01 · Industrias</span>
+            <h3 class="font-display font-bold text-white text-2xl sm:text-3xl mt-2 mb-2">Industria Metalmecánica</h3>
+            <p class="text-white/75 text-sm sm:text-base max-w-lg leading-relaxed">Soluciones integrales para manufactura de piezas y estructuras metálicas, del diseño a la puesta en marcha.</p>
+          </div>
+        </div>
+        <div class="car-slide">
+          <img src="assets/ind-electronica.jpg" alt="" class="w-full h-full object-cover opacity-70" loading="lazy" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent"></div>
+          <div class="absolute inset-x-0 bottom-0 p-7 sm:p-10">
+            <span class="kicker text-accent2 text-[.68rem]">02 · Industrias</span>
+            <h3 class="font-display font-bold text-white text-2xl sm:text-3xl mt-2 mb-2">Industria Electrónica</h3>
+            <p class="text-white/75 text-sm sm:text-base max-w-lg leading-relaxed">Pallets de ola, fixturas de ensamble y sistemas de prueba para tarjetas y componentes electrónicos.</p>
+          </div>
+        </div>
+        <div class="car-slide">
+          <img src="assets/ind-alimenticia.jpg" alt="" class="w-full h-full object-cover opacity-70" loading="lazy" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent"></div>
+          <div class="absolute inset-x-0 bottom-0 p-7 sm:p-10">
+            <span class="kicker text-accent2 text-[.68rem]">03 · Industrias</span>
+            <h3 class="font-display font-bold text-white text-2xl sm:text-3xl mt-2 mb-2">Industria Alimenticia</h3>
+            <p class="text-white/75 text-sm sm:text-base max-w-lg leading-relaxed">Equipos con materiales food-grade y diseños sanitarios para líneas de procesamiento y envasado de alimentos.</p>
+          </div>
+        </div>
+        <div class="car-slide">
+          <img src="assets/ind-farmaceutica.jpg" alt="" class="w-full h-full object-cover opacity-70" loading="lazy" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent"></div>
+          <div class="absolute inset-x-0 bottom-0 p-7 sm:p-10">
+            <span class="kicker text-accent2 text-[.68rem]">04 · Industrias</span>
+            <h3 class="font-display font-bold text-white text-2xl sm:text-3xl mt-2 mb-2">Industria Farmacéutica</h3>
+            <p class="text-white/75 text-sm sm:text-base max-w-lg leading-relaxed">Maquinaria bajo estándares GMP con trazabilidad y validación de procesos para farmacéutica y biotecnología.</p>
+          </div>
+        </div>
+        <div class="car-slide">
+          <img src="assets/ind-tequilera.jpg" alt="" class="w-full h-full object-cover opacity-70" loading="lazy" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent"></div>
+          <div class="absolute inset-x-0 bottom-0 p-7 sm:p-10">
+            <span class="kicker text-accent2 text-[.68rem]">05 · Industrias</span>
+            <h3 class="font-display font-bold text-white text-2xl sm:text-3xl mt-2 mb-2">Industria Tequilera</h3>
+            <p class="text-white/75 text-sm sm:text-base max-w-lg leading-relaxed">Automatización de procesos de destilación, embotellado y etiquetado para la industria del agave y destilados mexicanos.</p>
+          </div>
+        </div>
+
+        <!-- Flechas -->
+        <button id="carPrev" aria-label="Anterior" class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/15 hover:bg-white/28 grid place-items-center text-white transition backdrop-blur-sm border border-white/15">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button id="carNext" aria-label="Siguiente" class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/15 hover:bg-white/28 grid place-items-center text-white transition backdrop-blur-sm border border-white/15">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+
+        <!-- Puntos -->
+        <div class="absolute bottom-5 right-7 flex gap-1.5 items-center" id="carDots">
+          <button class="car-dot active" data-i="0" aria-label="Slide 1"></button>
+          <button class="car-dot" data-i="1" aria-label="Slide 2"></button>
+          <button class="car-dot" data-i="2" aria-label="Slide 3"></button>
+          <button class="car-dot" data-i="3" aria-label="Slide 4"></button>
+          <button class="car-dot" data-i="4" aria-label="Slide 5"></button>
+          <button class="car-dot" data-i="5" aria-label="Slide 6"></button>
+          <button class="car-dot" data-i="6" aria-label="Slide 7"></button>
+          <button class="car-dot" data-i="7" aria-label="Slide 8"></button>
+          <button class="car-dot" data-i="8" aria-label="Slide 9"></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /page-inicio -->
+
+
+<!-- =================== PAGE: NOSOTROS =================== -->
+<div id="page-nosotros" class="page">
+  <div class="pt-28 pb-24 sm:pb-32">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8">
+      <div class="grid lg:grid-cols-12 gap-10 items-start">
+        <div class="lg:col-span-5 reveal">
+          <p class="kicker text-slate-400 mb-5">Quiénes somos</p>
+          <h2 class="font-display font-bold text-slate-900 text-[clamp(2rem,4.5vw,3.4rem)] leading-[1.05]">
+            Ingeniería que <span class="accent-text">optimiza</span> tus procesos.
+          </h2>
+          <p class="mt-6 text-slate-600 leading-relaxed">
+            En AUTOMAIND sabemos que cada empresa tiene necesidades diferentes. Nuestras soluciones
+            se adaptan a cada caso, basándose en un estudio y análisis exhaustivo de cada proyecto,
+            garantizando el funcionamiento y la satisfacción total de cada cliente.
+          </p>
+          <p class="mt-4 text-slate-600 leading-relaxed">
+            Somos una empresa mexicana con presencia en Zapopan, Jalisco, formada por ingenieros especializados en
+            automatización, diseño eléctrico, diseño industrial y maquinados de precisión.
+          </p>
+        </div>
+
+        <div class="lg:col-span-7 grid sm:grid-cols-2 gap-5">
+          <div class="card rounded-2xl p-7 reveal">
+            <div class="text-accent mb-4"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2l3 6 6 .9-4.5 4.3L18 20l-6-3.2L6 20l1.5-6.8L3 8.9 9 8z"/></svg></div>
+            <h3 class="font-display font-semibold text-xl mb-2 text-slate-900">Misión</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">Proporcionar soluciones confiables y de la más alta calidad a nuestros clientes, cumpliendo con sus expectativas de tiempo, costo y funcionamiento.</p>
+          </div>
+          <div class="card rounded-2xl p-7 reveal">
+            <div class="text-accent mb-4"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/></svg></div>
+            <h3 class="font-display font-semibold text-xl mb-2 text-slate-900">Visión</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">Ser la empresa líder en tecnología de punta en proyectos de automatización, fabricación de herramentales y nuevas tecnologías en México y Latinoamérica.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="mt-14 grid grid-cols-2 sm:grid-cols-4 rounded-2xl overflow-hidden card reveal">
+        <div class="p-7 text-center"><div class="font-display text-4xl font-bold accent-text">24/7</div><div class="text-xs text-slate-400 mt-2 tracking-wide uppercase">Soporte continuo</div></div>
+        <div class="p-7 text-center border-l border-slate-100"><div class="font-display text-4xl font-bold accent-text">365</div><div class="text-xs text-slate-400 mt-2 tracking-wide uppercase">Días al año</div></div>
+        <div class="p-7 text-center border-l border-slate-100"><div class="font-display text-4xl font-bold accent-text">100%</div><div class="text-xs text-slate-400 mt-2 tracking-wide uppercase">Equipos garantizados</div></div>
+        <div class="p-7 text-center border-l border-slate-100"><div class="font-display text-4xl font-bold accent-text">MX</div><div class="text-xs text-slate-400 mt-2 tracking-wide uppercase">Hecho en México</div></div>
+      </div>
+
+      <!-- Garantía -->
+      <div class="mt-20 reveal">
+        <div class="max-w-2xl mb-12">
+          <p class="kicker text-slate-400 mb-5">Garantía y soporte</p>
+          <h2 class="font-display font-bold text-slate-900 text-[clamp(1.9rem,4vw,3rem)] leading-tight">Respaldo total, en cada proyecto.</h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="card rounded-2xl p-8">
+            <div class="text-accent mb-5"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l8 3v6c0 5-3.4 7.7-8 9-4.6-1.3-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
+            <h3 class="font-display font-semibold text-xl mb-2 text-slate-900">Equipos garantizados</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">Todos los equipos que desarrollamos están garantizados, con opciones de garantías extendidas según tus requerimientos.</p>
+          </div>
+          <div class="card rounded-2xl p-8">
+            <div class="text-accent mb-5"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+            <h3 class="font-display font-semibold text-xl mb-2 text-slate-900">Soporte 24/7</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">Brindamos soporte a nuestros clientes los 365 días del año, de forma presencial o remota, según lo requieran.</p>
+          </div>
+          <div class="card rounded-2xl p-8">
+            <div class="text-accent mb-5"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 17l5-5 4 4 8-8"/><path d="M16 8h5v5"/></svg></div>
+            <h3 class="font-display font-semibold text-xl mb-2 text-slate-900">Seguimiento puntual</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">Aseguramos el cumplimiento de expectativas con un seguimiento detallado de cada etapa del proyecto.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div><!-- /page-nosotros -->
+
+
+<!-- =================== PAGE: SERVICIOS =================== -->
+<div id="page-servicios" class="page">
+  <div class="pt-28 pb-24 sm:pb-32">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8">
+
+      <!-- Header -->
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-14 reveal">
+        <div class="max-w-2xl">
+          <p class="kicker text-slate-400 mb-5">Lo que hacemos</p>
+          <h2 class="font-display font-bold text-slate-900 text-[clamp(2rem,4.5vw,3.4rem)] leading-[1.05]">
+            Soluciones de automatización <span class="accent-text">personalizadas</span>.
+          </h2>
+        </div>
+        <p class="text-slate-500 max-w-sm text-sm leading-relaxed lg:text-right">
+          Del concepto a la línea de producción: diseño, maquinado, fabricación y puesta en marcha bajo un mismo techo.
+        </p>
+      </div>
+
+      <!-- Tarjetas de servicios -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5" id="serviceGrid">
+        <!-- Generado por JS -->
+      </div>
+
+      <!-- Capacidades (fotos) -->
+      <div class="mt-20 reveal">
+        <div class="max-w-2xl mb-10">
+          <p class="kicker text-slate-400 mb-5">Capacidades</p>
+          <h2 class="font-display font-bold text-slate-900 text-[clamp(1.9rem,4vw,3rem)] leading-tight">
+            Tecnología y manos expertas <span class="accent-text">en acción</span>.
+          </h2>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5" id="capGrid">
+          <!-- Generado por JS -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div><!-- /page-servicios -->
+
+
+<!-- =================== PAGE: EQUIPOS 3D =================== -->
+<div id="page-equipos" class="page">
+  <section class="stage py-24 sm:py-28 overflow-hidden">
+    <div class="stage-grid"></div>
+    <div class="relative z-10 max-w-7xl mx-auto px-5 sm:px-8">
+      <div class="text-center max-w-2xl mx-auto mb-10 reveal">
+        <p class="kicker text-white/45 mb-4">Ingeniería en 3D</p>
+        <h2 class="font-display font-bold text-white text-[clamp(1.9rem,4vw,3rem)] leading-tight">Explora nuestros equipos.</h2>
+        <p class="mt-4 text-white/60 leading-relaxed">Modelos reales de proyectos AUTOMAIND. <span class="text-white/85">Arrastra para girar</span> y míralos desde cualquier ángulo.</p>
+      </div>
+
+      <div class="relative rounded-3xl overflow-hidden border border-white/10 reveal" style="background:radial-gradient(80% 80% at 50% 35%, rgba(239,108,11,.1), transparent 62%)">
+        <canvas id="showCanvas" class="block w-full" style="height:min(62vh,560px);touch-action:pan-y"></canvas>
+        <div class="absolute top-4 right-4 hidden sm:flex items-center gap-2 text-white/35 text-xs pointer-events-none">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="4"/></svg>
+          Arrastra para girar
+        </div>
+        <div id="showLoading" class="absolute inset-0 grid place-items-center text-white/40 text-sm">Cargando modelo 3D…</div>
+      </div>
+
+      <div class="flex flex-wrap justify-center gap-3 mt-7 reveal">
+        <button class="model-tab active" data-model="0">Máquina automatizada</button>
+        <button class="model-tab"        data-model="1">Pieza de precisión</button>
+        <button class="model-tab"        data-model="2">Placa / herramental</button>
+      </div>
+    </div>
+  </section>
+</div><!-- /page-equipos -->
+
+
+<!-- =================== PAGE: PROYECTOS =================== -->
+<div id="page-proyectos" class="page">
+  <div class="py-20 sm:py-24">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8">
+      <div class="grid lg:grid-cols-12 gap-8 lg:gap-10 items-end mb-12">
+        <div class="lg:col-span-7 reveal">
+          <p class="kicker text-slate-400 mb-5">Proyectos realizados</p>
+          <h2 class="font-display font-bold text-slate-900 text-[clamp(2.1rem,5vw,4rem)] leading-[1.02]">
+            Cada pieza,<br><span class="accent-text">ingeniería real.</span>
+          </h2>
+        </div>
+        <div class="lg:col-span-5 reveal">
+          <p class="text-slate-600 leading-relaxed">
+            Cada proyecto nace de un estudio y análisis exhaustivo. Diseñamos, maquinamos y
+            ponemos en marcha equipos a la medida, garantizando el funcionamiento y la
+            satisfacción total de cada cliente.
+          </p>
+          <a href="#contacto" data-page="contacto" class="inline-flex items-center gap-2 mt-6 text-accent font-semibold group">
+            Cuéntanos tu proyecto <span class="transition-transform group-hover:translate-x-1">→</span>
+          </a>
+        </div>
+      </div>
+
+      <p class="kicker text-slate-400 mb-6 reveal">Industrias que atendemos</p>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+
+        <div class="card group relative rounded-2xl overflow-hidden h-72 reveal">
+          <img src="assets/ind-metalmecanica.jpg" alt="Industria metalmecánica" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/92 via-black/55 to-black/10"></div>
+          <div class="absolute inset-x-0 bottom-0 p-6">
+            <span class="block w-8 h-px bg-accent mb-2.5"></span>
+            <h3 class="font-display font-semibold text-lg text-white mb-1.5">Metalmecánica</h3>
+            <p class="text-white/75 text-sm leading-snug">Maquinados de precisión, troqueles, herramentales y estructuras metálicas para la manufactura de componentes.</p>
+          </div>
+        </div>
+
+        <div class="card group relative rounded-2xl overflow-hidden h-72 reveal">
+          <img src="assets/ind-electronica.jpg" alt="Industria electrónica" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/92 via-black/55 to-black/10"></div>
+          <div class="absolute inset-x-0 bottom-0 p-6">
+            <span class="block w-8 h-px bg-accent mb-2.5"></span>
+            <h3 class="font-display font-semibold text-lg text-white mb-1.5">Electrónica</h3>
+            <p class="text-white/75 text-sm leading-snug">Pallets de ola, fixturas de ensamble y sistemas de prueba para tarjetas y componentes electrónicos (PCB).</p>
+          </div>
+        </div>
+
+        <div class="card group relative rounded-2xl overflow-hidden h-72 reveal">
+          <img src="assets/ind-alimenticia.jpg" alt="Industria alimenticia" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/92 via-black/55 to-black/10"></div>
+          <div class="absolute inset-x-0 bottom-0 p-6">
+            <span class="block w-8 h-px bg-accent mb-2.5"></span>
+            <h3 class="font-display font-semibold text-lg text-white mb-1.5">Alimenticia</h3>
+            <p class="text-white/75 text-sm leading-snug">Equipos con acabados sanitarios y materiales food-grade para líneas de procesamiento y envasado de alimentos.</p>
+          </div>
+        </div>
+
+        <div class="card group relative rounded-2xl overflow-hidden h-72 reveal">
+          <img src="assets/ind-farmaceutica.jpg" alt="Industria farmacéutica" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/92 via-black/55 to-black/10"></div>
+          <div class="absolute inset-x-0 bottom-0 p-6">
+            <span class="block w-8 h-px bg-accent mb-2.5"></span>
+            <h3 class="font-display font-semibold text-lg text-white mb-1.5">Farmacéutica</h3>
+            <p class="text-white/75 text-sm leading-snug">Maquinaria bajo estándares GMP con validación de procesos y trazabilidad para farmacéutica y biotecnología.</p>
+          </div>
+        </div>
+
+        <div class="card group relative rounded-2xl overflow-hidden h-72 reveal">
+          <img src="assets/ind-tequilera.jpg" alt="Industria tequilera" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/92 via-black/55 to-black/10"></div>
+          <div class="absolute inset-x-0 bottom-0 p-6">
+            <span class="block w-8 h-px bg-accent mb-2.5"></span>
+            <h3 class="font-display font-semibold text-lg text-white mb-1.5">Tequilera</h3>
+            <p class="text-white/75 text-sm leading-snug">Automatización de destilación, llenado, taponado y etiquetado para la industria del agave y destilados mexicanos.</p>
+          </div>
+        </div>
+
+        <div class="card relative rounded-2xl overflow-hidden h-72 reveal grid place-items-center text-center p-6" style="background:linear-gradient(135deg,#11161e,#0a0d12)">
+          <div>
+            <p class="font-display font-semibold text-white text-xl mb-2">¿Tu industria no está aquí?</p>
+            <p class="text-white/60 text-sm leading-snug mb-5">Diseñamos soluciones a la medida para cualquier sector productivo.</p>
+            <a href="#contacto" class="btn-accent px-6 py-2.5 rounded-full text-sm gap-0">Hablemos →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div><!-- /page-proyectos -->
+
+
+<!-- =================== PAGE: CONTACTO =================== -->
+<div id="page-contacto" class="page">
+  <div class="pt-28 pb-24 sm:pb-32">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8">
+      <div class="grid lg:grid-cols-12 gap-8">
+        <div class="lg:col-span-5 reveal">
+          <p class="kicker text-slate-400 mb-5">Hablemos</p>
+          <h2 class="font-display font-bold text-slate-900 text-[clamp(2rem,4.5vw,3.2rem)] leading-tight">
+            Tu empresa en las <span class="accent-text">mejores manos</span>.
+          </h2>
+          <p class="mt-5 text-slate-600 leading-relaxed max-w-md">
+            Escríbenos y un especialista te contactará. Recibirás respuesta directa en nuestro correo.
+          </p>
+          <div class="mt-10 space-y-4">
+            <a href="tel:+523332170310" class="flex items-center gap-4 group">
+              <span class="w-11 h-11 rounded-xl bg-orange-50 grid place-items-center text-accent shrink-0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span>
+              <span><span class="block text-xs text-slate-400 uppercase tracking-wide">Teléfono / WhatsApp</span><span class="text-slate-800 group-hover:text-accent transition font-medium">(+52) 33 3217 0310</span></span>
+            </a>
+            <a href="mailto:ventas@automaind.com.mx" class="flex items-center gap-4 group">
+              <span class="w-11 h-11 rounded-xl bg-orange-50 grid place-items-center text-accent shrink-0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+              <span><span class="block text-xs text-slate-400 uppercase tracking-wide">Ventas</span><span class="text-slate-800 group-hover:text-accent transition font-medium">ventas@automaind.com.mx</span></span>
+            </a>
+            <a href="mailto:diseno@automaind.com.mx" class="flex items-center gap-4 group">
+              <span class="w-11 h-11 rounded-xl bg-orange-50 grid place-items-center text-accent shrink-0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 19l7-7-4-4-7 7v4z"/><path d="M14 7l3 3"/></svg></span>
+              <span><span class="block text-xs text-slate-400 uppercase tracking-wide">Diseño</span><span class="text-slate-800 group-hover:text-accent transition font-medium">diseno@automaind.com.mx</span></span>
+            </a>
+            <a href="mailto:disenomecanico@automaind.com.mx" class="flex items-center gap-4 group">
+              <span class="w-11 h-11 rounded-xl bg-orange-50 grid place-items-center text-accent shrink-0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2V21a2 2 0 1 1-4 0v-.1A1.7 1.7 0 0 0 7 19.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0-1.2-2.9H3a2 2 0 1 1 0-4h.1A1.7 1.7 0 0 0 4.7 7l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.7 1.7 0 0 0 10 4.6V4a2 2 0 1 1 4 0v.1A1.7 1.7 0 0 0 17 5.7l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 2.3z"/></svg></span>
+              <span><span class="block text-xs text-slate-400 uppercase tracking-wide">Diseño mecánico</span><span class="text-slate-800 group-hover:text-accent transition font-medium">disenomecanico@automaind.com.mx</span></span>
+            </a>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7 reveal">
+          <div class="card rounded-3xl p-7 sm:p-10">
+            <h3 class="font-display font-semibold text-2xl mb-1 text-slate-900">Solicita tu cotización</h3>
+            <p class="text-slate-500 text-sm mb-7">Respuesta en menos de 24 horas hábiles.</p>
+            <form id="contactForm" class="grid sm:grid-cols-2 gap-4">
+              <input type="text" name="_gotcha" class="hidden" tabindex="-1" autocomplete="off" />
+              <div><label class="block text-xs text-slate-500 uppercase tracking-wide mb-1.5">Nombre *</label><input name="nombre" required class="field px-4 py-3 text-sm" placeholder="Tu nombre" /></div>
+              <div><label class="block text-xs text-slate-500 uppercase tracking-wide mb-1.5">Empresa</label><input name="empresa" class="field px-4 py-3 text-sm" placeholder="Tu empresa" /></div>
+              <div><label class="block text-xs text-slate-500 uppercase tracking-wide mb-1.5">Correo *</label><input type="email" name="email" required class="field px-4 py-3 text-sm" placeholder="correo@empresa.com" /></div>
+              <div><label class="block text-xs text-slate-500 uppercase tracking-wide mb-1.5">Teléfono</label><input name="telefono" class="field px-4 py-3 text-sm" placeholder="33 0000 0000" /></div>
+              <div class="sm:col-span-2"><label class="block text-xs text-slate-500 uppercase tracking-wide mb-1.5">¿En qué te ayudamos? *</label><textarea name="mensaje" required rows="4" class="field px-4 py-3 text-sm resize-none" placeholder="Cuéntanos sobre tu proyecto: moldes, herramentales, automatización…"></textarea></div>
+              <div class="sm:col-span-2 flex flex-col sm:flex-row items-center gap-4 mt-1">
+                <button type="submit" id="submitBtn" class="btn-accent px-8 py-3.5 rounded-full text-sm w-full sm:w-auto gap-0 justify-center">Enviar mensaje</button>
+                <p id="formMsg" class="text-sm text-slate-500"></p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /page-contacto -->
+
+
+<!-- =================== PAGE: UBICACIÓN =================== -->
+<div id="page-ubicacion" class="page">
+  <div class="pb-16 pt-6">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8">
+      <div class="max-w-xl mb-10 reveal">
+        <p class="kicker text-slate-400 mb-4">Dónde estamos</p>
+        <h2 class="font-display font-bold text-slate-900 text-[clamp(2rem,4.5vw,3.2rem)] leading-tight">
+          Visítanos en <span class="accent-text">Zapopan</span>.
+        </h2>
+      </div>
+      <div class="rounded-3xl overflow-hidden grid lg:grid-cols-2 reveal shadow-xl" style="background:#0b0f15">
+        <div class="relative min-h-[320px] overflow-hidden">
+          <svg viewBox="0 0 600 420" class="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice">
+            <defs><radialGradient id="mglow" cx="62%" cy="46%" r="40%"><stop offset="0%" stop-color="#ef6c0b" stop-opacity=".18"/><stop offset="100%" stop-color="#ef6c0b" stop-opacity="0"/></radialGradient></defs>
+            <rect width="600" height="420" fill="#070b11"/>
+            <rect width="600" height="420" fill="url(#mglow)"/>
+            <g stroke="#15212e" stroke-width="1"><path d="M0 60H600M0 120H600M0 180H600M0 240H600M0 300H600M0 360H600"/><path d="M75 0V420M150 0V420M225 0V420M300 0V420M375 0V420M450 0V420M525 0V420"/></g>
+            <path d="M-20 300 L380 150 L640 210" stroke="#1f3242" stroke-width="14" fill="none" stroke-linecap="round"/>
+            <path d="M-20 300 L380 150 L640 210" stroke="#2b4456" stroke-width="2" fill="none" stroke-dasharray="2 12"/>
+            <path d="M120 -20 L300 200 L260 440" stroke="#16242f" stroke-width="9" fill="none" stroke-linecap="round"/>
+            <path d="M600 60 L360 230 L420 440" stroke="#16242f" stroke-width="7" fill="none" stroke-linecap="round"/>
+            <text x="250" y="135" fill="#3a5163" font-size="11" font-family="monospace" transform="rotate(-21 250 135)">CARRETERA A NOGALES</text>
+            <g transform="translate(372,196)">
+              <circle class="pin-pulse" cx="0" cy="0" r="6" fill="none" stroke="#ef6c0b" stroke-width="2"/>
+              <path class="map-pin" d="M0 -20a13 13 0 0 1 13 13c0 9-13 22-13 22S-13 2-13 -7a13 13 0 0 1 13 -13z" fill="#ef6c0b"/>
+              <circle cx="0" cy="-7" r="4.5" fill="#05070a"/>
+            </g>
+          </svg>
+          <div class="absolute bottom-5 left-5 rounded-xl px-4 py-2.5 text-xs" style="background:rgba(10,14,20,.7);backdrop-filter:blur(6px)"><span class="text-white/40">LAT / LNG</span><span class="text-accent2 font-mono ml-2">20.7088, -103.4735</span></div>
+        </div>
+        <div class="p-8 sm:p-12 flex flex-col justify-center text-white">
+          <h3 class="font-display font-bold text-2xl mb-4">Zapopan, Jalisco</h3>
+          <!-- Dirección confirmada (misma ubicación que Plastitaps). -->
+          <p class="text-white/65 leading-relaxed">Carretera a Nogales,<br>San Juan de Ocotán · C.P. 45019<br>Zapopan, Jalisco · México</p>
+          <div class="hairline my-7" style="background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent)"></div>
+          <div class="flex flex-wrap gap-4">
+            <a href="https://www.google.com/maps/search/?api=1&query=20.708815,-103.473531" target="_blank" rel="noreferrer" class="btn-accent px-6 py-3 rounded-full text-sm gap-2">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-6.3-7-11a7 7 0 1 1 14 0c0 4.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              Ver en el mapa
+            </a>
+            <a href="https://www.google.com/maps/dir/?api=1&destination=20.708815,-103.473531" target="_blank" rel="noreferrer" class="px-6 py-3 rounded-full text-sm inline-flex items-center gap-2 border border-white/20 text-white hover:border-accent hover:text-accent transition">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l19-9-9 19-2-8z"/></svg>
+              Cómo llegar
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /page-ubicacion -->
+
+</main>
+
+<!-- =================== FOOTER =================== -->
+<footer class="stage pt-14 pb-12 mt-2">
+  <div class="relative z-10 max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="flex flex-col md:flex-row justify-between gap-8">
+      <div>
+        <img src="assets/logo.png" alt="AUTOMAIND" class="h-11 w-auto mb-4" />
+        <p class="text-white/45 text-sm max-w-xs leading-relaxed">Automatización y Mantenimiento Industrial de Occidente S.A. de C.V. Tu empresa en las mejores manos.</p>
+      </div>
+      <div class="flex flex-col gap-2 text-sm text-white/55">
+        <a href="mailto:ventas@automaind.com.mx"         class="hover:text-accent2 transition">ventas@automaind.com.mx</a>
+        <a href="mailto:diseno@automaind.com.mx"          class="hover:text-accent2 transition">diseno@automaind.com.mx</a>
+        <a href="mailto:disenomecanico@automaind.com.mx"  class="hover:text-accent2 transition">disenomecanico@automaind.com.mx</a>
+        <a href="tel:+523332170310"                       class="hover:text-accent2 transition">(+52) 33 3217 0310</a>
+      </div>
+    </div>
+    <div class="hairline my-8" style="background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent)"></div>
+    <p class="text-white/30 text-xs">© <span id="year"></span> AUTOMAIND · Automatización y Mantenimiento Industrial de Occidente S.A. de C.V. · Zapopan, Jalisco, México.</p>
+  </div>
+</footer>
+
+
+<!-- ================================================================= -->
+<!--                          SCRIPT MODULE                            -->
+<!-- ================================================================= -->
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader }      from 'three/addons/loaders/GLTFLoader.js';
+import { DRACOLoader }     from 'three/addons/loaders/DRACOLoader.js';
+import { MeshoptDecoder }  from 'three/addons/libs/meshopt_decoder.module.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { OrbitControls }   from 'three/addons/controls/OrbitControls.js';
+
+const isTouch = window.matchMedia('(hover: none)').matches;
+
+/* ---- GLB loader (meshopt + draco) ---- */
+const gltfLoader = new GLTFLoader();
+const draco = new DRACOLoader();
+draco.setDecoderPath('https://unpkg.com/three@0.160.0/examples/jsm/libs/draco/gltf/');
+gltfLoader.setDRACOLoader(draco);
+gltfLoader.setMeshoptDecoder(MeshoptDecoder);
+
+function loadGLB(url, onProgress){
+  return new Promise((res, rej) => gltfLoader.load(url, g => res(g.scene), onProgress, rej));
+}
+
+/* ---- Centra y escala el modelo (sin efectos extra) ---- */
+function prepModel(obj, targetRadius, initRot){
+  const box = new THREE.Box3().setFromObject(obj);
+  const sph = box.getBoundingSphere(new THREE.Sphere());
+  const c   = box.getCenter(new THREE.Vector3());
+  obj.position.sub(c);
+  const wrap = new THREE.Group();
+  wrap.add(obj);
+  wrap.scale.setScalar(targetRadius / (sph.radius || 1));
+  if(initRot) wrap.rotation.set(initRot.x||0, initRot.y||0, initRot.z||0);
+  const spinner = new THREE.Group();
+  spinner.add(wrap);
+  return spinner;
+}
+
+/* ---- Visor 3D reutilizable (sin sombras para evitar parpadeo) ---- */
+function createViewer(canvas, opts = {}){
+  const o = Object.assign({ orbit:false, parallax:false, dist:6.4, spin:0.3, autoRotateSpeed:1.1 }, opts);
+
+  const renderer = new THREE.WebGLRenderer({
+    canvas, antialias:true, alpha:true,
+    logarithmicDepthBuffer:true,
+    powerPreference:'high-performance',
+  });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.1;
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+  const scene = new THREE.Scene();
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+
+  const camera = new THREE.PerspectiveCamera(42, 1, 0.5, 60);
+  camera.position.set(0, 0.2, o.dist);
+
+  scene.add(new THREE.AmbientLight(0xbcd4e6, 0.8));
+  const key  = new THREE.DirectionalLight(0xffffff, 3.2); key.position.set(4, 6, 5);  scene.add(key);
+  const fill = new THREE.DirectionalLight(0x88c8ff, 0.8); fill.position.set(-6, 1, 3); scene.add(fill);
+  const rim  = new THREE.DirectionalLight(0xf47920, 1.4); rim.position.set(-3, 4, -6); scene.add(rim);
+
+  const rig = new THREE.Group(); scene.add(rig);
+  const spinners = [];
+  let baseX = 0;
+
+  let controls = null;
+  const useOrbit = o.orbit && !isTouch;
+  if(o.orbit){
+    controls = new OrbitControls(camera, canvas);
+    controls.enableZoom = false; controls.enablePan = false;
+    controls.enableDamping = true; controls.dampingFactor = 0.08;
+    controls.autoRotate = true; controls.autoRotateSpeed = o.autoRotateSpeed;
+    controls.minPolarAngle = Math.PI * 0.22; controls.maxPolarAngle = Math.PI * 0.78;
+    controls.enabled = useOrbit;
+    controls.target.set(0, 0, 0); controls.update(); controls.saveState();
+  }
+
+  const mouse = { x:0, y:0, tx:0, ty:0 };
+  if(o.parallax && !isTouch){
+    window.addEventListener('mousemove', e => {
+      mouse.tx = (e.clientX / window.innerWidth  - 0.5) * 2;
+      mouse.ty = (e.clientY / window.innerHeight - 0.5) * 2;
+    });
+  }
+
+  function resize(){
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    if(!w || !h) return;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h; camera.updateProjectionMatrix();
+  }
+  new ResizeObserver(resize).observe(canvas);
+  requestAnimationFrame(resize);
+
+  const clock = new THREE.Clock();
+  let running = false;
+  function frame(){
+    if(!running) return;
+    requestAnimationFrame(frame);
+    const dt = Math.min(clock.getDelta(), 0.05);
+    if(useOrbit){
+      controls.update();
+    } else {
+      for(const s of spinners) s.rotation.y += dt * o.spin;
+      mouse.x += (mouse.tx - mouse.x) * 0.05;
+      mouse.y += (mouse.ty - mouse.y) * 0.05;
+      rig.rotation.y = mouse.x * 0.22;
+      rig.rotation.x = mouse.y * 0.10;
+      rig.position.x = baseX + mouse.x * 0.3;
+    }
+    renderer.render(scene, camera);
+  }
+  new IntersectionObserver(es => {
+    es.forEach(e => { running = e.isIntersecting; if(running){ clock.getDelta(); frame(); } });
+  }, { threshold: 0.01 }).observe(canvas);
+
+  return {
+    add(obj)      { rig.add(obj); },
+    addSpinner(s) { rig.add(s); spinners.push(s); },
+    setOffsetX(x) { baseX = x; rig.position.x = x; },
+    resetView()   { if(controls) controls.reset(); },
+  };
+}
+
+/* ===== HERO (máquina protagonista) ===== */
+const loaderEl   = document.getElementById('loader');
+const loaderFill = document.getElementById('loaderFill');
+const loaderPct  = document.getElementById('loaderPct');
+
+(async function initHero(){
+  const v = createViewer(document.getElementById('heroCanvas'), { orbit:false, parallax:true, dist:6.6, spin:0.28 });
+  try{
+    const mdl = await loadGLB('models/model-c.glb', e => {
+      if(e.lengthComputable){
+        const p = Math.round(e.loaded / e.total * 100);
+        loaderFill.style.width = p + '%';
+        loaderPct.textContent = 'Cargando experiencia · ' + p + '%';
+      }
+    });
+    const spinner = prepModel(mdl, 1.55);
+    v.addSpinner(spinner);
+    v.setOffsetX(window.matchMedia('(max-width:768px)').matches ? 0.2 : 1.7);
+  } catch(err){
+    console.error('Hero 3D:', err);
+    loaderPct.textContent = 'No se pudo cargar el modelo 3D.';
+  }
+  loaderEl.classList.add('hide');
+})();
+
+/* ===== SHOWCASE 3D (se inicializa al entrar a la pestaña Equipos) ===== */
+const showDefs = [
+  { url:'models/model-c.glb', radius:1.6, initRot:{x:0, y:0, z:0} },
+  { url:'models/model-b.glb', radius:1.7, initRot:{x:0, y:0, z:0} },
+  { url:'models/model-a.glb', radius:1.7, initRot:{x:Math.PI/2, y:0, z:0} },
+];
+let showInit = false;
+let showViewerRef = null;
+
+async function initShowcase(){
+  const canvas  = document.getElementById('showCanvas');
+  const loading = document.getElementById('showLoading');
+  const v = createViewer(canvas, { orbit:true, parallax:false, dist:6.0, autoRotateSpeed:1.2 });
+  showViewerRef = v;
+  const holders = [];
+  try{
+    for(let i = 0; i < showDefs.length; i++){
+      const mdl = await loadGLB(showDefs[i].url);
+      const spinner = prepModel(mdl, showDefs[i].radius, showDefs[i].initRot);
+      spinner.visible = (i === 0);
+      v.add(spinner);
+      holders.push(spinner);
+    }
+    loading.style.display = 'none';
+  } catch(err){
+    console.error('Showcase 3D:', err);
+    loading.textContent = 'No se pudieron cargar los modelos 3D.';
+    return;
+  }
+  document.querySelectorAll('.model-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = +btn.dataset.model;
+      holders.forEach((h, j) => h.visible = (j === idx));
+      document.querySelectorAll('.model-tab').forEach(b => b.classList.toggle('active', b === btn));
+      v.resetView();
+    });
+  });
+}
+
+/* ===================================================
+   DATOS PARA MODALES
+   =================================================== */
+const SERVICES = [
+  {
+    num:'01',
+    icon:`<svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 4v16"/></svg>`,
+    title:'Diseño y fabricación de moldes',
+    short:'Moldes para inyección de plásticos diseñados y fabricados con precisión y durabilidad garantizadas.',
+    detail:'Diseñamos y fabricamos moldes de inyección de plásticos en acero de herramienta (P20, H13). Cada molde es validado con pruebas de inyección antes de la entrega, garantizando ciclos de vida prolongados y cavidades dimensionalmente precisas.',
+    bullets:['1 a 32 cavidades','Moldes de hasta 8 toneladas','Maquinado CNC de 3, 4 y 5 ejes','Electroerosión (EDM) para geometrías complejas','Pruebas de inyección incluidas','Garantía en funcionamiento'],
+  },
+  {
+    num:'02',
+    icon:`<svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 7l3 3M5 19l9-9 1.5 1.5L6.5 20.5 3 21l.5-3.5z"/><circle cx="18" cy="6" r="3"/></svg>`,
+    title:'Maquinados y herramentales',
+    short:'Nuestros ingenieros colaboran desde el diseño para fabricar herramentales de calidad y resultados superiores.',
+    detail:'Contamos con centros de maquinado CNC de 3 y 4 ejes, torno CNC y procesos de electroerosión para fabricar herramentales de alta precisión. Participamos desde la etapa de diseño para garantizar funcionalidad y durabilidad.',
+    bullets:['Fresado, torneado y rectificado CNC','Precisión hasta ±0.005 mm','Acero de herramienta, aluminio y titanio','Herramentales de corte, doblado y estampado','Troqueles progresivos y de transferencia'],
+  },
+  {
+    num:'03',
+    icon:`<svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="10" width="18" height="10" rx="1"/><path d="M3 14h18M8 10V6h8v4"/></svg>`,
+    title:'Pallets especializados',
+    short:'Fabricamos pallets de ola y pallets viajeros para diversos procesos, con cualquier material que requieras.',
+    detail:'Fabricamos pallets de ola (wave soldering) y pallets viajeros para líneas de ensamble en PCB con el material y geometría que tu proceso requiera. Incluyen marcado láser y grabado CNC para trazabilidad.',
+    bullets:['Pallets de ola para soldadura SMT','Pallets viajeros para líneas de ensamble','Materiales: aluminio, nylon, FR4, policarbonato','Marcado láser y grabado CNC','Diseño desde planos o muestras físicas'],
+  },
+  {
+    num:'04',
+    icon:`<svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M19 5l-3 3M8 16l-3 3"/><circle cx="12" cy="12" r="3"/></svg>`,
+    title:'Fixturas a la medida',
+    short:'Fixturas de ensamble, pruebas de fugas, torque y validación de productos para todos tus procesos.',
+    detail:'Diseñamos y fabricamos fixturas para todas las etapas de producción: ensamble, prueba, inspección y empaque. Garantizamos repetibilidad y precisión en cada ciclo de producción mediante sistemas validados y calificados.',
+    bullets:['Fixturas de ensamble manual y semiautomático','Pruebas de fuga neumática e hidráulica','Pruebas de torque y par de apriete','Sistemas de visión artificial integrados','Validación y calificación incluida'],
+  },
+  {
+    num:'05',
+    icon:`<svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 7l6-3 6 3v6l-6 3-6-3z"/><path d="M12 4v6M6 7l6 3 6-3M12 16v5"/></svg>`,
+    title:'Impresión 3D y maquila',
+    short:'Prototipos de herramentales críticos con alta precisión y maquila en serie, optimizando tiempos y costos.',
+    detail:'Producimos prototipos funcionales y piezas en serie con tecnologías FDM, SLA y SLS. Reducimos tiempos de desarrollo y costos de herramental hasta en un 70% comparado con métodos convencionales.',
+    bullets:['Tecnologías FDM, SLA y SLS','Materiales: PLA, ABS, Nylon, PETG, resinas técnicas','Tolerancias hasta ±0.1 mm','Prototipos en 24 a 72 horas','Maquila en serie disponible'],
+  },
+  {
+    num:'06',
+    icon:`<svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg>`,
+    title:'Maquinaria de precisión',
+    short:'Equipos sofisticados de la más alta calidad que garantizan la precisión en cada pieza fabricada.',
+    detail:'Contamos con equipos de medición certificados y maquinaria de última generación para garantizar la calidad dimensional de cada pieza. Toda medición tiene trazabilidad metrológica completa.',
+    bullets:['CMM (máquina de medición por coordenadas)','Fresadora CNC vertical y horizontal','Torno CNC con eje C','EDM de penetración e hilo','Rectificadora superficial y cilíndrica'],
+  },
+  {
+    num:'07',
+    icon:`<svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6"/></svg>`,
+    title:'Maniobras industriales',
+    short:'Montaje y desmontaje de estructuras, movimiento de maquinaria y maniobras de equipo crítico.',
+    detail:'Realizamos montaje, desmontaje, traslado e instalación de maquinaria y equipos industriales pesados con personal y equipo de izaje certificado, garantizando seguridad, puntualidad y puesta en marcha.',
+    bullets:['Izaje con grúas, diferenciales y elevadores','Personal certificado y asegurado','Traslado de maquinaria pesada','Reinstalación y puesta en marcha','Coordinación de permisos y logística'],
+  },
+  {
+    num:'08',
+    icon:`<svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg>`,
+    title:'Obra y servicios eléctricos',
+    short:'Obra eléctrica en media y baja tensión, aérea y subterránea; pruebas y mantenimiento a subestaciones.',
+    detail:'Ejecutamos obra eléctrica en media y baja tensión, aérea y subterránea. Mantenemos subestaciones, transformadores y sistemas de distribución con personal especializado conforme a la normativa NMX/NOM vigente.',
+    bullets:['Media tensión hasta 34.5 kV','Subestaciones en gabinete y exterior','Pruebas de termografía y calidad de energía','Obra civil-eléctrica','Mantenimiento preventivo y correctivo'],
+  },
+];
+
+const CAPS = [
+  {
+    num:'01', img:'assets/cap-automatizacion.jpg', title:'Automatización industrial',
+    short:'Celdas robotizadas y líneas de producción a la medida.',
+    detail:'Diseñamos sistemas completos de automatización: ingeniería conceptual, integración de PLCs, HMIs, robótica, visión artificial y comunicaciones industriales. De la idea al sistema funcionando en producción.',
+    bullets:['PLCs Siemens, Allen-Bradley, Omron','HMIs y SCADA','Robótica colaborativa y tradicional','Visión artificial e inspección','Comunicaciones PROFINET, EtherNet/IP'],
+  },
+  {
+    num:'02', img:'assets/cap-electrico.jpg', title:'Diseño eléctrico',
+    short:'Tableros de control y obra eléctrica en media y baja tensión.',
+    detail:'Elaboramos memorias de cálculo, planos y diagramas eléctricos conforme a normas NMX, NOM e IEC. Fabricamos tableros de control y centros de carga completamente probados y listos para operar.',
+    bullets:['Tableros de control y fuerza','Centros de carga y distribución','Normativa NMX, NOM, IEC, UL','Diseño en AutoCAD Electrical / EPLAN','Pruebas de continuidad y aislamiento'],
+  },
+  {
+    num:'03', img:'assets/cap-industrial.jpg', title:'Diseño industrial',
+    short:'Ingeniería y diseño mecánico, del concepto al plano.',
+    detail:'Nuestro equipo usa SolidWorks, Catia y Fusion 360 para crear modelos 3D, renderizados fotorrealistas y planos de manufactura con tolerancias GD&T. Simulación FEA estructural incluida.',
+    bullets:['Modelado 3D (SolidWorks, Catia, Fusion 360)','Simulación FEA y análisis estructural','Diseño para manufactura (DFM)','Renderizado y animación de producto','Planos con GD&T y tolerancias críticas'],
+  },
+  {
+    num:'04', img:'assets/cap-maquinados.jpg', title:'Maquinados de precisión',
+    short:'Maquinados CNC y herramentales de alta precisión.',
+    detail:'Taller de maquinado con CNC de última generación para piezas con tolerancias muy ajustadas en aceros, aluminio, latón, cobre y plásticos técnicos. Control estadístico de proceso incluido.',
+    bullets:['CNC 3, 4 y 5 ejes simultáneos','Tolerancias hasta ±0.005 mm','Fresado, torneado, rectificado, EDM','Materiales: acero, aluminio, latón, plásticos','Control estadístico de calidad (SPC)'],
+  },
+];
+
+/* ===================================================
+   RENDERIZADO DE TARJETAS DE SERVICIOS Y CAPACIDADES
+   =================================================== */
+function renderServiceGrid(){
+  const grid = document.getElementById('serviceGrid');
+  if(!grid) return;
+  grid.innerHTML = SERVICES.map((s, i) => `
+    <article class="card rounded-2xl p-7 reveal flex flex-col">
+      <div class="flex items-center gap-3 text-accent mb-4">${s.icon}<span class="text-xs text-slate-300 font-mono">${s.num}</span></div>
+      <h3 class="font-display font-semibold text-lg mb-2 text-slate-900">${s.title}</h3>
+      <p class="text-slate-600 text-sm leading-relaxed flex-1">${s.short}</p>
+      <button class="open-svc mt-5 text-accent text-sm font-semibold hover:underline text-left" data-idx="${i}">Ver más →</button>
+    </article>
+  `).join('');
+  grid.querySelectorAll('.open-svc').forEach(btn => {
+    btn.addEventListener('click', () => openModal('svc', +btn.dataset.idx));
+  });
+}
+
+function renderCapGrid(){
+  const grid = document.getElementById('capGrid');
+  if(!grid) return;
+  grid.innerHTML = CAPS.map((c, i) => `
+    <button class="card group relative rounded-2xl overflow-hidden h-72 reveal open-cap text-left" data-idx="${i}">
+      <img src="${c.img}" alt="${c.title}" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+      <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent"></div>
+      <div class="absolute inset-x-0 bottom-0 p-6">
+        <span class="text-accent2 text-xs font-mono">${c.num}</span>
+        <h3 class="font-display font-semibold text-lg mt-1 text-white">${c.title}</h3>
+        <p class="text-white/70 text-sm mt-1 leading-snug">${c.short}</p>
+        <span class="mt-3 inline-block text-accent2 text-xs font-semibold">Ver detalles →</span>
+      </div>
+    </button>
+  `).join('');
+  grid.querySelectorAll('.open-cap').forEach(btn => {
+    btn.addEventListener('click', () => openModal('cap', +btn.dataset.idx));
+  });
+}
+
+renderServiceGrid();
+renderCapGrid();
+
+/* ===================================================
+   MODAL
+   =================================================== */
+const modalEl     = document.getElementById('modal');
+const modalClose  = document.getElementById('modalClose');
+const modalIcon   = document.getElementById('modalIcon');
+const modalNum    = document.getElementById('modalNum');
+const modalTitle  = document.getElementById('modalTitle');
+const modalDetail = document.getElementById('modalDetail');
+const modalBullet = document.getElementById('modalBullets');
+const modalCta    = document.getElementById('modalCta');
+
+function openModal(type, idx){
+  const d = type === 'svc' ? SERVICES[idx] : CAPS[idx];
+  modalIcon.innerHTML  = d.icon || '';
+  modalNum.textContent = `${d.num} · ${type === 'svc' ? 'Servicio' : 'Capacidad'}`;
+  modalTitle.textContent  = d.title;
+  modalDetail.textContent = d.detail;
+  modalBullet.innerHTML = d.bullets.map(b => `<div class="modal-bullet">${b}</div>`).join('');
+  modalEl.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(){
+  modalEl.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+modalClose.addEventListener('click', closeModal);
+modalEl.addEventListener('click', e => { if(e.target === modalEl) closeModal(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+/* El CTA del modal (#contacto) lo maneja el router global de enlaces. */
+
+/* ===================================================
+   CAROUSEL
+   =================================================== */
+const carSlides = [...document.querySelectorAll('.car-slide')];
+const carDots   = [...document.querySelectorAll('.car-dot')];
+let carCurrent = 0;
+let carTimer;
+
+function carGoTo(n){
+  carSlides[carCurrent].classList.remove('active');
+  carDots[carCurrent]?.classList.remove('active');
+  carCurrent = ((n % carSlides.length) + carSlides.length) % carSlides.length;
+  carSlides[carCurrent].classList.add('active');
+  carDots[carCurrent]?.classList.add('active');
+  clearTimeout(carTimer);
+  carTimer = setTimeout(() => carGoTo(carCurrent + 1), 5200);
+}
+
+document.getElementById('carPrev')?.addEventListener('click', () => carGoTo(carCurrent - 1));
+document.getElementById('carNext')?.addEventListener('click', () => carGoTo(carCurrent + 1));
+carDots.forEach(d => d.addEventListener('click', () => carGoTo(+d.dataset.i)));
+carTimer = setTimeout(() => carGoTo(1), 5200);
+
+/* ===================================================
+   SPA: NAVEGACIÓN POR GRUPOS DE PÁGINAS (hash routing)
+   - Inicio agrupa: hero/carrusel + Equipos 3D + Proyectos
+   - Contacto agrupa: formulario + Ubicación
+   =================================================== */
+const nav = document.getElementById('nav');
+
+const ALL_PAGES = ['page-inicio','page-nosotros','page-servicios','page-equipos','page-proyectos','page-contacto','page-ubicacion'];
+const GROUPS = {
+  inicio:    ['page-inicio','page-equipos','page-proyectos'],
+  nosotros:  ['page-nosotros'],
+  servicios: ['page-servicios'],
+  contacto:  ['page-contacto','page-ubicacion'],
+};
+const ROUTES = {
+  inicio:    { group:'inicio' },
+  equipos:   { group:'inicio',   scroll:'page-equipos' },
+  proyectos: { group:'inicio',   scroll:'page-proyectos' },
+  nosotros:  { group:'nosotros' },
+  servicios: { group:'servicios' },
+  contacto:  { group:'contacto' },
+  ubicacion: { group:'contacto', scroll:'page-ubicacion' },
+};
+
+function navigate(hash){
+  const route = ROUTES[hash] || ROUTES.inicio;
+  const show  = GROUPS[route.group];
+
+  ALL_PAGES.forEach(id => document.getElementById(id)?.classList.toggle('active', show.includes(id)));
+
+  document.querySelectorAll('#nav a[href^="#"]').forEach(a =>
+    a.classList.toggle('nav-active', a.getAttribute('href') === '#' + hash));
+
+  /* En páginas que no hacen scroll, revela su contenido de inmediato */
+  if(route.group !== 'inicio'){
+    setTimeout(() => show.forEach(id =>
+      document.getElementById(id)?.querySelectorAll('.reveal:not(.in)').forEach(el => el.classList.add('in'))), 50);
+  }
+
+  if(route.scroll){
+    if(route.scroll === 'page-equipos' && !showInit){ showInit = true; initShowcase(); }
+    setTimeout(() => {
+      const t = document.getElementById(route.scroll);
+      t?.querySelectorAll('.reveal:not(.in)').forEach(el => el.classList.add('in'));
+      t?.scrollIntoView({ behavior:'smooth', block:'start' });
+    }, 90);
+  } else {
+    window.scrollTo({ top:0, behavior:'instant' });
+  }
+
+  updateNavTheme();
+}
+
+window.addEventListener('hashchange', () => navigate(location.hash.slice(1) || 'inicio'));
+
+/* Router global: intercepta enlaces internos (#...) */
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[href^="#"]');
+  if(!a) return;
+  e.preventDefault();
+  const hash = a.getAttribute('href').slice(1) || 'inicio';
+  history.pushState(null, '', '#' + hash);
+  navigate(hash);
+  closeModal();
+  resetHamburger();
+});
+
+/* Lazy-init del visor 3D cuando la sección Equipos entra en pantalla */
+const equiposEl = document.getElementById('page-equipos');
+if(equiposEl){
+  new IntersectionObserver((es, obs) => {
+    if(es[0].isIntersecting && !showInit){ showInit = true; obs.disconnect(); initShowcase(); }
+  }, { rootMargin:'250px' }).observe(equiposEl);
+}
+
+/* Carga inicial */
+navigate(location.hash.slice(1) || 'inicio');
+
+/* ===================================================
+   NAV: hamburger + tema
+   =================================================== */
+const menuBtn    = document.getElementById('menuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+
+function setHamburger(open){
+  const bars = menuBtn.querySelectorAll('.hb');
+  if(open){
+    bars[0].style.transform = 'translateY(7px) rotate(45deg)';
+    bars[1].style.opacity   = '0';
+    bars[2].style.transform = 'translateY(-7px) rotate(-45deg)';
+  } else {
+    bars[0].style.transform = '';
+    bars[1].style.opacity   = '1';
+    bars[2].style.transform = '';
+  }
+  menuBtn.setAttribute('aria-expanded', String(open));
+}
+function resetHamburger(){
+  mobileMenu.classList.add('hidden');
+  setHamburger(false);
+}
+menuBtn.addEventListener('click', () => {
+  const willOpen = mobileMenu.classList.contains('hidden');
+  mobileMenu.classList.toggle('hidden', !willOpen);
+  setHamburger(willOpen);
+});
+
+function updateNavTheme(){
+  const homeActive = document.getElementById('page-inicio').classList.contains('active');
+  nav.classList.toggle('scrolled', homeActive ? (window.scrollY > window.innerHeight - 90) : true);
+}
+
+window.addEventListener('scroll', updateNavTheme, { passive:true });
+const scrollbar = document.getElementById('scrollbar');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const p = h.scrollTop / (h.scrollHeight - h.clientHeight || 1);
+  scrollbar.style.width = (p * 100) + '%';
+}, { passive:true });
+
+/* ===================================================
+   REVEAL en scroll (para page-inicio que hace scroll)
+   =================================================== */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* Año en el footer */
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ===================================================
+   FORMULARIO DE CONTACTO (Formspree)
+   REEMPLAZA TU_ID_AQUI con tu endpoint de formspree.io
+   =================================================== */
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/TU_ID_AQUI';
+
+const form      = document.getElementById('contactForm');
+const formMsg   = document.getElementById('formMsg');
+const submitBtn = document.getElementById('submitBtn');
+
+form.addEventListener('submit', async e => {
+  e.preventDefault();
+  if(form._gotcha.value) return;
+  if(!form.nombre.value.trim() || !form.email.value.trim() || !form.mensaje.value.trim()){
+    formMsg.textContent = 'Completa los campos obligatorios.';
+    formMsg.className = 'text-sm text-amber-600'; return;
+  }
+  submitBtn.disabled = true; submitBtn.textContent = 'Enviando…'; formMsg.textContent = '';
+
+  if(FORMSPREE_ENDPOINT.includes('TU_ID_AQUI')){
+    submitBtn.disabled = false; submitBtn.textContent = 'Enviar mensaje';
+    formMsg.textContent = '⚠ Configura tu endpoint de Formspree en el código para activar el envío.';
+    formMsg.className = 'text-sm text-amber-600'; return;
+  }
+  try{
+    const data = new FormData(form);
+    data.append('_subject', 'Nueva solicitud desde automaind.com.mx');
+    const res = await fetch(FORMSPREE_ENDPOINT, { method:'POST', body:data, headers:{ Accept:'application/json' } });
+    if(res.ok){
+      form.reset();
+      formMsg.textContent = '✓ ¡Mensaje enviado! Te contactaremos pronto.';
+      formMsg.className = 'text-sm text-green-600';
+    } else throw new Error();
+  } catch{
+    formMsg.textContent = '✗ Ocurrió un error. Escríbenos a ventas@automaind.com.mx';
+    formMsg.className = 'text-sm text-red-600';
+  } finally{
+    submitBtn.disabled = false; submitBtn.textContent = 'Enviar mensaje';
+  }
+});
+</script>
+</body>
+</html>
