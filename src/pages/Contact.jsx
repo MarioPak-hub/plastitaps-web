@@ -7,6 +7,7 @@ import { Headset, ShieldCheck, HandCoins } from 'lucide-react';
 import { FiMapPin, FiPhone, FiMail, FiPhoneCall, FiMessageCircle, FiSend, FiCheckCircle, FiAlertCircle, FiLoader } from 'react-icons/fi';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import Seo from '../components/Seo';
 import { Security } from '../utils/security';
 import { apiFetch } from '../utils/apiFetch';
 
@@ -52,6 +53,11 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen bg-slate-50 font-inter text-slate-800 flex flex-col">
+      <Seo
+        title="Contacto y Cotización"
+        description="Contacta a Plastitaps, proveedor de envases y tapas plásticas en México. Solicita cotización de tapas para envases, botellas PET y empaques plásticos para tu empresa."
+        path="/contacto"
+      />
       <Navbar />
 
       <div className="pt-24 sm:pt-32 pb-4 sm:pb-6 px-4 sm:px-6 max-w-7xl mx-auto w-full">

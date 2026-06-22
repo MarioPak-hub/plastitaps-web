@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { FiPlusCircle, FiCheckCircle, FiShoppingBag, FiEye, FiInfo } from 'react-icons/fi';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import Seo from '../components/Seo';
 import retailProducts from '../data/retail_products.json';
 import { useCart } from '../context/CartContext';
 
@@ -14,6 +15,11 @@ export default function Promocionales({ openProductBySlug }) {
 
   return (
     <div className="min-h-screen bg-white font-inter text-slate-800">
+      <Seo
+        title="Vasos Promocionales Personalizados"
+        description="Vasos promocionales plásticos personalizados con tu logo y color. Productos plásticos para empresas fabricados por Plastitaps, proveedor de envases y empaques plásticos."
+        path="/promocionales"
+      />
       <Navbar />
 
       <div className="pt-32 pb-24 px-6 max-w-5xl mx-auto">

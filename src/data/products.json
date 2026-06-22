@@ -1,36 +1,5 @@
 [
   {
-    "id": 1,
-    "name": "18 Capto Cap",
-    "category": "Tapas Diámetro Pequeño",
-    "tags": [
-      "Especialidades"
-    ],
-    "price": 0.2046,
-    "moq": 60000,
-    "unit": "pz",
-    "description": "Tapa 18 Capto Cap.",
-    "shortDescription": "Cierre hermético para envases de diámetro reducido",
-    "fullDescription": {
-      "about": "Tapa Capto Cap de 18mm diseñada para aplicaciones que requieren un sellado compacto y seguro. Fabricada con resinas de grado industrial, ofrece un ajuste preciso y compatibilidad con líneas de envasado automatizadas.",
-      "uses": [
-        "Industria farmacéutica",
-        "Cosméticos",
-        "Muestras y miniaturas"
-      ],
-      "advantages": [
-        "Cierre hermético de alta precisión",
-        "Compatible con líneas automatizadas",
-        "Formato ultracompacto"
-      ],
-      "applications": "Ideal para envases de muestras, frascos de cosméticos y productos farmacéuticos que requieren sellado confiable en diámetros reducidos.",
-      "customization": "Disponible en colores corporativos bajo pedido. Opción de impresión personalizada para branding.",
-      "material": "Polipropileno de alta densidad (HDPE)"
-    },
-    "image": "/productos/18 Capto Cap.webp",
-    "slug": "18-capto-cap"
-  },
-  {
     "id": 2,
     "name": "26 Flip Top (Presión)",
     "category": "Tapas Diámetro Pequeño",
@@ -2021,7 +1990,7 @@
       "customization": "Compatible con tapa R-110 (vendida por separado). Etiquetado y serigrafía disponibles.",
       "material": "PET de alta resistencia"
     },
-    "image": "/productos/TARRO CILÍNDRICO R63.webp",
+    "image": "",
     "slug": "tarro-cil-ndrico-r110",
     "stock": 1000,
     "modelo3D": "/models/TARRO GALON CILINDRICO R110 3750 ml.glb"
@@ -2817,6 +2786,50 @@
     },
     "image": "/productos/TAPA R96 COSMETICOS.webp",
     "slug": "tapa-r96-cosmeticos",
+    "borrador": true
+  },
+  {
+    "id": 93,
+    "name": "20 Tapa Rosca Plana",
+    "category": "Tapas Diámetro Pequeño",
+    "tags": [],
+    "price": 0,
+    "moq": 0,
+    "unit": "pz",
+    "description": "20 Tapa Rosca Plana.",
+    "shortDescription": "Borrador — completar información comercial.",
+    "fullDescription": {
+      "about": "Descripción pendiente.",
+      "uses": [],
+      "advantages": [],
+      "applications": "Pendiente.",
+      "customization": "Pendiente.",
+      "material": "Pendiente."
+    },
+    "image": "/logo_plastitaps.png",
+    "slug": "20-tapa-rosca-plana",
+    "borrador": true
+  },
+  {
+    "id": 94,
+    "name": "15 Tapa Rosca Plana",
+    "category": "Tapas Diámetro Pequeño",
+    "tags": [],
+    "price": 0,
+    "moq": 0,
+    "unit": "pz",
+    "description": "15 Tapa Rosca Plana.",
+    "shortDescription": "Borrador — completar información comercial.",
+    "fullDescription": {
+      "about": "Descripción pendiente.",
+      "uses": [],
+      "advantages": [],
+      "applications": "Pendiente.",
+      "customization": "Pendiente.",
+      "material": "Pendiente."
+    },
+    "image": "/logo_plastitaps.png",
+    "slug": "15-tapa-rosca-plana",
     "borrador": true
   }
 ]

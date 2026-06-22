@@ -19,6 +19,8 @@ const TERMS = [
 // Folio local solo para el PDF — el folio oficial viene del servidor
 const localFolio = () => `PLT-${Date.now().toString(36).toUpperCase()}`;
 
+const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
 export default function Checkout() {
   const { cart, clearCart } = useCart();
   const { user }        = useAuth();
@@ -30,21 +32,38 @@ export default function Checkout() {
   const [sendError,  setSendError]  = useState('');
   const [resultFolio, setResultFolio] = useState('');
 
+  // Datos del solicitante — precargados si ya hay sesión, editables siempre.
+  // Ya no se exige iniciar sesión para cotizar.
+  const [guest, setGuest] = useState({
+    nombre:   user?.name      || '',
+    email:    user?.email     || '',
+    telefono: user?.telefono  || '',
+    empresa:  user?.empresa   || '',
+  });
+  const updateGuest = (field) => (e) => setGuest(g => ({ ...g, [field]: e.target.value }));
+
+  const isFormValid = guest.nombre.trim() !== '' && isValidEmail(guest.email);
+
   const handleDownloadPDF = () => {
-    const doc = generateQuotationPDF({ cart, user, folio: pdfFolio });
+    const doc = generateQuotationPDF({ cart, user: guest, folio: pdfFolio });
     doc.save(`Cotizacion_Plastitaps_${pdfFolio}.pdf`);
   };
 
   const handleSend = async () => {
+    if (!isFormValid) {
+      setSendError('Ingresa tu nombre y un correo válido para continuar.');
+      setSendStatus('error');
+      return;
+    }
     setSendStatus('sending');
     setSendError('');
     try {
       const payload = {
         cliente: {
-          nombre:   user?.name      || '',
-          email:    user?.email     || '',
-          telefono: user?.telefono  || '',
-          empresa:  user?.empresa   || '',
+          nombre:   guest.nombre,
+          email:    guest.email,
+          telefono: guest.telefono,
+          empresa:  guest.empresa,
         },
         productos: cart.map(item => ({
           id:       item.id,
@@ -53,12 +72,12 @@ export default function Checkout() {
         })),
       };
 
-      const data = await submitOrder(payload, user?.email);
+      const data = await submitOrder(payload, guest.email);
 
       setResultFolio(data.folio);
       clearCart();
       setSendStatus('done');
-      setTimeout(() => navigate('/perfil'), 4000);
+      setTimeout(() => navigate('/'), 4000);
     } catch (err) {
       // Mensajes técnicos de servidor → mensaje amigable para el usuario
       const raw = err.message || '';
@@ -104,7 +123,7 @@ export default function Checkout() {
             <FiCheckCircle className="text-2xl text-green-600 shrink-0" />
             <div>
               <p>¡Cotización enviada exitosamente a ventas@plastitaps.com!</p>
-              <p className="text-sm font-normal mt-0.5">Folio oficial: <strong>{resultFolio}</strong> — Redirigiendo a tu perfil…</p>
+              <p className="text-sm font-normal mt-0.5">Folio oficial: <strong>{resultFolio}</strong> — Un asesor te contactará pronto…</p>
             </div>
           </motion.div>
         )}
@@ -141,14 +160,36 @@ export default function Checkout() {
           <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}
             className="xl:col-span-1 space-y-5">
 
-            {/* Client card */}
+            {/* Client card — formulario editable, no requiere iniciar sesión */}
             <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm">
               <h4 className="font-bold text-slate-800 mb-4 flex items-center gap-2 text-sm uppercase tracking-wide">
                 <FiShield className="text-blue-600" /> Datos del Solicitante
               </h4>
-              <div className="space-y-2 text-sm text-slate-600">
-                <div className="flex justify-between"><span className="text-slate-400">Empresa</span><span className="font-bold truncate ml-2">{user?.empresa || '—'}</span></div>
-                <div className="flex justify-between"><span className="text-slate-400">Email</span><span className="font-bold truncate ml-2">{user?.email}</span></div>
+              <div className="space-y-3">
+                <div>
+                  <label className="text-xs text-slate-400 font-medium">Nombre *</label>
+                  <input type="text" value={guest.nombre} onChange={updateGuest('nombre')}
+                    placeholder="Tu nombre completo"
+                    className="w-full mt-1 px-3 py-2.5 text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+                </div>
+                <div>
+                  <label className="text-xs text-slate-400 font-medium">Email *</label>
+                  <input type="email" value={guest.email} onChange={updateGuest('email')}
+                    placeholder="tu@correo.com"
+                    className="w-full mt-1 px-3 py-2.5 text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+                </div>
+                <div>
+                  <label className="text-xs text-slate-400 font-medium">Teléfono</label>
+                  <input type="tel" value={guest.telefono} onChange={updateGuest('telefono')}
+                    placeholder="33 1234 5678"
+                    className="w-full mt-1 px-3 py-2.5 text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+                </div>
+                <div>
+                  <label className="text-xs text-slate-400 font-medium">Empresa</label>
+                  <input type="text" value={guest.empresa} onChange={updateGuest('empresa')}
+                    placeholder="Nombre de tu empresa"
+                    className="w-full mt-1 px-3 py-2.5 text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+                </div>
               </div>
             </div>
 
@@ -170,15 +211,23 @@ export default function Checkout() {
             )}
 
             {/* CTAs */}
-            <button onClick={handleDownloadPDF}
-              className="w-full py-4 bg-slate-900 hover:bg-black text-white font-bold rounded-2xl flex items-center justify-center gap-2 shadow-lg transition-all">
+            {!isFormValid && (
+              <p className="text-xs text-amber-700 font-medium px-1">
+                Completa tu nombre y email arriba para descargar o enviar la cotización.
+              </p>
+            )}
+            <button onClick={handleDownloadPDF} disabled={!isFormValid}
+              className={`w-full py-4 font-bold rounded-2xl flex items-center justify-center gap-2 shadow-lg transition-all ${
+                !isFormValid ? 'bg-slate-200 text-slate-400 cursor-not-allowed' : 'bg-slate-900 hover:bg-black text-white'
+              }`}>
               <FiDownload /> Descargar PDF
             </button>
 
-            <button onClick={handleSend} disabled={sendStatus === 'sending' || sendStatus === 'done'}
+            <button onClick={handleSend} disabled={sendStatus === 'sending' || sendStatus === 'done' || !isFormValid}
               className={`w-full py-4 font-bold rounded-2xl flex items-center justify-center gap-2 shadow-lg transition-all ${
                 sendStatus === 'done'    ? 'bg-green-600 text-white cursor-default' :
                 sendStatus === 'sending' ? 'bg-blue-400 text-white cursor-wait' :
+                !isFormValid              ? 'bg-slate-200 text-slate-400 cursor-not-allowed' :
                 'bg-blue-600 hover:bg-blue-700 text-white'
               }`}>
               {sendStatus === 'sending' ? <><FiLoader className="animate-spin" /> Enviando...</> :

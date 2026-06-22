@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, EffectFade, Pagination, Navigation } from 'swiper/modules';
-import { FiCheckCircle, FiShield, FiX, FiExternalLink, FiArrowRight } from 'react-icons/fi';
+import { FiCheckCircle, FiShield, FiX, FiExternalLink, FiArrowRight, FiBox, FiDroplet, FiArchive, FiGrid } from 'react-icons/fi';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 import 'swiper/css/pagination';
@@ -10,7 +10,40 @@ import 'swiper/css/navigation';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import Seo from '../components/Seo';
 import ScrollShowcase3D from '../components/ScrollShowcase3D';
+
+/* ─── Categorías principales — acceso directo al catálogo filtrado ─── */
+const MAIN_CATEGORIES = [
+  {
+    icon: FiBox,
+    label: 'Tapas Plásticas',
+    desc: 'Tapas para envases de diámetro pequeño, medio, grande y especializadas.',
+    to: '/catalogo?categoria=tapas',
+    color: 'text-blue-600 bg-blue-50',
+  },
+  {
+    icon: FiDroplet,
+    label: 'Envases PET y Botellas',
+    desc: 'Botellas PET cristalinas, grado alimenticio y farmacéutico.',
+    to: '/catalogo?categoria=botellas',
+    color: 'text-emerald-600 bg-emerald-50',
+  },
+  {
+    icon: FiArchive,
+    label: 'Tarros y Envases Plásticos',
+    desc: 'Contenedores y tarros plásticos para múltiples industrias.',
+    to: '/catalogo?categoria=tarros',
+    color: 'text-indigo-600 bg-indigo-50',
+  },
+  {
+    icon: FiGrid,
+    label: 'Soluciones de Empaque',
+    desc: 'Catálogo completo de empaques plásticos para tu empresa.',
+    to: '/catalogo',
+    color: 'text-cyan-600 bg-cyan-50',
+  },
+];
 
 /* ─── Datos para los modales de galería ─── */
 const COLLAGE_CARDS = [
@@ -216,13 +249,13 @@ const slides = [
   {
     image: "/slide_pureza.webp",
     title: "Pureza Cristalina",
-    subtitle: "Nuestro PET de grado farmacéutico y alimenticio garantiza la integridad visual y estructural de su producto en todo momento.",
+    subtitle: "Nuestros envases PET de grado farmacéutico y alimenticio garantizan la integridad visual y estructural de su producto en todo momento.",
     cta: "Ver Catálogo"
   },
   {
     image: "/slide_precision.webp",
     title: "Precisión Milimétrica",
-    subtitle: "Tapas fabricadas con tolerancia cero a fugas. Proteja su contenido con cierres certificados e inviolables.",
+    subtitle: "Tapas plásticas fabricadas con tolerancia cero a fugas. Proteja su contenido con cierres certificados e inviolables.",
     cta: "Solicitar Muestra"
   }
 ];
@@ -233,7 +266,17 @@ export default function Home({ openProductBySlug }) {
 
   return (
     <div className="min-h-screen bg-slate-50 font-inter text-slate-800">
+      <Seo
+        title="Tapas Plásticas y Envases PET para tu Empresa"
+        description="Fabricante mexicano de tapas plásticas, envases PET y soluciones de empaque certificadas ISO 9001. Proveedor de envases y empaques plásticos para la industria alimenticia, cosmética y farmacéutica."
+        path="/"
+      />
       <Navbar />
+
+      {/* H1 único de la página — el hero rotativo usa h2 por slide para no duplicar H1 */}
+      <h1 className="sr-only">
+        Plastitaps — Fabricante de Tapas Plásticas y Envases PET en México
+      </h1>
 
       {/* VIP Corporate Hero Slider */}
       <section className="relative h-[75vh] sm:h-[85vh] md:h-screen w-full pt-16 md:pt-20">
@@ -259,9 +302,9 @@ export default function Home({ openProductBySlug }) {
                       transition={{ duration: 0.8, ease: "easeOut" }}
                       className="text-center px-6 max-w-4xl"
                     >
-                      <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black font-outfit text-white mb-4 sm:mb-6 drop-shadow-md tracking-tight leading-tight">
+                      <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black font-outfit text-white mb-4 sm:mb-6 drop-shadow-md tracking-tight leading-tight">
                         {slide.title}
-                      </h1>
+                      </h2>
                       <p className="text-sm sm:text-lg md:text-2xl text-slate-100 font-medium mb-6 sm:mb-10 max-w-3xl mx-auto drop-shadow-md">
                         {slide.subtitle}
                       </p>
@@ -277,6 +320,38 @@ export default function Home({ openProductBySlug }) {
             </SwiperSlide>
           ))}
         </Swiper>
+      </section>
+
+      {/* ── Categorías Principales ── */}
+      <section className="py-16 sm:py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-10 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black font-outfit text-slate-900 mb-3 tracking-tight">
+              Proveedores de Envases y Soluciones de Empaque
+            </h2>
+            <p className="text-slate-500 text-sm sm:text-base max-w-2xl mx-auto">
+              Encuentra tapas plásticas, envases PET y empaques plásticos fabricados bajo pedido para tu empresa.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+            {MAIN_CATEGORIES.map(({ icon: Icon, label, desc, to, color }) => (
+              <Link
+                key={label}
+                to={to}
+                className="group flex flex-col items-start p-5 sm:p-6 bg-slate-50 hover:bg-white border border-slate-200 hover:border-blue-300 rounded-2xl sm:rounded-3xl shadow-sm hover:shadow-lg transition-all duration-300"
+              >
+                <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${color}`}>
+                  <Icon className="text-xl" />
+                </div>
+                <h3 className="font-bold font-outfit text-slate-800 text-base sm:text-lg leading-tight mb-1.5">{label}</h3>
+                <p className="text-slate-500 text-xs sm:text-sm leading-relaxed mb-4">{desc}</p>
+                <span className="mt-auto inline-flex items-center gap-1.5 text-blue-600 font-bold text-xs sm:text-sm group-hover:gap-2.5 transition-all">
+                  Ver productos <FiArrowRight />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* ── Nuestras Soluciones — Scroll 3D ── */}

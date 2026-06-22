@@ -122,8 +122,10 @@ export default function Navbar() {
                  </Link>
               ) : (
                  <>
-                   <button 
+                   <button
                     onClick={() => setShowDropdown(!showDropdown)}
+                    aria-label="Menú de cuenta"
+                    aria-expanded={showDropdown}
                     className="flex items-center gap-2 p-1.5 pr-3 bg-white border border-slate-200 hover:border-blue-300 rounded-full shadow-sm transition-all text-sm font-bold text-slate-700 hover:bg-slate-50"
                    >
                      <img src={user.picture} alt="Profile" className="w-7 h-7 rounded-full bg-slate-100 border border-slate-200" />
@@ -149,7 +151,7 @@ export default function Navbar() {
             </div>
 
             {/* Cart */}
-            <button onClick={() => setIsCartOpen(prev => !prev)} className="relative p-2 hover:bg-slate-100 rounded-full transition-colors group">
+            <button onClick={() => setIsCartOpen(prev => !prev)} aria-label={`Ver cotización (${cartCount} producto${cartCount === 1 ? '' : 's'})`} className="relative p-2 hover:bg-slate-100 rounded-full transition-colors group">
               <ShoppingCart className="w-5 h-5 sm:w-6 sm:h-6 text-slate-600 group-hover:text-blue-600 transition-colors" />
               {cartCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold shadow-md">

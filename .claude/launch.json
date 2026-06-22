@@ -8,10 +8,17 @@
       "port": 5173
     },
     {
+      "name": "backend",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "server", "run", "dev"],
+      "port": 3001
+    },
+    {
       "name": "automaind",
       "runtimeExecutable": "node",
       "runtimeArgs": ["automaind-web/serve.mjs"],
-      "port": 4173
+      "port": 4173,
+      "autoPort": false
     },
     {
       "name": "erp-web",

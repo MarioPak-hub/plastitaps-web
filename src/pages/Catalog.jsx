@@ -1,14 +1,26 @@
-import React, { useState, useMemo, Suspense } from 'react';
+import React, { useState, useMemo, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiFilter, FiPlusCircle, FiInfo, FiCheckCircle, FiX, FiBox, FiChevronDown, FiSearch } from 'react-icons/fi';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import Seo from '../components/Seo';
 import productsData from '../data/products.json';
 import { useCart } from '../context/CartContext';
 
 const ProductModel3D = React.lazy(() => import('../components/ProductModel3D'));
 
+// Slugs amigables para enlazar desde fuera (Home, sitemap) → id interno de categoría
+const CATEGORY_SLUGS = {
+  tapas: '__tapas__all',
+  botellas: 'Botellas',
+  tarros: 'Tarros y Envases',
+  vasos: 'Vasos',
+  accesorios: 'Accesorios',
+};
+
 export default function Catalog({ openProductBySlug }) {
+  const [searchParams] = useSearchParams();
   const [activeCategory, setActiveCategory] = useState('All');
   const [activeTag, setActiveTag] = useState('All');
   const [tapasOpen, setTapasOpen] = useState(false);
@@ -19,6 +31,16 @@ export default function Catalog({ openProductBySlug }) {
 
   const { cart, addToCart } = useCart();
   const isInQuote = (id) => cart.some(i => i.id === id);
+
+  // Lee ?categoria=tapas|botellas|tarros|vasos|accesorios para enlaces externos (Home, sitemap)
+  useEffect(() => {
+    const slug = searchParams.get('categoria');
+    const mapped = slug && CATEGORY_SLUGS[slug];
+    if (mapped) {
+      setActiveCategory(mapped);
+      if (mapped.startsWith('__tapas__')) setTapasOpen(true);
+    }
+  }, [searchParams]);
 
   // Estructura jerárquica fija del menú lateral
   const MENU = [
@@ -112,18 +134,39 @@ export default function Catalog({ openProductBySlug }) {
     addToCart(product);
   };
 
+  const categoryLabel = MENU.find(m => m.id === activeCategory)?.label || 'Todas las Categorías';
+  const seoTitle = activeCategory === 'All'
+    ? 'Catálogo de Tapas Plásticas y Envases PET'
+    : `${categoryLabel} | Catálogo`;
+  const seoDescription = activeCategory === 'All'
+    ? 'Catálogo completo de tapas plásticas, envases PET, botellas, tarros y soluciones de empaque. Fabricación bajo pedido para empresas, con cotización directa.'
+    : `Conoce nuestra línea de ${categoryLabel.toLowerCase()} fabricadas bajo pedido. Cotiza directamente con Plastitaps, proveedor de envases y empaques plásticos.`;
+
   return (
     <div className="min-h-screen bg-slate-50 font-inter text-slate-800">
+      <Seo
+        title={seoTitle}
+        description={seoDescription}
+        path="/catalogo"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'CollectionPage',
+          name: seoTitle,
+          description: seoDescription,
+          url: 'https://plastitaps.com/catalogo',
+          isPartOf: { '@type': 'WebSite', name: 'Plastitaps', url: 'https://plastitaps.com/' },
+        }}
+      />
       <Navbar />
 
       <div className="pt-24 sm:pt-32 pb-8 sm:pb-16 px-4 sm:px-6 max-w-7xl mx-auto">
         <div className="mb-8 sm:mb-12 text-center md:text-left border-b border-slate-200 pb-6 sm:pb-10">
           <motion.h1 initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black font-outfit mb-3 sm:mb-4 tracking-tight text-[#0a192f]">
-            Catálogo <span className="text-cyan-600">Digital</span>
+            Catálogo de <span className="text-cyan-600">Tapas Plásticas y Envases PET</span>
           </motion.h1>
           <p className="text-slate-600 max-w-2xl text-sm sm:text-base lg:text-lg font-medium">
-            Todo bajo pedido · Agrega los productos de tu interés y solicita tu cotización.
+            Tapas para envases, botellas PET y envases plásticos bajo pedido · Agrega los productos de tu interés y solicita tu cotización.
           </p>
 
           {/* Search bar */}
@@ -388,11 +431,19 @@ export default function Catalog({ openProductBySlug }) {
 
                     {/* Image */}
                     <div className="relative bg-white p-6 flex items-center justify-center border-b border-slate-100">
-                      <img src={product.image} alt={product.name}
-                        loading="lazy"
-                        decoding="async"
-                        onError={(e) => { e.target.onerror = null; e.target.src = '/vaso_transparente.png'; }}
-                        className="h-24 object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-500" />
+                      {!product.image && product.modelo3D ? (
+                        <div className="h-24 w-full">
+                          <Suspense fallback={<div className="h-24" />}>
+                            <ProductModel3D modelPath={product.modelo3D} height="100%" disableControls />
+                          </Suspense>
+                        </div>
+                      ) : (
+                        <img src={product.image} alt={product.name}
+                          loading="lazy"
+                          decoding="async"
+                          onError={(e) => { e.target.onerror = null; e.target.src = '/logo_plastitaps.png'; }}
+                          className="h-24 object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-500" />
+                      )}
                       <span className="absolute top-3 right-3 px-2 py-0.5 text-[10px] font-bold uppercase rounded-full bg-slate-100 text-[#0a192f] border border-slate-200 shadow-sm">
                         {product.category}
                       </span>

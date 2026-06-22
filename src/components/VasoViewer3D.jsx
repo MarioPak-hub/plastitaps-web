@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useState, useEffect, useCallback, useLayoutEffect } from 'react';
+import React, { useRef, useMemo, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
@@ -22,43 +22,8 @@ export const TEMPLATES = [
   { id: 'corporate', label: '🏢 Corporativo', color: '#1e3a8a' },
 ];
 
-// Canvas de textura: 2048px ancho × 2048px alto (cuadrado)
-// Para colocar la imagen en un recuadro pequeño centrado.
-const TEX_W = 2048;
-const TEX_H = 2048;
-
-
-
-/**
- * Encuentra el mesh principal del vaso (el de mayor superficie geométrica).
- * Esto asegura que el logo se aplique al cuerpo del vaso, no a la tapa o base.
- */
-function findMainMesh(object3d) {
-  let best = null;
-  let bestArea = 0;
-
-  object3d.traverse((child) => {
-    if (!child.isMesh || !child.geometry) return;
-
-    child.geometry.computeBoundingBox();
-    const bb = child.geometry.boundingBox;
-    if (!bb) return;
-
-    const size = new THREE.Vector3();
-    bb.getSize(size);
-    const area = size.x * size.y + size.y * size.z + size.x * size.z;
-
-    if (area > bestArea) {
-      bestArea = area;
-      best = child;
-    }
-  });
-
-  return best;
-}
-
-// ── Componente que carga el modelo GLB real y aplica la textura ──
-function RealCupModel({ color, logo, modelPath }) {
+// ── Componente que carga el modelo GLB real y aplica el color ──
+function RealCupModel({ color, modelPath }) {
   const groupRef = useRef();
   const centered = useRef(false);
   const { scene } = useGLTF(modelPath);
@@ -69,128 +34,21 @@ function RealCupModel({ color, logo, modelPath }) {
     try { return new THREE.Color(color); } catch { return new THREE.Color('#ffffff'); }
   }, [color]);
 
-  // ── Refs para gestión de textura ──
-  const canvasRef = useRef(null);
-  const textureRef = useRef(null);
-  const logoImgRef = useRef(null);
-  const [texVersion, setTexVersion] = useState(0);
-
-  // Inicializar canvas y textura una sola vez (lazy init)
-  if (!canvasRef.current) {
-    const c = document.createElement('canvas');
-    c.width = TEX_W;
-    c.height = TEX_H;
-    canvasRef.current = c;
-
-    const tex = new THREE.CanvasTexture(c);
-    tex.colorSpace = THREE.SRGBColorSpace;
-    tex.flipY = true;  // true = canvas top → UV V=1 → top of cup
-    tex.wrapS = THREE.ClampToEdgeWrapping;
-    tex.wrapT = THREE.ClampToEdgeWrapping;
-    textureRef.current = tex;
-  }
-
-  // ── paintCanvas: centra la imagen en un recuadro pequeño ──
-  const paintCanvas = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-
-    // 1. Pintar todo el canvas con el color sólido
-    ctx.fillStyle = color;
-    ctx.fillRect(0, 0, TEX_W, TEX_H);
-
-    // 2. Imagen en un recuadro central pequeño (object-fit: contain)
-    const img = logoImgRef.current;
-    if (img && img.complete && img.naturalWidth > 0) {
-      // Definimos el "recuadro pequeño" (25% del tamaño de textura)
-      const printW = TEX_W * 0.25;
-      const printH = TEX_H * 0.25;
-      const printX = (TEX_W - printW) / 2;
-      const printY = (TEX_H - printH) / 2;
-
-      // Calcular escalas para object-fit: contain
-      const scaleX = printW / img.naturalWidth;
-      const scaleY = printH / img.naturalHeight;
-      const scale = Math.min(scaleX, scaleY);
-
-      const drawW = img.naturalWidth * scale;
-      const drawH = img.naturalHeight * scale;
-
-      ctx.save();
-      // Trasladamos el contexto al centro del recuadro
-      ctx.translate(printX + printW / 2, printY + printH / 2);
-
-      // Rotamos -90 grados (o 90 grados) para compensar la orientación UV nativa del GLB
-      ctx.rotate(-Math.PI / 2);
-
-      // Dibujamos la imagen centrada respecto al nuevo origen (el centro)
-      ctx.drawImage(img, -drawW / 2, -drawH / 2, drawW, drawH);
-      ctx.restore();
-    }
-
-    if (textureRef.current) textureRef.current.needsUpdate = true;
-    setTexVersion(v => v + 1);
-  }, [color]);
-
-  // Cargar imagen del logo cuando cambie la URL
+  // ── Tiñe todas las mallas del vaso con el color seleccionado ──
   useEffect(() => {
-    if (!logo) {
-      logoImgRef.current = null;
-      paintCanvas();
-      return;
-    }
-
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.onload = () => {
-      logoImgRef.current = img;
-      paintCanvas();
-    };
-    img.onerror = () => {
-      logoImgRef.current = null;
-      paintCanvas();
-    };
-    img.src = logo;
-
-    return () => { img.onload = null; img.onerror = null; };
-  }, [logo, paintCanvas]);
-
-  // Repintar cuando cambia el color
-  useEffect(() => {
-    paintCanvas();
-  }, [color, paintCanvas]);
-
-  // ── Generar UVs + Aplicar materiales ──
-  useLayoutEffect(() => {
-    const mainMesh = findMainMesh(clonedScene);
-
     clonedScene.traverse((child) => {
-      if (!child.isMesh || !child.geometry) return;
-
-      if (!child.material) return;
+      if (!child.isMesh || !child.material) return;
 
       const material = child.material.clone();
       material.roughness = 0.2;
       material.metalness = 0.05;
-
-      // Aplicar textura del canvas siempre al mesh principal
-      // (el canvas ya maneja el caso sin logo pintando todo con el color del vaso)
-      if (child === mainMesh && textureRef.current) {
-        textureRef.current.repeat.set(1, 1);
-        textureRef.current.offset.set(0, 0);
-        material.map = textureRef.current;
-        material.color.setHex(0xffffff); // blanco para no teñir la textura
-        material.needsUpdate = true;
-      } else if (child !== mainMesh) {
-        material.map = null;
-        material.color.copy(colorObj);
-        material.needsUpdate = true;
-      }
+      material.map = null;
+      material.color.copy(colorObj);
+      material.needsUpdate = true;
 
       child.material = material;
     });
-  }, [clonedScene, colorObj, logo, texVersion]);
+  }, [clonedScene, colorObj]);
 
   // One-shot centering + scaling
   useFrame(() => {
@@ -224,9 +82,8 @@ function RealCupModel({ color, logo, modelPath }) {
   );
 }
 
-
 // ── Canvas principal con el modelo 3D real ──
-export default function VasoViewer3D({ color = '#ffffff', logo, modelPath }) {
+export default function VasoViewer3D({ color = '#ffffff', modelPath }) {
   return (
     <div style={{ width: '100%', height: '420px' }}>
       <Canvas3DErrorBoundary>
@@ -245,7 +102,7 @@ export default function VasoViewer3D({ color = '#ffffff', logo, modelPath }) {
           <pointLight position={[3, 0, 3]} intensity={0.6} color="#e0e7ff" />
 
           <React.Suspense fallback={null}>
-            <RealCupModel key={modelPath} color={color} logo={logo} modelPath={modelPath} />
+            <RealCupModel key={modelPath} color={color} modelPath={modelPath} />
           </React.Suspense>
 
           <OrbitControls

@@ -8,6 +8,7 @@ import {
   FiMinimize2,
   FiShoppingBag,
   FiChevronRight,
+  FiMessageCircle,
 } from 'react-icons/fi';
 import { useCart } from '../context/CartContext';
 import { apiFetch } from '../utils/apiFetch';
@@ -284,6 +285,22 @@ export default function FloatingChatbot({ onProductClick }) {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* ── Botón flotante de WhatsApp (arriba del chatbot, oculto si el chat está abierto) ── */}
+      {!isCartOpen && !isOpen && (
+        <motion.a
+          href="https://wa.me/5233259625?text=Hola%20Plastitaps,%20me%20gustar%C3%ADa%20obtener%20m%C3%A1s%20informaci%C3%B3n."
+          target="_blank"
+          rel="noreferrer"
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.94 }}
+          className="fixed bottom-24 right-6 z-50 w-14 h-14 bg-[#25D366] hover:bg-[#1ebe57] text-white rounded-full shadow-lg hover:shadow-[#25D366]/40 flex items-center justify-center transition-colors"
+          aria-label="Chatear por WhatsApp"
+          id="whatsapp-float-btn"
+        >
+          <FiMessageCircle size={24} />
+        </motion.a>
+      )}
 
       {/* ── Botón flotante (hidden when cart is open) ───────────────────── */}
       {!isCartOpen && (

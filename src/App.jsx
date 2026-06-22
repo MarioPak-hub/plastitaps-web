@@ -48,10 +48,10 @@ export default function App() {
               <Route path="/catalogo" element={<Catalog openProductBySlug={openProductBySlug} />} />
               <Route path="/login" element={<Login />} />
               <Route path="/completar-perfil" element={<CompleteProfile />} />
+              <Route path="/checkout" element={<Checkout />} />
 
               {/* Protegidas */}
               <Route element={<ProtectedRoute />}>
-                <Route path="/checkout" element={<Checkout />} />
                 <Route path="/perfil" element={<Account />} />
               </Route>
             </Routes>

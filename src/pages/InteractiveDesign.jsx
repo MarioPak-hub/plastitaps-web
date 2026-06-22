@@ -1,13 +1,13 @@
 import React, { useState, useRef, Suspense, lazy, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import {
-  FiCreditCard, FiMinus, FiPlus,
-  FiUpload, FiRefreshCcw, FiSend,
+  FiCreditCard, FiMinus, FiPlus, FiSend,
   FiAlertCircle, FiLoader, FiCheckCircle, FiBox
 } from 'react-icons/fi';
 import { Sparkles } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import Seo from '../components/Seo';
 import { INK_COLORS } from '../components/VasoViewer3D';
 import ProductModel3D from '../components/ProductModel3D';
 import promoCatalog from '../data/promo_catalog.json';
@@ -37,7 +37,7 @@ function PromoGallery({ studioRef }) {
           Nuestros <span className="text-blue-600">Promocionales</span>
         </h2>
         <p className="text-slate-500 max-w-xl mx-auto text-sm sm:text-base">
-          Elige el vaso que más te guste y personalízalo abajo con tu logo y color.
+          Elige el vaso que más te guste y personalízalo abajo con tu color.
         </p>
       </div>
 
@@ -83,18 +83,8 @@ function PromoGallery({ studioRef }) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// SECTION 2: Estudio 3D — envío real al backend con Firebase upload
+// SECTION 2: Estudio 3D — envío real al backend
 // ─────────────────────────────────────────────────────────────────────────────
-// Convierte un File a data URL base64 — usado para enviar el logo al backend
-function fileToDataUrl(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = () => reject(reader.error);
-    reader.readAsDataURL(file);
-  });
-}
-
 function Studio3D() {
   const { user } = useAuth();
   const { submitQuote } = useQuotes();
@@ -104,8 +94,6 @@ function Studio3D() {
 
   const [cupColor, setCupColor] = useState(INK_COLORS[0].hex);
   const [qty, setQty] = useState(MIN_QTY);
-  const [logoFile, setLogoFile] = useState(null);   // File object
-  const [logoPreview, setLogoPreview] = useState(null);   // blob URL for VasoViewer3D
   const [notes, setNotes] = useState('');
   const [sendStatus, setSendStatus] = useState('idle'); // idle | sending | done | error
   const [sendError, setSendError] = useState('');
@@ -113,38 +101,15 @@ function Studio3D() {
 
   const handleSelectPromo = (promo) => {
     setSelectedPromo(promo);
-    removeLogo(); // clear logo when switching models
   };
 
   const colorName = INK_COLORS.find(c => c.hex === cupColor)?.name || cupColor;
-
-  const handleLogo = (e) => {
-    const f = e.target.files[0];
-    if (!f) return;
-    setLogoFile(f);
-    setLogoPreview(URL.createObjectURL(f));
-  };
-
-  const removeLogo = () => {
-    if (logoPreview) URL.revokeObjectURL(logoPreview);
-    setLogoFile(null);
-    setLogoPreview(null);
-  };
 
   const handleSend = async () => {
     setSendStatus('sending');
     setSendError('');
 
     try {
-      // 1. Convertir logo (si existe) a base64 — el backend lo guardará en /uploads
-      let logoBase64 = null;
-      let logoExt = null;
-      if (logoFile) {
-        logoBase64 = await fileToDataUrl(logoFile);
-        logoExt = (logoFile.name.split('.').pop() || 'png').toLowerCase();
-      }
-
-      // 2. Construir payload
       const payload = {
         tipo: 'personalizado',
         cliente: {
@@ -159,12 +124,10 @@ function Studio3D() {
           color: `${colorName} (${cupColor})`,
           tipo: 'diseño-personalizado',
         }],
-        logoBase64,
-        logoExt,
         observaciones: notes || '',
       };
 
-      // 3. Submit (POST + Firestore en QuotesContext)
+      // Submit (POST + Firestore en QuotesContext)
       const data = await submitQuote(payload, user?.email);
 
       setResultFolio(data.folio);
@@ -191,7 +154,7 @@ function Studio3D() {
             Crea tu <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-fuchsia-400">Propio Vaso</span>
           </h2>
           <p className="text-slate-400 max-w-xl mx-auto text-sm sm:text-base">
-            Elige un color, sube tu logo y nosotros lo cotizamos. Mínimo {fmtU(MIN_QTY)} pz.
+            Elige un color y nosotros lo cotizamos. Mínimo {fmtU(MIN_QTY)} pz.
           </p>
         </div>
 
@@ -212,7 +175,6 @@ function Studio3D() {
                 {selectedPromo && (
                   <VasoViewer3D
                     color={cupColor}
-                    logo={logoPreview}
                     modelPath={selectedPromo.modelo3D}
                   />
                 )}
@@ -282,33 +244,6 @@ function Studio3D() {
                   <p className="text-slate-500 text-[10px]">color personalizado</p>
                 </div>
               </div>
-            </div>
-
-            {/* Logo upload */}
-            <div className="rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-white/10 space-y-3 sm:space-y-4"
-              style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01))', boxShadow: '0 0 0 1px rgba(255,255,255,0.06)' }}>
-              <h3 className="text-white font-bold font-outfit flex items-center gap-2 text-sm sm:text-base">
-                <span className="w-2 h-2 rounded-full bg-fuchsia-400 shadow-[0_0_6px_rgba(232,121,249,0.8)]" /> Logo (PNG/SVG)
-              </h3>
-              {!logoPreview ? (
-                <label className="flex flex-col items-center justify-center p-4 sm:p-6 border-2 border-dashed border-indigo-500/40 hover:border-indigo-400/70 rounded-xl sm:rounded-2xl transition-all hover:bg-indigo-500/5 group cursor-pointer">
-                  <FiUpload className="text-xl sm:text-2xl text-indigo-400/50 group-hover:text-indigo-400 mb-2 transition-colors" />
-                  <span className="text-xs sm:text-sm text-slate-300 font-bold">Sube tu archivo (PNG/SVG/JPG)</span>
-                  <span className="text-[10px] text-slate-500 mt-1">Se adjunta a la solicitud al enviar</span>
-                  <input type="file" accept="image/png,image/svg+xml,image/jpeg" onChange={handleLogo} className="hidden" />
-                </label>
-              ) : (
-                <div className="flex items-center gap-3 bg-green-900/20 border border-green-500/30 rounded-xl sm:rounded-2xl p-3">
-                  <img src={logoPreview} alt="Logo" className="w-10 h-10 sm:w-12 sm:h-12 object-contain rounded-xl bg-white/10 p-1" />
-                  <div className="flex-1">
-                    <p className="text-green-400 text-xs font-bold">✓ Arte cargado</p>
-                    <p className="text-slate-500 text-[10px]">{logoFile?.name}</p>
-                  </div>
-                  <button onClick={removeLogo} className="text-red-400 hover:text-red-300 p-1.5 rounded-lg hover:bg-red-500/10 transition-colors">
-                    <FiRefreshCcw className="text-sm" />
-                  </button>
-                </div>
-              )}
             </div>
 
             {/* Quantity + Notes */}
@@ -383,6 +318,11 @@ export default function InteractiveDesign({ openProductBySlug }) {
   const studioRef = useRef(null);
   return (
     <div className="min-h-screen font-inter text-slate-800 bg-white">
+      <Seo
+        title="Personaliza tu Vaso con tu Logo"
+        description="Diseña y personaliza vasos plásticos con tu color directamente en línea. Productos plásticos para empresas, fabricados por Plastitaps."
+        path="/disena-tu-vaso"
+      />
       <Navbar />
 
       <div className="pt-20 sm:pt-24 pb-2 sm:pb-3 px-4 sm:px-6 text-center bg-white border-b border-slate-100">

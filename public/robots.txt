@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /checkout
+Disallow: /login
+Disallow: /perfil
+Disallow: /completar-perfil
+Disallow: /api/
+
+Sitemap: https://plastitaps.com/sitemap.xml
