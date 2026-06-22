@@ -26,6 +26,9 @@ function getTransporter() {
     connectionTimeout: 10_000,
     greetingTimeout:   10_000,
     socketTimeout:     10_000,
+    // Render no tiene salida a internet por IPv6. smtp.gmail.com resuelve a
+    // IPv6 e IPv4, y sin esto Node intenta IPv6 primero y falla con ENETUNREACH.
+    family: 4,
   });
   return _transporter;
 }
