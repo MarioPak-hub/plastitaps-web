@@ -29,11 +29,14 @@ router.post('/', contactLimiter, async (req, res) => {
         </div>
       </div>`;
 
-    await sendEmail({
+    // No bloqueamos la respuesta esperando al correo (mismo patrón que /api/quotes
+    // y /api/checkout) — evita que el formulario se quede "enviando" para siempre
+    // si el SMTP no responde.
+    sendEmail({
       to:      process.env.CONTACT_TO || 'ventas@plastitaps.com',
       subject: `[Web] ${escape(asunto)} — ${escape(nombre)}`,
       html,
-    });
+    }).catch(err => console.error('[contact] email:', err.message));
 
     res.json({ success: true });
   } catch (err) {
