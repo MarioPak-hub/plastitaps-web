@@ -51,7 +51,7 @@ export function generateQuotationPDF({ cart, user, folio }) {
   doc.text(`RFC: ${user?.rfc || '—'}`, 110, row1Y);
   // Row 2: Contacto + Email
   const row2Y = row1Y + 5;
-  doc.text(`Contacto: ${user?.name || '—'}`, 18, row2Y);
+  doc.text(`Contacto: ${user?.nombre || user?.name || '—'}`, 18, row2Y);
   doc.text(`Email: ${user?.email || '—'}`, 110, row2Y);
   // Row 3: Dirección (con wrap dinámico)
   const row3Y = row2Y + 5;
@@ -80,7 +80,7 @@ export function generateQuotationPDF({ cart, user, folio }) {
   doc.setFontSize(9);
   doc.text(`Empresa: ${user?.empresa || '—'}`, 18, row1Y);
   doc.text(`RFC: ${user?.rfc || '—'}`, 110, row1Y);
-  doc.text(`Contacto: ${user?.name || '—'}`, 18, row2Y);
+  doc.text(`Contacto: ${user?.nombre || user?.name || '—'}`, 18, row2Y);
   doc.text(`Email: ${user?.email || '—'}`, 110, row2Y);
   doc.text(direccionLines, 18, row3Y);
   doc.text(`Teléfono: ${user?.telefono || '—'}`, 110, row3Y);

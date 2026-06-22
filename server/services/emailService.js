@@ -20,6 +20,12 @@ function getTransporter() {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
     },
+    // Sin esto, una conexión SMTP que no responde (firewall, puerto bloqueado,
+    // credenciales rechazadas en silencio) cuelga el request indefinidamente
+    // y el cliente nunca recibe respuesta.
+    connectionTimeout: 10_000,
+    greetingTimeout:   10_000,
+    socketTimeout:     10_000,
   });
   return _transporter;
 }

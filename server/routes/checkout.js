@@ -30,7 +30,9 @@ router.post('/send', checkoutLimiter, async (req, res) => {
 
     saveOrder(payload);
 
-    await sendOrderEmail(payload);
+    // El pedido ya quedó guardado — no bloqueamos la respuesta al cliente
+    // esperando al correo (mismo patrón que /api/quotes).
+    sendOrderEmail(payload).catch(err => console.error('[checkout] email:', err.message));
 
     res.json({ success: true, folio, cancelToken: payload.cancelToken, record: payload });
   } catch (err) {
