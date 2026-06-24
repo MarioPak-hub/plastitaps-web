@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, EffectFade, Pagination, Navigation } from 'swiper/modules';
-import { FiCheckCircle, FiShield, FiX, FiExternalLink, FiArrowRight, FiBox, FiDroplet, FiArchive, FiGrid } from 'react-icons/fi';
+import { FiCheckCircle, FiShield, FiX, FiExternalLink, FiArrowRight, FiBox, FiDroplet, FiArchive, FiGrid, FiTarget, FiEye, FiHeart, FiZap, FiGlobe, FiUsers, FiTrendingUp, FiAward } from 'react-icons/fi';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 import 'swiper/css/pagination';
@@ -143,6 +143,40 @@ const CERT_DATA = [
     desc: 'El IAF (International Accreditation Forum) es el organismo mundial que coordina la acreditación de organismos de certificación en más de 100 países. Establece los requisitos que deben cumplir los acreditadores nacionales como la EMA.\n\nQue nuestra certificación ISO esté respaldada por un organismo miembro del IAF significa que es mutuamente reconocida en todos los países miembros — garantizando su validez para clientes y socios comerciales en cualquier parte del mundo.',
     cta: 'Visitar IAF',
     ctaHref: 'https://www.iaf.nu/',
+  },
+];
+
+/* ─── Valores de la marca ─── */
+const VALUES = [
+  {
+    icon: FiHeart,
+    label: 'Integridad',
+    desc: 'Actuamos con honestidad y moralidad.',
+  },
+  {
+    icon: FiZap,
+    label: 'Innovación',
+    desc: 'Creamos nuevos productos y apostamos por nuevas ideas y soluciones para el mercado.',
+  },
+  {
+    icon: FiGlobe,
+    label: 'Responsabilidad Social',
+    desc: 'Tenemos en cuenta el impacto social y ambiental de nuestras acciones.',
+  },
+  {
+    icon: FiUsers,
+    label: 'Lealtad',
+    desc: 'Somos fieles a los clientes, proveedores y empleados.',
+  },
+  {
+    icon: FiTrendingUp,
+    label: 'Empoderamiento Personal',
+    desc: 'Capacitamos a las personas en su propio crecimiento.',
+  },
+  {
+    icon: FiAward,
+    label: 'Liderazgo',
+    desc: 'Guiamos y motivamos a nuestro equipo de trabajo para obtener mejores resultados en equipo.',
   },
 ];
 
@@ -502,6 +536,96 @@ export default function Home({ openProductBySlug }) {
         </div>
       </section>
 
+
+      {/* ── Nosotros: Misión, Visión y Valores ── */}
+      <section id="nosotros" className="py-20 sm:py-24 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+
+          {/* Header */}
+          <div className="text-center mb-12 sm:mb-16">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-600/10 border border-blue-500/20 rounded-full mb-5"
+            >
+              <span className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse" />
+              <span className="text-blue-700 text-xs font-bold uppercase tracking-widest">Quiénes Somos</span>
+            </motion.div>
+
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-3xl sm:text-4xl md:text-5xl font-black font-outfit text-slate-900 mb-4 leading-tight"
+            >
+              Nosotros
+            </motion.h2>
+          </div>
+
+          {/* Misión y Visión */}
+          <div className="grid sm:grid-cols-2 gap-5 sm:gap-6 mb-12 sm:mb-16">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="bg-white border border-slate-200 rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-sm"
+            >
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 text-blue-600 bg-blue-50">
+                <FiTarget className="text-xl" />
+              </div>
+              <h3 className="font-bold font-outfit text-slate-800 text-lg sm:text-xl mb-2">Misión</h3>
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+                Proveer a todos nuestros clientes envases y tapas plásticas de la mejor calidad, con los mejores tiempos.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="bg-white border border-slate-200 rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-sm"
+            >
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 text-emerald-600 bg-emerald-50">
+                <FiEye className="text-xl" />
+              </div>
+              <h3 className="font-bold font-outfit text-slate-800 text-lg sm:text-xl mb-2">Visión</h3>
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+                Ser empresa líder en el mercado nacional en la fabricación de envases PET y venta de tapas plásticas, obteniendo la confianza y el respaldo de cada una de las personas y empresas, dentro y fuera de nuestra organización.
+              </p>
+            </motion.div>
+          </div>
+
+          {/* Valores de la marca */}
+          <div className="text-center mb-10">
+            <h3 className="text-2xl sm:text-3xl font-black font-outfit text-slate-900">
+              Valores de la Marca
+            </h3>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            {VALUES.map(({ icon: Icon, label, desc }, i) => (
+              <motion.div
+                key={label}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: (i % 3) * 0.08 }}
+                className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-sm hover:shadow-md hover:border-blue-300 transition-all"
+              >
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-blue-600 bg-blue-50">
+                  <Icon className="text-lg" />
+                </div>
+                <h4 className="font-bold font-outfit text-slate-800 text-base mb-1.5">{label}</h4>
+                <p className="text-slate-500 text-sm leading-relaxed">{desc}</p>
+              </motion.div>
+            ))}
+          </div>
+
+        </div>
+      </section>
 
       {/* Banda de Certificaciones */}
       <section className="bg-slate-900 border-t border-slate-800">

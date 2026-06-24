@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
 import Catalog from './pages/Catalog';
 import InteractiveDesign from './pages/InteractiveDesign';
@@ -9,6 +9,7 @@ import Login from './pages/Login';
 import Account from './pages/Account';
 import CompleteProfile from './pages/CompleteProfile';
 import Contact from './pages/Contact';
+import NotFound from './pages/NotFound';
 import ProtectedRoute from './components/ProtectedRoute';
 import Cart from './components/Cart';
 import FloatingChatbot from './components/FloatingChatbot';
@@ -54,6 +55,15 @@ export default function App() {
               <Route element={<ProtectedRoute />}>
                 <Route path="/perfil" element={<Account />} />
               </Route>
+
+              {/* Redirecciones de URLs antiguas indexadas por Google (sitio previo) */}
+              <Route path="/tapas" element={<Navigate to="/catalogo?categoria=tapas" replace />} />
+              <Route path="/envases" element={<Navigate to="/catalogo?categoria=botellas" replace />} />
+              <Route path="/alimenticio" element={<Navigate to="/catalogo" replace />} />
+              <Route path="/catalogo-digital" element={<Navigate to="/catalogo" replace />} />
+
+              {/* 404 — cualquier otra ruta no reconocida */}
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
         </CartProvider>
