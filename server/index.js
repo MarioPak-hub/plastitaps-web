@@ -13,6 +13,12 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app  = express();
 const PORT = process.env.PORT || 3001;
 
+// Render pone la app detrás de un proxy (inyecta X-Forwarded-For). Sin esto,
+// express-rate-limit no puede resolver la IP real y lanza ValidationError en
+// CADA request a /api/chat, /api/quotes, /api/contact y /api/checkout, que sin
+// un error handler propio termina en 500 Internal Server Error para el cliente.
+app.set('trust proxy', 1);
+
 // ── Middlewares globales ──────────────────────────────────────────────────────
 app.use(cors({
   origin:  process.env.FRONTEND_URL || 'http://localhost:5173',
@@ -60,5 +66,5 @@ app.listen(PORT, () => {
   console.log(`   GET   /api/health                     — Health check\n`);
 
   if (!process.env.OPENAI_API_KEY)     console.warn('⚠️  OPENAI_API_KEY no definida — chatbot desactivado.');
-  if (!process.env.SMTP_HOST)          console.warn('⚠️  SMTP_HOST no definida — emails desactivados.');
+  if (!process.env.RESEND_API_KEY)     console.warn('⚠️  RESEND_API_KEY no definida — emails desactivados.');
 });

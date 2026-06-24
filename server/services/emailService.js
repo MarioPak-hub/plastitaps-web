@@ -1,6 +1,9 @@
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 
-let _transporter = null;
+// Render bloquea los puertos SMTP salientes (25/465/587) en su plan free, así que
+// el envío vía nodemailer/Gmail se queda colgado hasta el timeout. Resend usa su
+// API HTTPS (puerto 443, nunca bloqueado) y tiene 3,000 emails/mes gratis.
+let _resend = null;
 
 function escapeHtml(str) {
   return String(str ?? '')
@@ -10,39 +13,30 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
-function getTransporter() {
-  if (_transporter) return _transporter;
-  _transporter = nodemailer.createTransport({
-    host:   process.env.SMTP_HOST,
-    port:   parseInt(process.env.SMTP_PORT || '587', 10),
-    secure: process.env.SMTP_SECURE === 'true',
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
-    // Sin esto, una conexión SMTP que no responde (firewall, puerto bloqueado,
-    // credenciales rechazadas en silencio) cuelga el request indefinidamente
-    // y el cliente nunca recibe respuesta.
-    connectionTimeout: 10_000,
-    greetingTimeout:   10_000,
-    socketTimeout:     10_000,
-  });
-  return _transporter;
+function getResend() {
+  if (_resend) return _resend;
+  _resend = new Resend(process.env.RESEND_API_KEY);
+  return _resend;
 }
 
 export function escape(str) { return escapeHtml(str); }
 
 export async function sendEmail({ to, subject, html, attachments = [] }) {
-  if (!process.env.SMTP_HOST || !process.env.SMTP_USER) {
-    console.warn('[emailService] SMTP not configured — skipping send');
+  if (!process.env.RESEND_API_KEY) {
+    console.warn('[emailService] RESEND_API_KEY not configured — skipping send');
     return { skipped: true };
   }
-  const transporter = getTransporter();
-  return transporter.sendMail({
-    from:        `Plastitaps <${process.env.EMAIL_FROM || process.env.SMTP_USER}>`,
+  const resend = getResend();
+  const { data, error } = await resend.emails.send({
+    from: process.env.EMAIL_FROM || 'Plastitaps <onboarding@resend.dev>',
     to,
     subject,
     html,
-    attachments,
+    attachments: attachments.map(a => ({
+      filename: a.filename,
+      content:  a.content,
+    })),
   });
+  if (error) throw new Error(error.message || 'Resend send failed');
+  return data;
 }
