@@ -55,17 +55,41 @@ export default function Navbar() {
     { to: '/',               label: 'Inicio',            end: true  },
     { to: '/catalogo',       label: 'Catálogo Técnico',  end: false },
     { to: '/disena-tu-vaso', label: 'Personalizar Vaso', end: false },
+    { to: '/',               label: 'Nosotros',          end: false, hash: 'nosotros' },
     { to: '/contacto',       label: 'Contacto',          end: false },
   ];
 
+  // Navbar fija — al hacer scroll a una sección hay que restar su altura
+  // para no dejar el título tapado debajo de ella.
+  const NAVBAR_OFFSET = 88;
+
+  const scrollToHash = (hash) => {
+    const el = document.getElementById(hash);
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY - NAVBAR_OFFSET;
+    window.scrollTo({ top, behavior: 'smooth' });
+  };
+
   /**
    * Al hacer clic en un enlace de navegación:
-   * - Si ya estamos en esa ruta → scroll suave al top
-   * - Si estamos en otra ruta → navegar y luego scroll al top
+   * - Si tiene hash y ya estamos en esa ruta → scroll suave a la sección
+   * - Si tiene hash y estamos en otra ruta → navegar y luego scroll a la sección
+   * - Si no tiene hash y ya estamos en esa ruta → scroll suave al top
+   * - Si no tiene hash y estamos en otra ruta → navegar y luego scroll al top
    */
-  const handleNavClick = (to, e) => {
+  const handleNavClick = (to, e, hash) => {
     e.preventDefault();
     setMobileMenuOpen(false);
+
+    if (hash) {
+      if (location.pathname === to) {
+        scrollToHash(hash);
+      } else {
+        navigate(to);
+        setTimeout(() => scrollToHash(hash), 150);
+      }
+      return;
+    }
 
     if (location.pathname === to) {
       // Ya estamos en esa página, hacer scroll al top
@@ -95,20 +119,33 @@ export default function Navbar() {
 
           {/* Desktop nav links */}
           <div className="hidden md:flex space-x-8 font-inter font-semibold">
-            {navLinks.map(({ to, label, end }) => (
-              <NavLink
-                key={to}
-                to={to}
-                end={end}
-                onClick={(e) => handleNavClick(to, e)}
-                className={({ isActive }) =>
-                  isActive
-                    ? 'text-blue-600 transition-colors'
-                    : 'text-slate-600 hover:text-blue-500 transition-colors'
-                }
-              >
-                {label}
-              </NavLink>
+            {navLinks.map(({ to, label, end, hash }) => (
+              hash ? (
+                // Enlace a una sección dentro de Home — sin estado "activo" de NavLink,
+                // porque to="/" con end=false haría que siempre se marque activo.
+                <Link
+                  key={label}
+                  to={`${to}#${hash}`}
+                  onClick={(e) => handleNavClick(to, e, hash)}
+                  className="text-slate-600 hover:text-blue-500 transition-colors"
+                >
+                  {label}
+                </Link>
+              ) : (
+                <NavLink
+                  key={to}
+                  to={to}
+                  end={end}
+                  onClick={(e) => handleNavClick(to, e)}
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'text-blue-600 transition-colors'
+                      : 'text-slate-600 hover:text-blue-500 transition-colors'
+                  }
+                >
+                  {label}
+                </NavLink>
+              )
             ))}
           </div>
           
@@ -207,12 +244,12 @@ export default function Navbar() {
 
               {/* Nav links */}
               <div className="flex-1 overflow-y-auto px-4 py-6 space-y-1">
-                {navLinks.map(({ to, label }) => {
-                  const isActive = location.pathname === to;
+                {navLinks.map(({ to, label, hash }) => {
+                  const isActive = !hash && location.pathname === to;
                   return (
                     <button
-                      key={to}
-                      onClick={(e) => handleNavClick(to, e)}
+                      key={label}
+                      onClick={(e) => handleNavClick(to, e, hash)}
                       className={`w-full text-left px-4 py-3 rounded-xl font-semibold text-base transition-all ${
                         isActive
                           ? 'bg-blue-50 text-blue-600 border border-blue-100'
